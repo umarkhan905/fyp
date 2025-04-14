@@ -1,0 +1,84 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  INTERVIEWER
+  INTERVIEWEE
+}
+
+enum ExperienceIn {
+  MONTHS
+  YEARS
+}
+
+enum InterviewType {
+  TECHNICAL
+  BEHAVIORAL
+  SYSTEM_DESIGN
+  MIXED
+}
+
+enum InterviewDifficulty {
+  EASY
+  MEDIUM
+  HARD
+}
+
+model User {
+  id                          String        @id @default(uuid())
+  firstName                   String?
+  lastName                    String?
+  email                       String        @unique
+  password                    String?
+  role                        Role?         @default(INTERVIEWEE)
+  companyName                 String?
+  position                    String?
+  mobile                      String?
+  expreience                  Int           @default(0)
+  experienceIn                ExperienceIn? @default(MONTHS)
+  bio                         String?
+  linkedIn                    String?
+  gitHub                      String?
+  location                    String?
+  resume                      String?
+  coins                       Int           @default(0)
+  verified                    Boolean       @default(false)
+  verifiedAt                  DateTime?
+  lastLogin                   DateTime?
+  verificationToken           String?
+  verificationTokenExpiresAt  DateTime?
+  resetPasswordToken          String?
+  resetPasswordTokenExpiresAt DateTime?
+  interviews                  Interview[]
+  createdAt                   DateTime      @default(now())
+  updatedAt                   DateTime      @updatedAt
+}
+
+model Interview {
+  id                   String              @id @default(uuid())
+  userId               String
+  user                 User                @relation(fields: [userId], references: [id])
+  intervieType         InterviewType       @default(TECHNICAL)
+  interviewDuration    Int                 @default(0)
+  interviewDifficulty  InterviewDifficulty @default(EASY)
+  interviewExperience  Int                 @default(0)
+  interviewRole        String
+  interviewDescription String?
+  questionList         Json
+  createdAt            DateTime            @default(now())
+  updatedAt            DateTime            @updatedAt
+}
