@@ -7,17 +7,15 @@ import { Section } from "@react-email/section";
 import { Container } from "@react-email/container";
 import { Img } from "@react-email/img";
 
-type EmailVerificationProps = {
+type ResetPasswordEmailProps = {
   userName?: string;
   verificationUrl: string;
-  verificationCode: string;
 };
 
-export function EmailVerification({
+export function ResetPasswordEmail({
   userName = "there",
   verificationUrl,
-  verificationCode,
-}: EmailVerificationProps) {
+}: ResetPasswordEmailProps) {
   return (
     <Html>
       <Tailwind>
@@ -31,19 +29,13 @@ export function EmailVerification({
             />
 
             <Heading as="h2" className="text-xl font-bold text-center mb-4">
-              Verify your email address
+              Reset your password
             </Heading>
 
             <Text className="text-base text-gray-700 text-center mb-4">
               Hi {userName},<br />
-              Use the verification code below or click the button to confirm
-              your email address.
+              Click the button below to reset your password.
             </Text>
-
-            {/* Verification Code */}
-            <div className="bg-gray-100 text-center text-xl font-mono tracking-widest font-semibold py-4 rounded-lg text-gray-800 mb-6">
-              {verificationCode}
-            </div>
 
             {/* Button */}
             <div className="text-center mb-6">
@@ -51,7 +43,7 @@ export function EmailVerification({
                 href={verificationUrl}
                 className="bg-blue-600 text-white px-6 py-3 rounded-md text-sm font-medium hover:bg-blue-700"
               >
-                Verify Email
+                Reset Password
               </Button>
             </div>
 
