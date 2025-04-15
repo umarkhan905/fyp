@@ -1,5 +1,6 @@
 import React from "react";
+import { Signup } from "./_components/signup";
 
 export default function IntervieweeSignup() {
-  return <div>IntervieweeSignup</div>;
+  return <Signup />;
 }

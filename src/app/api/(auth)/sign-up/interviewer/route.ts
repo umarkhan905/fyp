@@ -64,20 +64,21 @@ export async function POST(req: NextRequest) {
     } else {
       // user does not exist
       const hashedPassword = await hashPassword(data.password);
-      user = await createUser({
+      const newUser = await createUser({
         ...data,
         password: hashedPassword,
         verificationToken,
         verificationTokenExpiresAt,
         role: "INTERVIEWER",
       });
+      user = newUser;
     }
 
     // send Email
     const emialHtml = await render(
       EmailVerification({
         userName: data.firstName,
-        verificationUrl: `${BASE_ADDRESS}/verify-email/${user?.id as string}?code=${verificationToken}`,
+        verificationUrl: `${BASE_ADDRESS}/verify-email/${user?.id || existsingUser?.id}?code=${verificationToken}`,
         verificationCode: verificationToken,
       })
     );
@@ -103,6 +104,7 @@ export async function POST(req: NextRequest) {
         success: true,
         message:
           "interviewer registered successfully. Please verify your account.",
+        data: { id: user?.id || existsingUser?.id },
       },
       { status: 201 }
     );

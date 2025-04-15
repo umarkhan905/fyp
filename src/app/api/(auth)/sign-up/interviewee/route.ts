@@ -8,7 +8,6 @@ import { render } from "@react-email/components";
 import { EmailVerification } from "@/emails/email-verification";
 import { sendEmail } from "@/utils/send-email";
 import { BASE_ADDRESS } from "@/constants";
-import { User } from "@/generated/prisma";
 
 export async function POST(req: NextRequest) {
   try {
@@ -29,7 +28,7 @@ export async function POST(req: NextRequest) {
 
     const data = result.data;
     const existsingUser = await getUserByEmail(data.email);
-    let user: User | null = null;
+    let user = null;
 
     const verificationToken = emailVerificationCode();
     const verificationTokenExpiresAt = new Date();
@@ -64,19 +63,20 @@ export async function POST(req: NextRequest) {
     } else {
       // user does not exist
       const hashedPassword = await hashPassword(data.password);
-      user = await createUser({
+      const newUser = await createUser({
         ...data,
         password: hashedPassword,
         verificationToken,
         verificationTokenExpiresAt,
       });
+      user = newUser;
     }
 
     // send Email
     const emialHtml = await render(
       EmailVerification({
         userName: data.firstName,
-        verificationUrl: `${BASE_ADDRESS}/verify-email/${user?.id as string}?code=${verificationToken}`,
+        verificationUrl: `${BASE_ADDRESS}/verify-email/${user?.id || existsingUser?.id}?code=${verificationToken}`,
         verificationCode: verificationToken,
       })
     );
@@ -102,6 +102,7 @@ export async function POST(req: NextRequest) {
         success: true,
         message:
           "Interviewee registered successfully. Please verify your account.",
+        data: { id: user?.id || existsingUser?.id },
       },
       { status: 201 }
     );

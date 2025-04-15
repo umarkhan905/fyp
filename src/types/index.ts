@@ -12,4 +12,15 @@ type ICreateUser = {
   role?: Role;
 };
 
-export type { ICreateUser };
+type ApiResponse<T> = {
+  success: boolean;
+  message: string;
+  data?: T;
+};
+
+type ErrorAPiResponse = {
+  success: boolean;
+  message: string;
+};
+
+export type { ICreateUser, ApiResponse, ErrorAPiResponse };
