@@ -1,0 +1,268 @@
+"use client";
+
+import { generateQuestions } from "@/actions/ai-actions";
+import { Button } from "@/components/ui/button";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  GenerateQuestionsSchema,
+  GenerateQuestionsSchemaType,
+} from "@/schemas/interviews/generate-questions";
+import { IGenerateQuestionsFormData, IQuestion } from "@/types";
+import { zodResolver } from "@hookform/resolvers/zod";
+import React from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+
+interface GenerateQuestionsFormProps {
+  onStepChange: (step: number) => void;
+  onIsGeneratedChange: (isGenerated: boolean) => void;
+  onQuestionsChange: (questions: IQuestion[]) => void;
+  onFormDataChange: (data: IGenerateQuestionsFormData) => void;
+}
+
+export default function GenerateQuestionsForm({
+  onStepChange,
+  onIsGeneratedChange,
+  onQuestionsChange,
+  onFormDataChange,
+}: GenerateQuestionsFormProps) {
+  const form = useForm<GenerateQuestionsSchemaType>({
+    resolver: zodResolver(GenerateQuestionsSchema),
+    defaultValues: {
+      type: "",
+      role: "",
+      description: "",
+      duration: "",
+      difficulty: "",
+      experience: "",
+      experienceIn: "",
+      keywords: "",
+    },
+  });
+
+  async function onSubmit(values: GenerateQuestionsSchemaType) {
+    onIsGeneratedChange(true);
+    onStepChange(2);
+    onFormDataChange(values);
+    const res = await generateQuestions(values);
+    if (res.success) {
+      toast(res.message);
+      onQuestionsChange(res.data!);
+      onIsGeneratedChange(false);
+    }
+  }
+  return (
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+        <FormField
+          control={form.control}
+          name="role"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Which role are you applying for?</FormLabel>
+              <FormControl>
+                <Input
+                  placeholder="Software Engineer"
+                  className="placeholder:text-muted-foreground text-sm rounded-full min-h-11"
+                  {...field}
+                />
+              </FormControl>
+
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="type"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>
+                What type of interview would you like to practice?
+              </FormLabel>
+              <FormControl>
+                <Select value={field.value} onValueChange={field.onChange}>
+                  <SelectTrigger className="w-full rounded-full min-h-11">
+                    <SelectValue placeholder="Select Interview Type" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="TECHNICAL">
+                      Technical Interview
+                    </SelectItem>
+                    <SelectItem value="BEHAVIORAL">
+                      Behavioral Interview
+                    </SelectItem>
+                    <SelectItem value="TECHNICAL_AND_BEHAVIORAL">
+                      Technical and Behavioral Interview
+                    </SelectItem>
+                  </SelectContent>
+                </Select>
+              </FormControl>
+
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="experience"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel> What is your experience level?</FormLabel>
+              <FormControl>
+                <Input
+                  type="number"
+                  placeholder="1"
+                  min={0}
+                  className="placeholder:text-muted-foreground text-sm rounded-full min-h-11"
+                  {...field}
+                />
+              </FormControl>
+
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="experienceIn"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>What is your experience in?</FormLabel>
+              <FormControl>
+                <Select value={field.value} onValueChange={field.onChange}>
+                  <SelectTrigger className="w-full rounded-full min-h-11">
+                    <SelectValue placeholder="Experience In" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="MONTHS">Month</SelectItem>
+                    <SelectItem value="YEARS">Year</SelectItem>
+                  </SelectContent>
+                </Select>
+              </FormControl>
+
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="duration"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>
+                How long would you like the interview to be?
+              </FormLabel>
+              <FormControl>
+                <Select value={field.value} onValueChange={field.onChange}>
+                  <SelectTrigger className="w-full rounded-full min-h-11">
+                    <SelectValue placeholder="Select Duration" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="5">5 minutes</SelectItem>
+                    <SelectItem value="10">10 minutes</SelectItem>
+                    <SelectItem value="15">15 minutes</SelectItem>
+                    <SelectItem value="20">20 minutes</SelectItem>
+                    <SelectItem value="30">30 minutes</SelectItem>
+                    <SelectItem value="60">1 hour</SelectItem>
+                    <SelectItem value="90">1.5 hours</SelectItem>
+                  </SelectContent>
+                </Select>
+              </FormControl>
+
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="difficulty"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>
+                What level of difficulty would you like the interview to be?
+              </FormLabel>
+              <FormControl>
+                <Select value={field.value} onValueChange={field.onChange}>
+                  <SelectTrigger className="w-full rounded-full min-h-11">
+                    <SelectValue placeholder="Select Difficulty" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="EASY">Easy</SelectItem>
+                    <SelectItem value="MEDIUM">Medium</SelectItem>
+                    <SelectItem value="HARD">Hard</SelectItem>
+                  </SelectContent>
+                </Select>
+              </FormControl>
+
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="keywords"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Job Related Keywords / Tags?</FormLabel>
+              <FormControl>
+                <Input
+                  placeholder="MERN, Java, Python, etc"
+                  className="placeholder:text-muted-foreground text-sm rounded-full min-h-11 resize-none"
+                  {...field}
+                />
+              </FormControl>
+
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="description"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Job Description?</FormLabel>
+              <FormControl>
+                <Textarea
+                  placeholder="Job Description"
+                  className="placeholder:text-muted-foreground text-sm rounded-md min-h-20 resize-none"
+                  {...field}
+                />
+              </FormControl>
+
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <Button className="w-full rounded-full min-h-11 text-background">
+          Generate Questions
+        </Button>
+      </form>
+    </Form>
+  );
+}

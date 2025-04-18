@@ -23,4 +23,25 @@ type ErrorAPiResponse = {
   message: string;
 };
 
-export type { ICreateUser, ApiResponse, ErrorAPiResponse };
+type IQuestion = {
+  question: string;
+};
+
+type IGenerateQuestionsFormData = {
+  type: string;
+  role: string;
+  description: string;
+  duration: string;
+  difficulty: string;
+  experience: string;
+  experienceIn: string;
+  keywords: string;
+};
+
+export type {
+  ICreateUser,
+  ApiResponse,
+  ErrorAPiResponse,
+  IQuestion,
+  IGenerateQuestionsFormData,
+};

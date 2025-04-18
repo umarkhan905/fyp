@@ -28,8 +28,7 @@ enum ExperienceIn {
 enum InterviewType {
   TECHNICAL
   BEHAVIORAL
-  SYSTEM_DESIGN
-  MIXED
+  TECHNICAL_AND_BEHAVIORAL
 }
 
 enum InterviewDifficulty {
@@ -64,21 +63,44 @@ model User {
   resetPasswordToken          String?
   resetPasswordTokenExpiresAt DateTime?
   interviews                  Interview[]
+  feedbacks                   Feedback[]
   createdAt                   DateTime      @default(now())
   updatedAt                   DateTime      @updatedAt
+
+  @@index([email])
+  @@map("users")
 }
 
 model Interview {
-  id                   String              @id @default(uuid())
-  userId               String
-  user                 User                @relation(fields: [userId], references: [id])
-  intervieType         InterviewType       @default(TECHNICAL)
-  interviewDuration    Int                 @default(0)
-  interviewDifficulty  InterviewDifficulty @default(EASY)
-  interviewExperience  Int                 @default(0)
-  interviewRole        String
-  interviewDescription String?
-  questionList         Json
-  createdAt            DateTime            @default(now())
-  updatedAt            DateTime            @updatedAt
+  id           String              @id @default(uuid())
+  userId       String
+  user         User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type         InterviewType       @default(TECHNICAL)
+  duration     Int                 @default(0)
+  difficulty   InterviewDifficulty @default(EASY)
+  experience   Int                 @default(0)
+  experienceIn ExperienceIn        @default(MONTHS)
+  role         String
+  description  String
+  keywords     String
+  questions    Json
+  feedbacks    Feedback[]
+  createdAt    DateTime            @default(now())
+  updatedAt    DateTime            @updatedAt
+
+  @@map("interviews")
+}
+
+model Feedback {
+  id          String    @id @default(uuid())
+  userId      String
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  interviewId String
+  interview   Interview @relation(fields: [interviewId], references: [id], onDelete: Cascade)
+  score       Int
+  feedback    String
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@map("feedbacks")
 }

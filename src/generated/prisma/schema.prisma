@@ -1,0 +1,106 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  INTERVIEWER
+  INTERVIEWEE
+}
+
+enum ExperienceIn {
+  MONTHS
+  YEARS
+}
+
+enum InterviewType {
+  TECHNICAL
+  BEHAVIORAL
+  TECHNICAL_AND_BEHAVIORAL
+}
+
+enum InterviewDifficulty {
+  EASY
+  MEDIUM
+  HARD
+}
+
+model User {
+  id                          String        @id @default(uuid())
+  firstName                   String?
+  lastName                    String?
+  email                       String        @unique
+  password                    String?
+  role                        Role?         @default(INTERVIEWEE)
+  companyName                 String?
+  position                    String?
+  mobile                      String?
+  expreience                  Int           @default(0)
+  experienceIn                ExperienceIn? @default(MONTHS)
+  bio                         String?
+  linkedIn                    String?
+  gitHub                      String?
+  location                    String?
+  resume                      String?
+  coins                       Int           @default(0)
+  verified                    Boolean       @default(false)
+  verifiedAt                  DateTime?
+  lastLogin                   DateTime?
+  verificationToken           String?
+  verificationTokenExpiresAt  DateTime?
+  resetPasswordToken          String?
+  resetPasswordTokenExpiresAt DateTime?
+  interviews                  Interview[]
+  feedbacks                   Feedback[]
+  createdAt                   DateTime      @default(now())
+  updatedAt                   DateTime      @updatedAt
+
+  @@index([email])
+  @@map("users")
+}
+
+model Interview {
+  id           String              @id @default(uuid())
+  userId       String
+  user         User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type         InterviewType       @default(TECHNICAL)
+  duration     Int                 @default(0)
+  difficulty   InterviewDifficulty @default(EASY)
+  experience   Int                 @default(0)
+  experienceIn ExperienceIn        @default(MONTHS)
+  role         String
+  description  String
+  keywords     String
+  questions    Json
+  feedbacks    Feedback[]
+  createdAt    DateTime            @default(now())
+  updatedAt    DateTime            @updatedAt
+
+  @@map("interviews")
+}
+
+model Feedback {
+  id          String    @id @default(uuid())
+  userId      String
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  interviewId String
+  interview   Interview @relation(fields: [interviewId], references: [id], onDelete: Cascade)
+  score       Int
+  feedback    String
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@map("feedbacks")
+}
