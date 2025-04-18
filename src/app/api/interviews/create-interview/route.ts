@@ -60,6 +60,8 @@ export async function POST(req: NextRequest) {
         message: "Interview created successfully",
         data: {
           id: interview.id,
+          duration: interview.duration,
+          questions: interview.questions,
         },
       },
       { status: 201 }

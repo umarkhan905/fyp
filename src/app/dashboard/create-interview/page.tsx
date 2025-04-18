@@ -17,6 +17,7 @@ import GeneratingQuestionsLoading from "./_components/generating-questions-loadi
 import {
   ApiResponse,
   ErrorAPiResponse,
+  ICreatedInterview,
   IGenerateQuestionsFormData,
   IQuestion,
 } from "@/types";
@@ -39,7 +40,11 @@ export default function CreateInterview() {
   });
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
-  const [interviewId, setInterviewId] = useState<string>("");
+  const [interview, setInterview] = useState<ICreatedInterview>({
+    id: "",
+    duration: 0,
+    questions: [],
+  });
 
   const handleStepChange = (step: number) => {
     setStep(step);
@@ -61,14 +66,14 @@ export default function CreateInterview() {
     setError(null);
     setLoading(true);
     try {
-      const res = await axios.post<ApiResponse<{ id: string }>>(
+      const res = await axios.post<ApiResponse<ICreatedInterview>>(
         "/api/interviews/create-interview",
         { ...formData, questions }
       );
 
       const data = res.data;
       if (data.success) {
-        setInterviewId(data?.data?.id as string);
+        setInterview(data.data as ICreatedInterview);
         toast(data.message);
         handleStepChange(3);
       }
@@ -147,7 +152,7 @@ export default function CreateInterview() {
       ) : (
         step === 3 && (
           <CreatedInterview
-            interviewId={interviewId}
+            interview={interview}
             onStepChange={handleStepChange}
           />
         )

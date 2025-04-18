@@ -5,15 +5,16 @@ import { cn } from "@/lib/utils";
 import { ArrowLeft, Check, Clock, List, Mail, Phone, Plus } from "lucide-react";
 import Link from "next/link";
 import CopyLinkInput from "./copy-link-input";
+import { ICreatedInterview } from "@/types";
 
 interface CreatedInterviewProps {
   onStepChange: (step: number) => void;
-  interviewId: string;
+  interview: ICreatedInterview;
 }
 
 export default function CreatedInterview({
   onStepChange,
-  interviewId,
+  interview,
 }: CreatedInterviewProps) {
   return (
     <section className="max-w-lg w-full mx-auto space-y-4">
@@ -37,18 +38,18 @@ export default function CreatedInterview({
           </p>
         </div>
 
-        <CopyLinkInput interviewId={interviewId} />
+        <CopyLinkInput interviewId={interview.id} />
 
         <Separator />
 
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2 text-muted-foreground">
             <Clock className="size-4" />
-            <span>5 Min</span>
+            <span>{interview.duration} Min</span>
           </div>
           <div className="flex items-center gap-2 text-muted-foreground">
             <List className="size-4" />
-            <span>10 Questions</span>
+            <span>{interview.questions.length} Questions</span>
           </div>
         </div>
       </section>

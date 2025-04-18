@@ -38,10 +38,17 @@ type IGenerateQuestionsFormData = {
   keywords: string;
 };
 
+type ICreatedInterview = {
+  id: string;
+  duration: number;
+  questions: IQuestion[];
+};
+
 export type {
   ICreateUser,
   ApiResponse,
   ErrorAPiResponse,
   IQuestion,
   IGenerateQuestionsFormData,
+  ICreatedInterview,
 };
