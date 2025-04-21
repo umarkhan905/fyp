@@ -47,7 +47,7 @@ model User {
   companyName                 String?
   position                    String?
   mobile                      String?
-  expreience                  Int           @default(0)
+  experience                  Int           @default(0)
   experienceIn                ExperienceIn? @default(MONTHS)
   bio                         String?
   linkedIn                    String?
@@ -92,15 +92,31 @@ model Interview {
 }
 
 model Feedback {
-  id          String    @id @default(uuid())
-  userId      String
-  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  interviewId String
-  interview   Interview @relation(fields: [interviewId], references: [id], onDelete: Cascade)
-  score       Int
-  feedback    String
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  id                String       @id @default(uuid())
+  userId            String
+  user              User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  interviewId       String
+  interview         Interview    @relation(fields: [interviewId], references: [id], onDelete: Cascade)
+  totalRating       Float
+  summary           String
+  strengths         String
+  weaknesses        String
+  improvements      String
+  assessment        String
+  recommendedForJob Boolean
+  rating            RatingItem[]
+  createdAt         DateTime     @default(now())
+  updatedAt         DateTime     @updatedAt
 
   @@map("feedbacks")
+}
+
+model RatingItem {
+  id      String @id @default(cuid())
+  name    String // e.g., "technical", "communication"
+  score   Float
+  comment String
+
+  feedback   Feedback @relation(fields: [feedbackId], references: [id], onDelete: Cascade)
+  feedbackId String
 }

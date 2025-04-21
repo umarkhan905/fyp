@@ -127,7 +127,7 @@ exports.Prisma.UserScalarFieldEnum = {
   companyName: 'companyName',
   position: 'position',
   mobile: 'mobile',
-  expreience: 'expreience',
+  experience: 'experience',
   experienceIn: 'experienceIn',
   bio: 'bio',
   linkedIn: 'linkedIn',
@@ -166,10 +166,23 @@ exports.Prisma.FeedbackScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
   interviewId: 'interviewId',
-  score: 'score',
-  feedback: 'feedback',
+  totalRating: 'totalRating',
+  summary: 'summary',
+  strengths: 'strengths',
+  weaknesses: 'weaknesses',
+  improvements: 'improvements',
+  assessment: 'assessment',
+  recommendedForJob: 'recommendedForJob',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
+};
+
+exports.Prisma.RatingItemScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  score: 'score',
+  comment: 'comment',
+  feedbackId: 'feedbackId'
 };
 
 exports.Prisma.SortOrder = {
@@ -222,7 +235,8 @@ exports.InterviewDifficulty = exports.$Enums.InterviewDifficulty = {
 exports.Prisma.ModelName = {
   User: 'User',
   Interview: 'Interview',
-  Feedback: 'Feedback'
+  Feedback: 'Feedback',
+  RatingItem: 'RatingItem'
 };
 
 /**

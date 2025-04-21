@@ -44,6 +44,64 @@ type ICreatedInterview = {
   questions: IQuestion[];
 };
 
+type IInterview = {
+  id: string;
+  userId: string;
+  type: "TECHNICAL" | "BEHAVIORAL" | "TECHNICAL_AND_BEHAVIORAL";
+  duration: number;
+  difficulty: "EASY" | "MEDIUM" | "HARD";
+  experience: number;
+  experienceIn: "MONTHS" | "YEARS";
+  role: string;
+  description: string;
+  keywords: string;
+  questions: IQuestion[];
+  createdAt: Date;
+  updatedAt: Date;
+};
+
+enum CallStatus {
+  INACTIVE = "INACTIVE",
+  CONNECTING = "CONNECTING",
+  ACTIVE = "ACTIVE",
+  FINISHED = "FINISHED",
+}
+
+type SavedMessage = {
+  role: "user" | "system" | "assistant";
+  content: string;
+};
+
+type IRatingItem = {
+  id: string;
+  name:
+    | "TECHNICAL"
+    | "COMMUNICATION"
+    | "PROBLEM_SOLVING"
+    | "CULTURAL_FIT"
+    | "CONFIDENCE"
+    | "EXPERIENCE"
+    | "PRESENTATION_SKILLS";
+  score: number;
+  comment: string;
+};
+
+type IFeedback = {
+  id: string;
+  userId: string;
+  interviewId: string;
+  totalRating: number;
+  summary: string;
+  strengths: string;
+  weaknesses: string;
+  improvements: string;
+  assessment: string;
+  recommendedForJob: boolean;
+  rating: IRatingItem[];
+  createdAt: string;
+  updatedAt: string;
+};
+
 export type {
   ICreateUser,
   ApiResponse,
@@ -51,4 +109,9 @@ export type {
   IQuestion,
   IGenerateQuestionsFormData,
   ICreatedInterview,
+  IInterview,
+  SavedMessage,
+  IRatingItem,
+  IFeedback,
 };
+export { CallStatus };

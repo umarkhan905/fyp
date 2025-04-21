@@ -3,7 +3,7 @@ import Image from "next/image";
 
 interface LogoProps {
   className?: string;
-  variant?: string;
+  variant?: "logo-white" | "logo-black" | "logo-primary";
 }
 
 export default function Logo({

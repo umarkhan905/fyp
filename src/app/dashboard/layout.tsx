@@ -15,7 +15,6 @@ export default async function DashboardLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   const user = await getUserSession();
-  console.log("user", user);
   return (
     <SidebarProvider>
       <AppSidebar />

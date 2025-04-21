@@ -28,6 +28,11 @@ export type Interview = $Result.DefaultSelection<Prisma.$InterviewPayload>
  * 
  */
 export type Feedback = $Result.DefaultSelection<Prisma.$FeedbackPayload>
+/**
+ * Model RatingItem
+ * 
+ */
+export type RatingItem = $Result.DefaultSelection<Prisma.$RatingItemPayload>
 
 /**
  * Enums
@@ -239,6 +244,16 @@ export class PrismaClient<
     * ```
     */
   get feedback(): Prisma.FeedbackDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.ratingItem`: Exposes CRUD operations for the **RatingItem** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more RatingItems
+    * const ratingItems = await prisma.ratingItem.findMany()
+    * ```
+    */
+  get ratingItem(): Prisma.RatingItemDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -681,7 +696,8 @@ export namespace Prisma {
   export const ModelName: {
     User: 'User',
     Interview: 'Interview',
-    Feedback: 'Feedback'
+    Feedback: 'Feedback',
+    RatingItem: 'RatingItem'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -700,7 +716,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "interview" | "feedback"
+      modelProps: "user" | "interview" | "feedback" | "ratingItem"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -926,6 +942,80 @@ export namespace Prisma {
           }
         }
       }
+      RatingItem: {
+        payload: Prisma.$RatingItemPayload<ExtArgs>
+        fields: Prisma.RatingItemFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.RatingItemFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RatingItemPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.RatingItemFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RatingItemPayload>
+          }
+          findFirst: {
+            args: Prisma.RatingItemFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RatingItemPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.RatingItemFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RatingItemPayload>
+          }
+          findMany: {
+            args: Prisma.RatingItemFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RatingItemPayload>[]
+          }
+          create: {
+            args: Prisma.RatingItemCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RatingItemPayload>
+          }
+          createMany: {
+            args: Prisma.RatingItemCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.RatingItemCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RatingItemPayload>[]
+          }
+          delete: {
+            args: Prisma.RatingItemDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RatingItemPayload>
+          }
+          update: {
+            args: Prisma.RatingItemUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RatingItemPayload>
+          }
+          deleteMany: {
+            args: Prisma.RatingItemDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.RatingItemUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.RatingItemUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RatingItemPayload>[]
+          }
+          upsert: {
+            args: Prisma.RatingItemUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RatingItemPayload>
+          }
+          aggregate: {
+            args: Prisma.RatingItemAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateRatingItem>
+          }
+          groupBy: {
+            args: Prisma.RatingItemGroupByArgs<ExtArgs>
+            result: $Utils.Optional<RatingItemGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.RatingItemCountArgs<ExtArgs>
+            result: $Utils.Optional<RatingItemCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1013,6 +1103,7 @@ export namespace Prisma {
     user?: UserOmit
     interview?: InterviewOmit
     feedback?: FeedbackOmit
+    ratingItem?: RatingItemOmit
   }
 
   /* Types for Logging */
@@ -1174,6 +1265,37 @@ export namespace Prisma {
 
 
   /**
+   * Count Type FeedbackCountOutputType
+   */
+
+  export type FeedbackCountOutputType = {
+    rating: number
+  }
+
+  export type FeedbackCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    rating?: boolean | FeedbackCountOutputTypeCountRatingArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * FeedbackCountOutputType without action
+   */
+  export type FeedbackCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FeedbackCountOutputType
+     */
+    select?: FeedbackCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * FeedbackCountOutputType without action
+   */
+  export type FeedbackCountOutputTypeCountRatingArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RatingItemWhereInput
+  }
+
+
+  /**
    * Models
    */
 
@@ -1190,12 +1312,12 @@ export namespace Prisma {
   }
 
   export type UserAvgAggregateOutputType = {
-    expreience: number | null
+    experience: number | null
     coins: number | null
   }
 
   export type UserSumAggregateOutputType = {
-    expreience: number | null
+    experience: number | null
     coins: number | null
   }
 
@@ -1209,7 +1331,7 @@ export namespace Prisma {
     companyName: string | null
     position: string | null
     mobile: string | null
-    expreience: number | null
+    experience: number | null
     experienceIn: $Enums.ExperienceIn | null
     bio: string | null
     linkedIn: string | null
@@ -1238,7 +1360,7 @@ export namespace Prisma {
     companyName: string | null
     position: string | null
     mobile: string | null
-    expreience: number | null
+    experience: number | null
     experienceIn: $Enums.ExperienceIn | null
     bio: string | null
     linkedIn: string | null
@@ -1267,7 +1389,7 @@ export namespace Prisma {
     companyName: number
     position: number
     mobile: number
-    expreience: number
+    experience: number
     experienceIn: number
     bio: number
     linkedIn: number
@@ -1289,12 +1411,12 @@ export namespace Prisma {
 
 
   export type UserAvgAggregateInputType = {
-    expreience?: true
+    experience?: true
     coins?: true
   }
 
   export type UserSumAggregateInputType = {
-    expreience?: true
+    experience?: true
     coins?: true
   }
 
@@ -1308,7 +1430,7 @@ export namespace Prisma {
     companyName?: true
     position?: true
     mobile?: true
-    expreience?: true
+    experience?: true
     experienceIn?: true
     bio?: true
     linkedIn?: true
@@ -1337,7 +1459,7 @@ export namespace Prisma {
     companyName?: true
     position?: true
     mobile?: true
-    expreience?: true
+    experience?: true
     experienceIn?: true
     bio?: true
     linkedIn?: true
@@ -1366,7 +1488,7 @@ export namespace Prisma {
     companyName?: true
     position?: true
     mobile?: true
-    expreience?: true
+    experience?: true
     experienceIn?: true
     bio?: true
     linkedIn?: true
@@ -1482,7 +1604,7 @@ export namespace Prisma {
     companyName: string | null
     position: string | null
     mobile: string | null
-    expreience: number
+    experience: number
     experienceIn: $Enums.ExperienceIn | null
     bio: string | null
     linkedIn: string | null
@@ -1530,7 +1652,7 @@ export namespace Prisma {
     companyName?: boolean
     position?: boolean
     mobile?: boolean
-    expreience?: boolean
+    experience?: boolean
     experienceIn?: boolean
     bio?: boolean
     linkedIn?: boolean
@@ -1562,7 +1684,7 @@ export namespace Prisma {
     companyName?: boolean
     position?: boolean
     mobile?: boolean
-    expreience?: boolean
+    experience?: boolean
     experienceIn?: boolean
     bio?: boolean
     linkedIn?: boolean
@@ -1591,7 +1713,7 @@ export namespace Prisma {
     companyName?: boolean
     position?: boolean
     mobile?: boolean
-    expreience?: boolean
+    experience?: boolean
     experienceIn?: boolean
     bio?: boolean
     linkedIn?: boolean
@@ -1620,7 +1742,7 @@ export namespace Prisma {
     companyName?: boolean
     position?: boolean
     mobile?: boolean
-    expreience?: boolean
+    experience?: boolean
     experienceIn?: boolean
     bio?: boolean
     linkedIn?: boolean
@@ -1639,7 +1761,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "firstName" | "lastName" | "email" | "password" | "role" | "companyName" | "position" | "mobile" | "expreience" | "experienceIn" | "bio" | "linkedIn" | "gitHub" | "location" | "resume" | "coins" | "verified" | "verifiedAt" | "lastLogin" | "verificationToken" | "verificationTokenExpiresAt" | "resetPasswordToken" | "resetPasswordTokenExpiresAt" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "firstName" | "lastName" | "email" | "password" | "role" | "companyName" | "position" | "mobile" | "experience" | "experienceIn" | "bio" | "linkedIn" | "gitHub" | "location" | "resume" | "coins" | "verified" | "verifiedAt" | "lastLogin" | "verificationToken" | "verificationTokenExpiresAt" | "resetPasswordToken" | "resetPasswordTokenExpiresAt" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     interviews?: boolean | User$interviewsArgs<ExtArgs>
     feedbacks?: boolean | User$feedbacksArgs<ExtArgs>
@@ -1664,7 +1786,7 @@ export namespace Prisma {
       companyName: string | null
       position: string | null
       mobile: string | null
-      expreience: number
+      experience: number
       experienceIn: $Enums.ExperienceIn | null
       bio: string | null
       linkedIn: string | null
@@ -2115,7 +2237,7 @@ export namespace Prisma {
     readonly companyName: FieldRef<"User", 'String'>
     readonly position: FieldRef<"User", 'String'>
     readonly mobile: FieldRef<"User", 'String'>
-    readonly expreience: FieldRef<"User", 'Int'>
+    readonly experience: FieldRef<"User", 'Int'>
     readonly experienceIn: FieldRef<"User", 'ExperienceIn'>
     readonly bio: FieldRef<"User", 'String'>
     readonly linkedIn: FieldRef<"User", 'String'>
@@ -3825,19 +3947,24 @@ export namespace Prisma {
   }
 
   export type FeedbackAvgAggregateOutputType = {
-    score: number | null
+    totalRating: number | null
   }
 
   export type FeedbackSumAggregateOutputType = {
-    score: number | null
+    totalRating: number | null
   }
 
   export type FeedbackMinAggregateOutputType = {
     id: string | null
     userId: string | null
     interviewId: string | null
-    score: number | null
-    feedback: string | null
+    totalRating: number | null
+    summary: string | null
+    strengths: string | null
+    weaknesses: string | null
+    improvements: string | null
+    assessment: string | null
+    recommendedForJob: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -3846,8 +3973,13 @@ export namespace Prisma {
     id: string | null
     userId: string | null
     interviewId: string | null
-    score: number | null
-    feedback: string | null
+    totalRating: number | null
+    summary: string | null
+    strengths: string | null
+    weaknesses: string | null
+    improvements: string | null
+    assessment: string | null
+    recommendedForJob: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -3856,8 +3988,13 @@ export namespace Prisma {
     id: number
     userId: number
     interviewId: number
-    score: number
-    feedback: number
+    totalRating: number
+    summary: number
+    strengths: number
+    weaknesses: number
+    improvements: number
+    assessment: number
+    recommendedForJob: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -3865,19 +4002,24 @@ export namespace Prisma {
 
 
   export type FeedbackAvgAggregateInputType = {
-    score?: true
+    totalRating?: true
   }
 
   export type FeedbackSumAggregateInputType = {
-    score?: true
+    totalRating?: true
   }
 
   export type FeedbackMinAggregateInputType = {
     id?: true
     userId?: true
     interviewId?: true
-    score?: true
-    feedback?: true
+    totalRating?: true
+    summary?: true
+    strengths?: true
+    weaknesses?: true
+    improvements?: true
+    assessment?: true
+    recommendedForJob?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -3886,8 +4028,13 @@ export namespace Prisma {
     id?: true
     userId?: true
     interviewId?: true
-    score?: true
-    feedback?: true
+    totalRating?: true
+    summary?: true
+    strengths?: true
+    weaknesses?: true
+    improvements?: true
+    assessment?: true
+    recommendedForJob?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -3896,8 +4043,13 @@ export namespace Prisma {
     id?: true
     userId?: true
     interviewId?: true
-    score?: true
-    feedback?: true
+    totalRating?: true
+    summary?: true
+    strengths?: true
+    weaknesses?: true
+    improvements?: true
+    assessment?: true
+    recommendedForJob?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -3993,8 +4145,13 @@ export namespace Prisma {
     id: string
     userId: string
     interviewId: string
-    score: number
-    feedback: string
+    totalRating: number
+    summary: string
+    strengths: string
+    weaknesses: string
+    improvements: string
+    assessment: string
+    recommendedForJob: boolean
     createdAt: Date
     updatedAt: Date
     _count: FeedbackCountAggregateOutputType | null
@@ -4022,20 +4179,32 @@ export namespace Prisma {
     id?: boolean
     userId?: boolean
     interviewId?: boolean
-    score?: boolean
-    feedback?: boolean
+    totalRating?: boolean
+    summary?: boolean
+    strengths?: boolean
+    weaknesses?: boolean
+    improvements?: boolean
+    assessment?: boolean
+    recommendedForJob?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
     interview?: boolean | InterviewDefaultArgs<ExtArgs>
+    rating?: boolean | Feedback$ratingArgs<ExtArgs>
+    _count?: boolean | FeedbackCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["feedback"]>
 
   export type FeedbackSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     userId?: boolean
     interviewId?: boolean
-    score?: boolean
-    feedback?: boolean
+    totalRating?: boolean
+    summary?: boolean
+    strengths?: boolean
+    weaknesses?: boolean
+    improvements?: boolean
+    assessment?: boolean
+    recommendedForJob?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -4046,8 +4215,13 @@ export namespace Prisma {
     id?: boolean
     userId?: boolean
     interviewId?: boolean
-    score?: boolean
-    feedback?: boolean
+    totalRating?: boolean
+    summary?: boolean
+    strengths?: boolean
+    weaknesses?: boolean
+    improvements?: boolean
+    assessment?: boolean
+    recommendedForJob?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -4058,16 +4232,23 @@ export namespace Prisma {
     id?: boolean
     userId?: boolean
     interviewId?: boolean
-    score?: boolean
-    feedback?: boolean
+    totalRating?: boolean
+    summary?: boolean
+    strengths?: boolean
+    weaknesses?: boolean
+    improvements?: boolean
+    assessment?: boolean
+    recommendedForJob?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type FeedbackOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "interviewId" | "score" | "feedback" | "createdAt" | "updatedAt", ExtArgs["result"]["feedback"]>
+  export type FeedbackOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "interviewId" | "totalRating" | "summary" | "strengths" | "weaknesses" | "improvements" | "assessment" | "recommendedForJob" | "createdAt" | "updatedAt", ExtArgs["result"]["feedback"]>
   export type FeedbackInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     interview?: boolean | InterviewDefaultArgs<ExtArgs>
+    rating?: boolean | Feedback$ratingArgs<ExtArgs>
+    _count?: boolean | FeedbackCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type FeedbackIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -4083,13 +4264,19 @@ export namespace Prisma {
     objects: {
       user: Prisma.$UserPayload<ExtArgs>
       interview: Prisma.$InterviewPayload<ExtArgs>
+      rating: Prisma.$RatingItemPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       userId: string
       interviewId: string
-      score: number
-      feedback: string
+      totalRating: number
+      summary: string
+      strengths: string
+      weaknesses: string
+      improvements: string
+      assessment: string
+      recommendedForJob: boolean
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["feedback"]>
@@ -4488,6 +4675,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     interview<T extends InterviewDefaultArgs<ExtArgs> = {}>(args?: Subset<T, InterviewDefaultArgs<ExtArgs>>): Prisma__InterviewClient<$Result.GetResult<Prisma.$InterviewPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    rating<T extends Feedback$ratingArgs<ExtArgs> = {}>(args?: Subset<T, Feedback$ratingArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RatingItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4520,8 +4708,13 @@ export namespace Prisma {
     readonly id: FieldRef<"Feedback", 'String'>
     readonly userId: FieldRef<"Feedback", 'String'>
     readonly interviewId: FieldRef<"Feedback", 'String'>
-    readonly score: FieldRef<"Feedback", 'Int'>
-    readonly feedback: FieldRef<"Feedback", 'String'>
+    readonly totalRating: FieldRef<"Feedback", 'Float'>
+    readonly summary: FieldRef<"Feedback", 'String'>
+    readonly strengths: FieldRef<"Feedback", 'String'>
+    readonly weaknesses: FieldRef<"Feedback", 'String'>
+    readonly improvements: FieldRef<"Feedback", 'String'>
+    readonly assessment: FieldRef<"Feedback", 'String'>
+    readonly recommendedForJob: FieldRef<"Feedback", 'Boolean'>
     readonly createdAt: FieldRef<"Feedback", 'DateTime'>
     readonly updatedAt: FieldRef<"Feedback", 'DateTime'>
   }
@@ -4920,6 +5113,30 @@ export namespace Prisma {
   }
 
   /**
+   * Feedback.rating
+   */
+  export type Feedback$ratingArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RatingItem
+     */
+    select?: RatingItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RatingItem
+     */
+    omit?: RatingItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RatingItemInclude<ExtArgs> | null
+    where?: RatingItemWhereInput
+    orderBy?: RatingItemOrderByWithRelationInput | RatingItemOrderByWithRelationInput[]
+    cursor?: RatingItemWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: RatingItemScalarFieldEnum | RatingItemScalarFieldEnum[]
+  }
+
+  /**
    * Feedback without action
    */
   export type FeedbackDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4935,6 +5152,1098 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: FeedbackInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model RatingItem
+   */
+
+  export type AggregateRatingItem = {
+    _count: RatingItemCountAggregateOutputType | null
+    _avg: RatingItemAvgAggregateOutputType | null
+    _sum: RatingItemSumAggregateOutputType | null
+    _min: RatingItemMinAggregateOutputType | null
+    _max: RatingItemMaxAggregateOutputType | null
+  }
+
+  export type RatingItemAvgAggregateOutputType = {
+    score: number | null
+  }
+
+  export type RatingItemSumAggregateOutputType = {
+    score: number | null
+  }
+
+  export type RatingItemMinAggregateOutputType = {
+    id: string | null
+    name: string | null
+    score: number | null
+    comment: string | null
+    feedbackId: string | null
+  }
+
+  export type RatingItemMaxAggregateOutputType = {
+    id: string | null
+    name: string | null
+    score: number | null
+    comment: string | null
+    feedbackId: string | null
+  }
+
+  export type RatingItemCountAggregateOutputType = {
+    id: number
+    name: number
+    score: number
+    comment: number
+    feedbackId: number
+    _all: number
+  }
+
+
+  export type RatingItemAvgAggregateInputType = {
+    score?: true
+  }
+
+  export type RatingItemSumAggregateInputType = {
+    score?: true
+  }
+
+  export type RatingItemMinAggregateInputType = {
+    id?: true
+    name?: true
+    score?: true
+    comment?: true
+    feedbackId?: true
+  }
+
+  export type RatingItemMaxAggregateInputType = {
+    id?: true
+    name?: true
+    score?: true
+    comment?: true
+    feedbackId?: true
+  }
+
+  export type RatingItemCountAggregateInputType = {
+    id?: true
+    name?: true
+    score?: true
+    comment?: true
+    feedbackId?: true
+    _all?: true
+  }
+
+  export type RatingItemAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which RatingItem to aggregate.
+     */
+    where?: RatingItemWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RatingItems to fetch.
+     */
+    orderBy?: RatingItemOrderByWithRelationInput | RatingItemOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: RatingItemWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RatingItems from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RatingItems.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned RatingItems
+    **/
+    _count?: true | RatingItemCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: RatingItemAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: RatingItemSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: RatingItemMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: RatingItemMaxAggregateInputType
+  }
+
+  export type GetRatingItemAggregateType<T extends RatingItemAggregateArgs> = {
+        [P in keyof T & keyof AggregateRatingItem]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateRatingItem[P]>
+      : GetScalarType<T[P], AggregateRatingItem[P]>
+  }
+
+
+
+
+  export type RatingItemGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RatingItemWhereInput
+    orderBy?: RatingItemOrderByWithAggregationInput | RatingItemOrderByWithAggregationInput[]
+    by: RatingItemScalarFieldEnum[] | RatingItemScalarFieldEnum
+    having?: RatingItemScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: RatingItemCountAggregateInputType | true
+    _avg?: RatingItemAvgAggregateInputType
+    _sum?: RatingItemSumAggregateInputType
+    _min?: RatingItemMinAggregateInputType
+    _max?: RatingItemMaxAggregateInputType
+  }
+
+  export type RatingItemGroupByOutputType = {
+    id: string
+    name: string
+    score: number
+    comment: string
+    feedbackId: string
+    _count: RatingItemCountAggregateOutputType | null
+    _avg: RatingItemAvgAggregateOutputType | null
+    _sum: RatingItemSumAggregateOutputType | null
+    _min: RatingItemMinAggregateOutputType | null
+    _max: RatingItemMaxAggregateOutputType | null
+  }
+
+  type GetRatingItemGroupByPayload<T extends RatingItemGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<RatingItemGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof RatingItemGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], RatingItemGroupByOutputType[P]>
+            : GetScalarType<T[P], RatingItemGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type RatingItemSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    score?: boolean
+    comment?: boolean
+    feedbackId?: boolean
+    feedback?: boolean | FeedbackDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["ratingItem"]>
+
+  export type RatingItemSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    score?: boolean
+    comment?: boolean
+    feedbackId?: boolean
+    feedback?: boolean | FeedbackDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["ratingItem"]>
+
+  export type RatingItemSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    score?: boolean
+    comment?: boolean
+    feedbackId?: boolean
+    feedback?: boolean | FeedbackDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["ratingItem"]>
+
+  export type RatingItemSelectScalar = {
+    id?: boolean
+    name?: boolean
+    score?: boolean
+    comment?: boolean
+    feedbackId?: boolean
+  }
+
+  export type RatingItemOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "score" | "comment" | "feedbackId", ExtArgs["result"]["ratingItem"]>
+  export type RatingItemInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    feedback?: boolean | FeedbackDefaultArgs<ExtArgs>
+  }
+  export type RatingItemIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    feedback?: boolean | FeedbackDefaultArgs<ExtArgs>
+  }
+  export type RatingItemIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    feedback?: boolean | FeedbackDefaultArgs<ExtArgs>
+  }
+
+  export type $RatingItemPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "RatingItem"
+    objects: {
+      feedback: Prisma.$FeedbackPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      name: string
+      score: number
+      comment: string
+      feedbackId: string
+    }, ExtArgs["result"]["ratingItem"]>
+    composites: {}
+  }
+
+  type RatingItemGetPayload<S extends boolean | null | undefined | RatingItemDefaultArgs> = $Result.GetResult<Prisma.$RatingItemPayload, S>
+
+  type RatingItemCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<RatingItemFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: RatingItemCountAggregateInputType | true
+    }
+
+  export interface RatingItemDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['RatingItem'], meta: { name: 'RatingItem' } }
+    /**
+     * Find zero or one RatingItem that matches the filter.
+     * @param {RatingItemFindUniqueArgs} args - Arguments to find a RatingItem
+     * @example
+     * // Get one RatingItem
+     * const ratingItem = await prisma.ratingItem.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends RatingItemFindUniqueArgs>(args: SelectSubset<T, RatingItemFindUniqueArgs<ExtArgs>>): Prisma__RatingItemClient<$Result.GetResult<Prisma.$RatingItemPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one RatingItem that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {RatingItemFindUniqueOrThrowArgs} args - Arguments to find a RatingItem
+     * @example
+     * // Get one RatingItem
+     * const ratingItem = await prisma.ratingItem.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends RatingItemFindUniqueOrThrowArgs>(args: SelectSubset<T, RatingItemFindUniqueOrThrowArgs<ExtArgs>>): Prisma__RatingItemClient<$Result.GetResult<Prisma.$RatingItemPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first RatingItem that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RatingItemFindFirstArgs} args - Arguments to find a RatingItem
+     * @example
+     * // Get one RatingItem
+     * const ratingItem = await prisma.ratingItem.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends RatingItemFindFirstArgs>(args?: SelectSubset<T, RatingItemFindFirstArgs<ExtArgs>>): Prisma__RatingItemClient<$Result.GetResult<Prisma.$RatingItemPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first RatingItem that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RatingItemFindFirstOrThrowArgs} args - Arguments to find a RatingItem
+     * @example
+     * // Get one RatingItem
+     * const ratingItem = await prisma.ratingItem.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends RatingItemFindFirstOrThrowArgs>(args?: SelectSubset<T, RatingItemFindFirstOrThrowArgs<ExtArgs>>): Prisma__RatingItemClient<$Result.GetResult<Prisma.$RatingItemPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more RatingItems that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RatingItemFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all RatingItems
+     * const ratingItems = await prisma.ratingItem.findMany()
+     * 
+     * // Get first 10 RatingItems
+     * const ratingItems = await prisma.ratingItem.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const ratingItemWithIdOnly = await prisma.ratingItem.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends RatingItemFindManyArgs>(args?: SelectSubset<T, RatingItemFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RatingItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a RatingItem.
+     * @param {RatingItemCreateArgs} args - Arguments to create a RatingItem.
+     * @example
+     * // Create one RatingItem
+     * const RatingItem = await prisma.ratingItem.create({
+     *   data: {
+     *     // ... data to create a RatingItem
+     *   }
+     * })
+     * 
+     */
+    create<T extends RatingItemCreateArgs>(args: SelectSubset<T, RatingItemCreateArgs<ExtArgs>>): Prisma__RatingItemClient<$Result.GetResult<Prisma.$RatingItemPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many RatingItems.
+     * @param {RatingItemCreateManyArgs} args - Arguments to create many RatingItems.
+     * @example
+     * // Create many RatingItems
+     * const ratingItem = await prisma.ratingItem.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends RatingItemCreateManyArgs>(args?: SelectSubset<T, RatingItemCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many RatingItems and returns the data saved in the database.
+     * @param {RatingItemCreateManyAndReturnArgs} args - Arguments to create many RatingItems.
+     * @example
+     * // Create many RatingItems
+     * const ratingItem = await prisma.ratingItem.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many RatingItems and only return the `id`
+     * const ratingItemWithIdOnly = await prisma.ratingItem.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends RatingItemCreateManyAndReturnArgs>(args?: SelectSubset<T, RatingItemCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RatingItemPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a RatingItem.
+     * @param {RatingItemDeleteArgs} args - Arguments to delete one RatingItem.
+     * @example
+     * // Delete one RatingItem
+     * const RatingItem = await prisma.ratingItem.delete({
+     *   where: {
+     *     // ... filter to delete one RatingItem
+     *   }
+     * })
+     * 
+     */
+    delete<T extends RatingItemDeleteArgs>(args: SelectSubset<T, RatingItemDeleteArgs<ExtArgs>>): Prisma__RatingItemClient<$Result.GetResult<Prisma.$RatingItemPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one RatingItem.
+     * @param {RatingItemUpdateArgs} args - Arguments to update one RatingItem.
+     * @example
+     * // Update one RatingItem
+     * const ratingItem = await prisma.ratingItem.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends RatingItemUpdateArgs>(args: SelectSubset<T, RatingItemUpdateArgs<ExtArgs>>): Prisma__RatingItemClient<$Result.GetResult<Prisma.$RatingItemPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more RatingItems.
+     * @param {RatingItemDeleteManyArgs} args - Arguments to filter RatingItems to delete.
+     * @example
+     * // Delete a few RatingItems
+     * const { count } = await prisma.ratingItem.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends RatingItemDeleteManyArgs>(args?: SelectSubset<T, RatingItemDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more RatingItems.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RatingItemUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many RatingItems
+     * const ratingItem = await prisma.ratingItem.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends RatingItemUpdateManyArgs>(args: SelectSubset<T, RatingItemUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more RatingItems and returns the data updated in the database.
+     * @param {RatingItemUpdateManyAndReturnArgs} args - Arguments to update many RatingItems.
+     * @example
+     * // Update many RatingItems
+     * const ratingItem = await prisma.ratingItem.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more RatingItems and only return the `id`
+     * const ratingItemWithIdOnly = await prisma.ratingItem.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends RatingItemUpdateManyAndReturnArgs>(args: SelectSubset<T, RatingItemUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RatingItemPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one RatingItem.
+     * @param {RatingItemUpsertArgs} args - Arguments to update or create a RatingItem.
+     * @example
+     * // Update or create a RatingItem
+     * const ratingItem = await prisma.ratingItem.upsert({
+     *   create: {
+     *     // ... data to create a RatingItem
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the RatingItem we want to update
+     *   }
+     * })
+     */
+    upsert<T extends RatingItemUpsertArgs>(args: SelectSubset<T, RatingItemUpsertArgs<ExtArgs>>): Prisma__RatingItemClient<$Result.GetResult<Prisma.$RatingItemPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of RatingItems.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RatingItemCountArgs} args - Arguments to filter RatingItems to count.
+     * @example
+     * // Count the number of RatingItems
+     * const count = await prisma.ratingItem.count({
+     *   where: {
+     *     // ... the filter for the RatingItems we want to count
+     *   }
+     * })
+    **/
+    count<T extends RatingItemCountArgs>(
+      args?: Subset<T, RatingItemCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], RatingItemCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a RatingItem.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RatingItemAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends RatingItemAggregateArgs>(args: Subset<T, RatingItemAggregateArgs>): Prisma.PrismaPromise<GetRatingItemAggregateType<T>>
+
+    /**
+     * Group by RatingItem.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RatingItemGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends RatingItemGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: RatingItemGroupByArgs['orderBy'] }
+        : { orderBy?: RatingItemGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, RatingItemGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetRatingItemGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the RatingItem model
+   */
+  readonly fields: RatingItemFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for RatingItem.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__RatingItemClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    feedback<T extends FeedbackDefaultArgs<ExtArgs> = {}>(args?: Subset<T, FeedbackDefaultArgs<ExtArgs>>): Prisma__FeedbackClient<$Result.GetResult<Prisma.$FeedbackPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the RatingItem model
+   */
+  interface RatingItemFieldRefs {
+    readonly id: FieldRef<"RatingItem", 'String'>
+    readonly name: FieldRef<"RatingItem", 'String'>
+    readonly score: FieldRef<"RatingItem", 'Float'>
+    readonly comment: FieldRef<"RatingItem", 'String'>
+    readonly feedbackId: FieldRef<"RatingItem", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * RatingItem findUnique
+   */
+  export type RatingItemFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RatingItem
+     */
+    select?: RatingItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RatingItem
+     */
+    omit?: RatingItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RatingItemInclude<ExtArgs> | null
+    /**
+     * Filter, which RatingItem to fetch.
+     */
+    where: RatingItemWhereUniqueInput
+  }
+
+  /**
+   * RatingItem findUniqueOrThrow
+   */
+  export type RatingItemFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RatingItem
+     */
+    select?: RatingItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RatingItem
+     */
+    omit?: RatingItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RatingItemInclude<ExtArgs> | null
+    /**
+     * Filter, which RatingItem to fetch.
+     */
+    where: RatingItemWhereUniqueInput
+  }
+
+  /**
+   * RatingItem findFirst
+   */
+  export type RatingItemFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RatingItem
+     */
+    select?: RatingItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RatingItem
+     */
+    omit?: RatingItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RatingItemInclude<ExtArgs> | null
+    /**
+     * Filter, which RatingItem to fetch.
+     */
+    where?: RatingItemWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RatingItems to fetch.
+     */
+    orderBy?: RatingItemOrderByWithRelationInput | RatingItemOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for RatingItems.
+     */
+    cursor?: RatingItemWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RatingItems from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RatingItems.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of RatingItems.
+     */
+    distinct?: RatingItemScalarFieldEnum | RatingItemScalarFieldEnum[]
+  }
+
+  /**
+   * RatingItem findFirstOrThrow
+   */
+  export type RatingItemFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RatingItem
+     */
+    select?: RatingItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RatingItem
+     */
+    omit?: RatingItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RatingItemInclude<ExtArgs> | null
+    /**
+     * Filter, which RatingItem to fetch.
+     */
+    where?: RatingItemWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RatingItems to fetch.
+     */
+    orderBy?: RatingItemOrderByWithRelationInput | RatingItemOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for RatingItems.
+     */
+    cursor?: RatingItemWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RatingItems from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RatingItems.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of RatingItems.
+     */
+    distinct?: RatingItemScalarFieldEnum | RatingItemScalarFieldEnum[]
+  }
+
+  /**
+   * RatingItem findMany
+   */
+  export type RatingItemFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RatingItem
+     */
+    select?: RatingItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RatingItem
+     */
+    omit?: RatingItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RatingItemInclude<ExtArgs> | null
+    /**
+     * Filter, which RatingItems to fetch.
+     */
+    where?: RatingItemWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RatingItems to fetch.
+     */
+    orderBy?: RatingItemOrderByWithRelationInput | RatingItemOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing RatingItems.
+     */
+    cursor?: RatingItemWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RatingItems from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RatingItems.
+     */
+    skip?: number
+    distinct?: RatingItemScalarFieldEnum | RatingItemScalarFieldEnum[]
+  }
+
+  /**
+   * RatingItem create
+   */
+  export type RatingItemCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RatingItem
+     */
+    select?: RatingItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RatingItem
+     */
+    omit?: RatingItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RatingItemInclude<ExtArgs> | null
+    /**
+     * The data needed to create a RatingItem.
+     */
+    data: XOR<RatingItemCreateInput, RatingItemUncheckedCreateInput>
+  }
+
+  /**
+   * RatingItem createMany
+   */
+  export type RatingItemCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many RatingItems.
+     */
+    data: RatingItemCreateManyInput | RatingItemCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * RatingItem createManyAndReturn
+   */
+  export type RatingItemCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RatingItem
+     */
+    select?: RatingItemSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the RatingItem
+     */
+    omit?: RatingItemOmit<ExtArgs> | null
+    /**
+     * The data used to create many RatingItems.
+     */
+    data: RatingItemCreateManyInput | RatingItemCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RatingItemIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * RatingItem update
+   */
+  export type RatingItemUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RatingItem
+     */
+    select?: RatingItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RatingItem
+     */
+    omit?: RatingItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RatingItemInclude<ExtArgs> | null
+    /**
+     * The data needed to update a RatingItem.
+     */
+    data: XOR<RatingItemUpdateInput, RatingItemUncheckedUpdateInput>
+    /**
+     * Choose, which RatingItem to update.
+     */
+    where: RatingItemWhereUniqueInput
+  }
+
+  /**
+   * RatingItem updateMany
+   */
+  export type RatingItemUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update RatingItems.
+     */
+    data: XOR<RatingItemUpdateManyMutationInput, RatingItemUncheckedUpdateManyInput>
+    /**
+     * Filter which RatingItems to update
+     */
+    where?: RatingItemWhereInput
+    /**
+     * Limit how many RatingItems to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * RatingItem updateManyAndReturn
+   */
+  export type RatingItemUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RatingItem
+     */
+    select?: RatingItemSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the RatingItem
+     */
+    omit?: RatingItemOmit<ExtArgs> | null
+    /**
+     * The data used to update RatingItems.
+     */
+    data: XOR<RatingItemUpdateManyMutationInput, RatingItemUncheckedUpdateManyInput>
+    /**
+     * Filter which RatingItems to update
+     */
+    where?: RatingItemWhereInput
+    /**
+     * Limit how many RatingItems to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RatingItemIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * RatingItem upsert
+   */
+  export type RatingItemUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RatingItem
+     */
+    select?: RatingItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RatingItem
+     */
+    omit?: RatingItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RatingItemInclude<ExtArgs> | null
+    /**
+     * The filter to search for the RatingItem to update in case it exists.
+     */
+    where: RatingItemWhereUniqueInput
+    /**
+     * In case the RatingItem found by the `where` argument doesn't exist, create a new RatingItem with this data.
+     */
+    create: XOR<RatingItemCreateInput, RatingItemUncheckedCreateInput>
+    /**
+     * In case the RatingItem was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<RatingItemUpdateInput, RatingItemUncheckedUpdateInput>
+  }
+
+  /**
+   * RatingItem delete
+   */
+  export type RatingItemDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RatingItem
+     */
+    select?: RatingItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RatingItem
+     */
+    omit?: RatingItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RatingItemInclude<ExtArgs> | null
+    /**
+     * Filter which RatingItem to delete.
+     */
+    where: RatingItemWhereUniqueInput
+  }
+
+  /**
+   * RatingItem deleteMany
+   */
+  export type RatingItemDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which RatingItems to delete
+     */
+    where?: RatingItemWhereInput
+    /**
+     * Limit how many RatingItems to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * RatingItem without action
+   */
+  export type RatingItemDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RatingItem
+     */
+    select?: RatingItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RatingItem
+     */
+    omit?: RatingItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RatingItemInclude<ExtArgs> | null
   }
 
 
@@ -4962,7 +6271,7 @@ export namespace Prisma {
     companyName: 'companyName',
     position: 'position',
     mobile: 'mobile',
-    expreience: 'expreience',
+    experience: 'experience',
     experienceIn: 'experienceIn',
     bio: 'bio',
     linkedIn: 'linkedIn',
@@ -5007,13 +6316,29 @@ export namespace Prisma {
     id: 'id',
     userId: 'userId',
     interviewId: 'interviewId',
-    score: 'score',
-    feedback: 'feedback',
+    totalRating: 'totalRating',
+    summary: 'summary',
+    strengths: 'strengths',
+    weaknesses: 'weaknesses',
+    improvements: 'improvements',
+    assessment: 'assessment',
+    recommendedForJob: 'recommendedForJob',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
 
   export type FeedbackScalarFieldEnum = (typeof FeedbackScalarFieldEnum)[keyof typeof FeedbackScalarFieldEnum]
+
+
+  export const RatingItemScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    score: 'score',
+    comment: 'comment',
+    feedbackId: 'feedbackId'
+  };
+
+  export type RatingItemScalarFieldEnum = (typeof RatingItemScalarFieldEnum)[keyof typeof RatingItemScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -5210,7 +6535,7 @@ export namespace Prisma {
     companyName?: StringNullableFilter<"User"> | string | null
     position?: StringNullableFilter<"User"> | string | null
     mobile?: StringNullableFilter<"User"> | string | null
-    expreience?: IntFilter<"User"> | number
+    experience?: IntFilter<"User"> | number
     experienceIn?: EnumExperienceInNullableFilter<"User"> | $Enums.ExperienceIn | null
     bio?: StringNullableFilter<"User"> | string | null
     linkedIn?: StringNullableFilter<"User"> | string | null
@@ -5241,7 +6566,7 @@ export namespace Prisma {
     companyName?: SortOrderInput | SortOrder
     position?: SortOrderInput | SortOrder
     mobile?: SortOrderInput | SortOrder
-    expreience?: SortOrder
+    experience?: SortOrder
     experienceIn?: SortOrderInput | SortOrder
     bio?: SortOrderInput | SortOrder
     linkedIn?: SortOrderInput | SortOrder
@@ -5275,7 +6600,7 @@ export namespace Prisma {
     companyName?: StringNullableFilter<"User"> | string | null
     position?: StringNullableFilter<"User"> | string | null
     mobile?: StringNullableFilter<"User"> | string | null
-    expreience?: IntFilter<"User"> | number
+    experience?: IntFilter<"User"> | number
     experienceIn?: EnumExperienceInNullableFilter<"User"> | $Enums.ExperienceIn | null
     bio?: StringNullableFilter<"User"> | string | null
     linkedIn?: StringNullableFilter<"User"> | string | null
@@ -5306,7 +6631,7 @@ export namespace Prisma {
     companyName?: SortOrderInput | SortOrder
     position?: SortOrderInput | SortOrder
     mobile?: SortOrderInput | SortOrder
-    expreience?: SortOrder
+    experience?: SortOrder
     experienceIn?: SortOrderInput | SortOrder
     bio?: SortOrderInput | SortOrder
     linkedIn?: SortOrderInput | SortOrder
@@ -5343,7 +6668,7 @@ export namespace Prisma {
     companyName?: StringNullableWithAggregatesFilter<"User"> | string | null
     position?: StringNullableWithAggregatesFilter<"User"> | string | null
     mobile?: StringNullableWithAggregatesFilter<"User"> | string | null
-    expreience?: IntWithAggregatesFilter<"User"> | number
+    experience?: IntWithAggregatesFilter<"User"> | number
     experienceIn?: EnumExperienceInNullableWithAggregatesFilter<"User"> | $Enums.ExperienceIn | null
     bio?: StringNullableWithAggregatesFilter<"User"> | string | null
     linkedIn?: StringNullableWithAggregatesFilter<"User"> | string | null
@@ -5469,24 +6794,36 @@ export namespace Prisma {
     id?: StringFilter<"Feedback"> | string
     userId?: StringFilter<"Feedback"> | string
     interviewId?: StringFilter<"Feedback"> | string
-    score?: IntFilter<"Feedback"> | number
-    feedback?: StringFilter<"Feedback"> | string
+    totalRating?: FloatFilter<"Feedback"> | number
+    summary?: StringFilter<"Feedback"> | string
+    strengths?: StringFilter<"Feedback"> | string
+    weaknesses?: StringFilter<"Feedback"> | string
+    improvements?: StringFilter<"Feedback"> | string
+    assessment?: StringFilter<"Feedback"> | string
+    recommendedForJob?: BoolFilter<"Feedback"> | boolean
     createdAt?: DateTimeFilter<"Feedback"> | Date | string
     updatedAt?: DateTimeFilter<"Feedback"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     interview?: XOR<InterviewScalarRelationFilter, InterviewWhereInput>
+    rating?: RatingItemListRelationFilter
   }
 
   export type FeedbackOrderByWithRelationInput = {
     id?: SortOrder
     userId?: SortOrder
     interviewId?: SortOrder
-    score?: SortOrder
-    feedback?: SortOrder
+    totalRating?: SortOrder
+    summary?: SortOrder
+    strengths?: SortOrder
+    weaknesses?: SortOrder
+    improvements?: SortOrder
+    assessment?: SortOrder
+    recommendedForJob?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     user?: UserOrderByWithRelationInput
     interview?: InterviewOrderByWithRelationInput
+    rating?: RatingItemOrderByRelationAggregateInput
   }
 
   export type FeedbackWhereUniqueInput = Prisma.AtLeast<{
@@ -5496,20 +6833,31 @@ export namespace Prisma {
     NOT?: FeedbackWhereInput | FeedbackWhereInput[]
     userId?: StringFilter<"Feedback"> | string
     interviewId?: StringFilter<"Feedback"> | string
-    score?: IntFilter<"Feedback"> | number
-    feedback?: StringFilter<"Feedback"> | string
+    totalRating?: FloatFilter<"Feedback"> | number
+    summary?: StringFilter<"Feedback"> | string
+    strengths?: StringFilter<"Feedback"> | string
+    weaknesses?: StringFilter<"Feedback"> | string
+    improvements?: StringFilter<"Feedback"> | string
+    assessment?: StringFilter<"Feedback"> | string
+    recommendedForJob?: BoolFilter<"Feedback"> | boolean
     createdAt?: DateTimeFilter<"Feedback"> | Date | string
     updatedAt?: DateTimeFilter<"Feedback"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     interview?: XOR<InterviewScalarRelationFilter, InterviewWhereInput>
+    rating?: RatingItemListRelationFilter
   }, "id">
 
   export type FeedbackOrderByWithAggregationInput = {
     id?: SortOrder
     userId?: SortOrder
     interviewId?: SortOrder
-    score?: SortOrder
-    feedback?: SortOrder
+    totalRating?: SortOrder
+    summary?: SortOrder
+    strengths?: SortOrder
+    weaknesses?: SortOrder
+    improvements?: SortOrder
+    assessment?: SortOrder
+    recommendedForJob?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: FeedbackCountOrderByAggregateInput
@@ -5526,10 +6874,72 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"Feedback"> | string
     userId?: StringWithAggregatesFilter<"Feedback"> | string
     interviewId?: StringWithAggregatesFilter<"Feedback"> | string
-    score?: IntWithAggregatesFilter<"Feedback"> | number
-    feedback?: StringWithAggregatesFilter<"Feedback"> | string
+    totalRating?: FloatWithAggregatesFilter<"Feedback"> | number
+    summary?: StringWithAggregatesFilter<"Feedback"> | string
+    strengths?: StringWithAggregatesFilter<"Feedback"> | string
+    weaknesses?: StringWithAggregatesFilter<"Feedback"> | string
+    improvements?: StringWithAggregatesFilter<"Feedback"> | string
+    assessment?: StringWithAggregatesFilter<"Feedback"> | string
+    recommendedForJob?: BoolWithAggregatesFilter<"Feedback"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"Feedback"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Feedback"> | Date | string
+  }
+
+  export type RatingItemWhereInput = {
+    AND?: RatingItemWhereInput | RatingItemWhereInput[]
+    OR?: RatingItemWhereInput[]
+    NOT?: RatingItemWhereInput | RatingItemWhereInput[]
+    id?: StringFilter<"RatingItem"> | string
+    name?: StringFilter<"RatingItem"> | string
+    score?: FloatFilter<"RatingItem"> | number
+    comment?: StringFilter<"RatingItem"> | string
+    feedbackId?: StringFilter<"RatingItem"> | string
+    feedback?: XOR<FeedbackScalarRelationFilter, FeedbackWhereInput>
+  }
+
+  export type RatingItemOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    score?: SortOrder
+    comment?: SortOrder
+    feedbackId?: SortOrder
+    feedback?: FeedbackOrderByWithRelationInput
+  }
+
+  export type RatingItemWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: RatingItemWhereInput | RatingItemWhereInput[]
+    OR?: RatingItemWhereInput[]
+    NOT?: RatingItemWhereInput | RatingItemWhereInput[]
+    name?: StringFilter<"RatingItem"> | string
+    score?: FloatFilter<"RatingItem"> | number
+    comment?: StringFilter<"RatingItem"> | string
+    feedbackId?: StringFilter<"RatingItem"> | string
+    feedback?: XOR<FeedbackScalarRelationFilter, FeedbackWhereInput>
+  }, "id">
+
+  export type RatingItemOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    score?: SortOrder
+    comment?: SortOrder
+    feedbackId?: SortOrder
+    _count?: RatingItemCountOrderByAggregateInput
+    _avg?: RatingItemAvgOrderByAggregateInput
+    _max?: RatingItemMaxOrderByAggregateInput
+    _min?: RatingItemMinOrderByAggregateInput
+    _sum?: RatingItemSumOrderByAggregateInput
+  }
+
+  export type RatingItemScalarWhereWithAggregatesInput = {
+    AND?: RatingItemScalarWhereWithAggregatesInput | RatingItemScalarWhereWithAggregatesInput[]
+    OR?: RatingItemScalarWhereWithAggregatesInput[]
+    NOT?: RatingItemScalarWhereWithAggregatesInput | RatingItemScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"RatingItem"> | string
+    name?: StringWithAggregatesFilter<"RatingItem"> | string
+    score?: FloatWithAggregatesFilter<"RatingItem"> | number
+    comment?: StringWithAggregatesFilter<"RatingItem"> | string
+    feedbackId?: StringWithAggregatesFilter<"RatingItem"> | string
   }
 
   export type UserCreateInput = {
@@ -5542,7 +6952,7 @@ export namespace Prisma {
     companyName?: string | null
     position?: string | null
     mobile?: string | null
-    expreience?: number
+    experience?: number
     experienceIn?: $Enums.ExperienceIn | null
     bio?: string | null
     linkedIn?: string | null
@@ -5573,7 +6983,7 @@ export namespace Prisma {
     companyName?: string | null
     position?: string | null
     mobile?: string | null
-    expreience?: number
+    experience?: number
     experienceIn?: $Enums.ExperienceIn | null
     bio?: string | null
     linkedIn?: string | null
@@ -5604,7 +7014,7 @@ export namespace Prisma {
     companyName?: NullableStringFieldUpdateOperationsInput | string | null
     position?: NullableStringFieldUpdateOperationsInput | string | null
     mobile?: NullableStringFieldUpdateOperationsInput | string | null
-    expreience?: IntFieldUpdateOperationsInput | number
+    experience?: IntFieldUpdateOperationsInput | number
     experienceIn?: NullableEnumExperienceInFieldUpdateOperationsInput | $Enums.ExperienceIn | null
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     linkedIn?: NullableStringFieldUpdateOperationsInput | string | null
@@ -5635,7 +7045,7 @@ export namespace Prisma {
     companyName?: NullableStringFieldUpdateOperationsInput | string | null
     position?: NullableStringFieldUpdateOperationsInput | string | null
     mobile?: NullableStringFieldUpdateOperationsInput | string | null
-    expreience?: IntFieldUpdateOperationsInput | number
+    experience?: IntFieldUpdateOperationsInput | number
     experienceIn?: NullableEnumExperienceInFieldUpdateOperationsInput | $Enums.ExperienceIn | null
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     linkedIn?: NullableStringFieldUpdateOperationsInput | string | null
@@ -5666,7 +7076,7 @@ export namespace Prisma {
     companyName?: string | null
     position?: string | null
     mobile?: string | null
-    expreience?: number
+    experience?: number
     experienceIn?: $Enums.ExperienceIn | null
     bio?: string | null
     linkedIn?: string | null
@@ -5695,7 +7105,7 @@ export namespace Prisma {
     companyName?: NullableStringFieldUpdateOperationsInput | string | null
     position?: NullableStringFieldUpdateOperationsInput | string | null
     mobile?: NullableStringFieldUpdateOperationsInput | string | null
-    expreience?: IntFieldUpdateOperationsInput | number
+    experience?: IntFieldUpdateOperationsInput | number
     experienceIn?: NullableEnumExperienceInFieldUpdateOperationsInput | $Enums.ExperienceIn | null
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     linkedIn?: NullableStringFieldUpdateOperationsInput | string | null
@@ -5724,7 +7134,7 @@ export namespace Prisma {
     companyName?: NullableStringFieldUpdateOperationsInput | string | null
     position?: NullableStringFieldUpdateOperationsInput | string | null
     mobile?: NullableStringFieldUpdateOperationsInput | string | null
-    expreience?: IntFieldUpdateOperationsInput | number
+    experience?: IntFieldUpdateOperationsInput | number
     experienceIn?: NullableEnumExperienceInFieldUpdateOperationsInput | $Enums.ExperienceIn | null
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     linkedIn?: NullableStringFieldUpdateOperationsInput | string | null
@@ -5860,58 +7270,92 @@ export namespace Prisma {
 
   export type FeedbackCreateInput = {
     id?: string
-    score: number
-    feedback: string
+    totalRating: number
+    summary: string
+    strengths: string
+    weaknesses: string
+    improvements: string
+    assessment: string
+    recommendedForJob: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutFeedbacksInput
     interview: InterviewCreateNestedOneWithoutFeedbacksInput
+    rating?: RatingItemCreateNestedManyWithoutFeedbackInput
   }
 
   export type FeedbackUncheckedCreateInput = {
     id?: string
     userId: string
     interviewId: string
-    score: number
-    feedback: string
+    totalRating: number
+    summary: string
+    strengths: string
+    weaknesses: string
+    improvements: string
+    assessment: string
+    recommendedForJob: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    rating?: RatingItemUncheckedCreateNestedManyWithoutFeedbackInput
   }
 
   export type FeedbackUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    score?: IntFieldUpdateOperationsInput | number
-    feedback?: StringFieldUpdateOperationsInput | string
+    totalRating?: FloatFieldUpdateOperationsInput | number
+    summary?: StringFieldUpdateOperationsInput | string
+    strengths?: StringFieldUpdateOperationsInput | string
+    weaknesses?: StringFieldUpdateOperationsInput | string
+    improvements?: StringFieldUpdateOperationsInput | string
+    assessment?: StringFieldUpdateOperationsInput | string
+    recommendedForJob?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutFeedbacksNestedInput
     interview?: InterviewUpdateOneRequiredWithoutFeedbacksNestedInput
+    rating?: RatingItemUpdateManyWithoutFeedbackNestedInput
   }
 
   export type FeedbackUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     interviewId?: StringFieldUpdateOperationsInput | string
-    score?: IntFieldUpdateOperationsInput | number
-    feedback?: StringFieldUpdateOperationsInput | string
+    totalRating?: FloatFieldUpdateOperationsInput | number
+    summary?: StringFieldUpdateOperationsInput | string
+    strengths?: StringFieldUpdateOperationsInput | string
+    weaknesses?: StringFieldUpdateOperationsInput | string
+    improvements?: StringFieldUpdateOperationsInput | string
+    assessment?: StringFieldUpdateOperationsInput | string
+    recommendedForJob?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    rating?: RatingItemUncheckedUpdateManyWithoutFeedbackNestedInput
   }
 
   export type FeedbackCreateManyInput = {
     id?: string
     userId: string
     interviewId: string
-    score: number
-    feedback: string
+    totalRating: number
+    summary: string
+    strengths: string
+    weaknesses: string
+    improvements: string
+    assessment: string
+    recommendedForJob: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
   export type FeedbackUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    score?: IntFieldUpdateOperationsInput | number
-    feedback?: StringFieldUpdateOperationsInput | string
+    totalRating?: FloatFieldUpdateOperationsInput | number
+    summary?: StringFieldUpdateOperationsInput | string
+    strengths?: StringFieldUpdateOperationsInput | string
+    weaknesses?: StringFieldUpdateOperationsInput | string
+    improvements?: StringFieldUpdateOperationsInput | string
+    assessment?: StringFieldUpdateOperationsInput | string
+    recommendedForJob?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -5920,10 +7364,70 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     interviewId?: StringFieldUpdateOperationsInput | string
-    score?: IntFieldUpdateOperationsInput | number
-    feedback?: StringFieldUpdateOperationsInput | string
+    totalRating?: FloatFieldUpdateOperationsInput | number
+    summary?: StringFieldUpdateOperationsInput | string
+    strengths?: StringFieldUpdateOperationsInput | string
+    weaknesses?: StringFieldUpdateOperationsInput | string
+    improvements?: StringFieldUpdateOperationsInput | string
+    assessment?: StringFieldUpdateOperationsInput | string
+    recommendedForJob?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RatingItemCreateInput = {
+    id?: string
+    name: string
+    score: number
+    comment: string
+    feedback: FeedbackCreateNestedOneWithoutRatingInput
+  }
+
+  export type RatingItemUncheckedCreateInput = {
+    id?: string
+    name: string
+    score: number
+    comment: string
+    feedbackId: string
+  }
+
+  export type RatingItemUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    score?: FloatFieldUpdateOperationsInput | number
+    comment?: StringFieldUpdateOperationsInput | string
+    feedback?: FeedbackUpdateOneRequiredWithoutRatingNestedInput
+  }
+
+  export type RatingItemUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    score?: FloatFieldUpdateOperationsInput | number
+    comment?: StringFieldUpdateOperationsInput | string
+    feedbackId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type RatingItemCreateManyInput = {
+    id?: string
+    name: string
+    score: number
+    comment: string
+    feedbackId: string
+  }
+
+  export type RatingItemUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    score?: FloatFieldUpdateOperationsInput | number
+    comment?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type RatingItemUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    score?: FloatFieldUpdateOperationsInput | number
+    comment?: StringFieldUpdateOperationsInput | string
+    feedbackId?: StringFieldUpdateOperationsInput | string
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -6043,7 +7547,7 @@ export namespace Prisma {
     companyName?: SortOrder
     position?: SortOrder
     mobile?: SortOrder
-    expreience?: SortOrder
+    experience?: SortOrder
     experienceIn?: SortOrder
     bio?: SortOrder
     linkedIn?: SortOrder
@@ -6063,7 +7567,7 @@ export namespace Prisma {
   }
 
   export type UserAvgOrderByAggregateInput = {
-    expreience?: SortOrder
+    experience?: SortOrder
     coins?: SortOrder
   }
 
@@ -6077,7 +7581,7 @@ export namespace Prisma {
     companyName?: SortOrder
     position?: SortOrder
     mobile?: SortOrder
-    expreience?: SortOrder
+    experience?: SortOrder
     experienceIn?: SortOrder
     bio?: SortOrder
     linkedIn?: SortOrder
@@ -6106,7 +7610,7 @@ export namespace Prisma {
     companyName?: SortOrder
     position?: SortOrder
     mobile?: SortOrder
-    expreience?: SortOrder
+    experience?: SortOrder
     experienceIn?: SortOrder
     bio?: SortOrder
     linkedIn?: SortOrder
@@ -6126,7 +7630,7 @@ export namespace Prisma {
   }
 
   export type UserSumOrderByAggregateInput = {
-    expreience?: SortOrder
+    experience?: SortOrder
     coins?: SortOrder
   }
 
@@ -6399,31 +7903,62 @@ export namespace Prisma {
     _max?: NestedJsonFilter<$PrismaModel>
   }
 
+  export type FloatFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatFilter<$PrismaModel> | number
+  }
+
   export type InterviewScalarRelationFilter = {
     is?: InterviewWhereInput
     isNot?: InterviewWhereInput
+  }
+
+  export type RatingItemListRelationFilter = {
+    every?: RatingItemWhereInput
+    some?: RatingItemWhereInput
+    none?: RatingItemWhereInput
+  }
+
+  export type RatingItemOrderByRelationAggregateInput = {
+    _count?: SortOrder
   }
 
   export type FeedbackCountOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
     interviewId?: SortOrder
-    score?: SortOrder
-    feedback?: SortOrder
+    totalRating?: SortOrder
+    summary?: SortOrder
+    strengths?: SortOrder
+    weaknesses?: SortOrder
+    improvements?: SortOrder
+    assessment?: SortOrder
+    recommendedForJob?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
   export type FeedbackAvgOrderByAggregateInput = {
-    score?: SortOrder
+    totalRating?: SortOrder
   }
 
   export type FeedbackMaxOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
     interviewId?: SortOrder
-    score?: SortOrder
-    feedback?: SortOrder
+    totalRating?: SortOrder
+    summary?: SortOrder
+    strengths?: SortOrder
+    weaknesses?: SortOrder
+    improvements?: SortOrder
+    assessment?: SortOrder
+    recommendedForJob?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -6432,13 +7967,71 @@ export namespace Prisma {
     id?: SortOrder
     userId?: SortOrder
     interviewId?: SortOrder
-    score?: SortOrder
-    feedback?: SortOrder
+    totalRating?: SortOrder
+    summary?: SortOrder
+    strengths?: SortOrder
+    weaknesses?: SortOrder
+    improvements?: SortOrder
+    assessment?: SortOrder
+    recommendedForJob?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
   export type FeedbackSumOrderByAggregateInput = {
+    totalRating?: SortOrder
+  }
+
+  export type FloatWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedFloatFilter<$PrismaModel>
+    _min?: NestedFloatFilter<$PrismaModel>
+    _max?: NestedFloatFilter<$PrismaModel>
+  }
+
+  export type FeedbackScalarRelationFilter = {
+    is?: FeedbackWhereInput
+    isNot?: FeedbackWhereInput
+  }
+
+  export type RatingItemCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    score?: SortOrder
+    comment?: SortOrder
+    feedbackId?: SortOrder
+  }
+
+  export type RatingItemAvgOrderByAggregateInput = {
+    score?: SortOrder
+  }
+
+  export type RatingItemMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    score?: SortOrder
+    comment?: SortOrder
+    feedbackId?: SortOrder
+  }
+
+  export type RatingItemMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    score?: SortOrder
+    comment?: SortOrder
+    feedbackId?: SortOrder
+  }
+
+  export type RatingItemSumOrderByAggregateInput = {
     score?: SortOrder
   }
 
@@ -6642,6 +8235,28 @@ export namespace Prisma {
     connect?: InterviewWhereUniqueInput
   }
 
+  export type RatingItemCreateNestedManyWithoutFeedbackInput = {
+    create?: XOR<RatingItemCreateWithoutFeedbackInput, RatingItemUncheckedCreateWithoutFeedbackInput> | RatingItemCreateWithoutFeedbackInput[] | RatingItemUncheckedCreateWithoutFeedbackInput[]
+    connectOrCreate?: RatingItemCreateOrConnectWithoutFeedbackInput | RatingItemCreateOrConnectWithoutFeedbackInput[]
+    createMany?: RatingItemCreateManyFeedbackInputEnvelope
+    connect?: RatingItemWhereUniqueInput | RatingItemWhereUniqueInput[]
+  }
+
+  export type RatingItemUncheckedCreateNestedManyWithoutFeedbackInput = {
+    create?: XOR<RatingItemCreateWithoutFeedbackInput, RatingItemUncheckedCreateWithoutFeedbackInput> | RatingItemCreateWithoutFeedbackInput[] | RatingItemUncheckedCreateWithoutFeedbackInput[]
+    connectOrCreate?: RatingItemCreateOrConnectWithoutFeedbackInput | RatingItemCreateOrConnectWithoutFeedbackInput[]
+    createMany?: RatingItemCreateManyFeedbackInputEnvelope
+    connect?: RatingItemWhereUniqueInput | RatingItemWhereUniqueInput[]
+  }
+
+  export type FloatFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
   export type UserUpdateOneRequiredWithoutFeedbacksNestedInput = {
     create?: XOR<UserCreateWithoutFeedbacksInput, UserUncheckedCreateWithoutFeedbacksInput>
     connectOrCreate?: UserCreateOrConnectWithoutFeedbacksInput
@@ -6656,6 +8271,48 @@ export namespace Prisma {
     upsert?: InterviewUpsertWithoutFeedbacksInput
     connect?: InterviewWhereUniqueInput
     update?: XOR<XOR<InterviewUpdateToOneWithWhereWithoutFeedbacksInput, InterviewUpdateWithoutFeedbacksInput>, InterviewUncheckedUpdateWithoutFeedbacksInput>
+  }
+
+  export type RatingItemUpdateManyWithoutFeedbackNestedInput = {
+    create?: XOR<RatingItemCreateWithoutFeedbackInput, RatingItemUncheckedCreateWithoutFeedbackInput> | RatingItemCreateWithoutFeedbackInput[] | RatingItemUncheckedCreateWithoutFeedbackInput[]
+    connectOrCreate?: RatingItemCreateOrConnectWithoutFeedbackInput | RatingItemCreateOrConnectWithoutFeedbackInput[]
+    upsert?: RatingItemUpsertWithWhereUniqueWithoutFeedbackInput | RatingItemUpsertWithWhereUniqueWithoutFeedbackInput[]
+    createMany?: RatingItemCreateManyFeedbackInputEnvelope
+    set?: RatingItemWhereUniqueInput | RatingItemWhereUniqueInput[]
+    disconnect?: RatingItemWhereUniqueInput | RatingItemWhereUniqueInput[]
+    delete?: RatingItemWhereUniqueInput | RatingItemWhereUniqueInput[]
+    connect?: RatingItemWhereUniqueInput | RatingItemWhereUniqueInput[]
+    update?: RatingItemUpdateWithWhereUniqueWithoutFeedbackInput | RatingItemUpdateWithWhereUniqueWithoutFeedbackInput[]
+    updateMany?: RatingItemUpdateManyWithWhereWithoutFeedbackInput | RatingItemUpdateManyWithWhereWithoutFeedbackInput[]
+    deleteMany?: RatingItemScalarWhereInput | RatingItemScalarWhereInput[]
+  }
+
+  export type RatingItemUncheckedUpdateManyWithoutFeedbackNestedInput = {
+    create?: XOR<RatingItemCreateWithoutFeedbackInput, RatingItemUncheckedCreateWithoutFeedbackInput> | RatingItemCreateWithoutFeedbackInput[] | RatingItemUncheckedCreateWithoutFeedbackInput[]
+    connectOrCreate?: RatingItemCreateOrConnectWithoutFeedbackInput | RatingItemCreateOrConnectWithoutFeedbackInput[]
+    upsert?: RatingItemUpsertWithWhereUniqueWithoutFeedbackInput | RatingItemUpsertWithWhereUniqueWithoutFeedbackInput[]
+    createMany?: RatingItemCreateManyFeedbackInputEnvelope
+    set?: RatingItemWhereUniqueInput | RatingItemWhereUniqueInput[]
+    disconnect?: RatingItemWhereUniqueInput | RatingItemWhereUniqueInput[]
+    delete?: RatingItemWhereUniqueInput | RatingItemWhereUniqueInput[]
+    connect?: RatingItemWhereUniqueInput | RatingItemWhereUniqueInput[]
+    update?: RatingItemUpdateWithWhereUniqueWithoutFeedbackInput | RatingItemUpdateWithWhereUniqueWithoutFeedbackInput[]
+    updateMany?: RatingItemUpdateManyWithWhereWithoutFeedbackInput | RatingItemUpdateManyWithWhereWithoutFeedbackInput[]
+    deleteMany?: RatingItemScalarWhereInput | RatingItemScalarWhereInput[]
+  }
+
+  export type FeedbackCreateNestedOneWithoutRatingInput = {
+    create?: XOR<FeedbackCreateWithoutRatingInput, FeedbackUncheckedCreateWithoutRatingInput>
+    connectOrCreate?: FeedbackCreateOrConnectWithoutRatingInput
+    connect?: FeedbackWhereUniqueInput
+  }
+
+  export type FeedbackUpdateOneRequiredWithoutRatingNestedInput = {
+    create?: XOR<FeedbackCreateWithoutRatingInput, FeedbackUncheckedCreateWithoutRatingInput>
+    connectOrCreate?: FeedbackCreateOrConnectWithoutRatingInput
+    upsert?: FeedbackUpsertWithoutRatingInput
+    connect?: FeedbackWhereUniqueInput
+    update?: XOR<XOR<FeedbackUpdateToOneWithWhereWithoutRatingInput, FeedbackUpdateWithoutRatingInput>, FeedbackUncheckedUpdateWithoutRatingInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -6940,6 +8597,22 @@ export namespace Prisma {
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
 
+  export type NestedFloatWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedFloatFilter<$PrismaModel>
+    _min?: NestedFloatFilter<$PrismaModel>
+    _max?: NestedFloatFilter<$PrismaModel>
+  }
+
   export type InterviewCreateWithoutUserInput = {
     id?: string
     type?: $Enums.InterviewType
@@ -6984,20 +8657,32 @@ export namespace Prisma {
 
   export type FeedbackCreateWithoutUserInput = {
     id?: string
-    score: number
-    feedback: string
+    totalRating: number
+    summary: string
+    strengths: string
+    weaknesses: string
+    improvements: string
+    assessment: string
+    recommendedForJob: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     interview: InterviewCreateNestedOneWithoutFeedbacksInput
+    rating?: RatingItemCreateNestedManyWithoutFeedbackInput
   }
 
   export type FeedbackUncheckedCreateWithoutUserInput = {
     id?: string
     interviewId: string
-    score: number
-    feedback: string
+    totalRating: number
+    summary: string
+    strengths: string
+    weaknesses: string
+    improvements: string
+    assessment: string
+    recommendedForJob: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    rating?: RatingItemUncheckedCreateNestedManyWithoutFeedbackInput
   }
 
   export type FeedbackCreateOrConnectWithoutUserInput = {
@@ -7068,8 +8753,13 @@ export namespace Prisma {
     id?: StringFilter<"Feedback"> | string
     userId?: StringFilter<"Feedback"> | string
     interviewId?: StringFilter<"Feedback"> | string
-    score?: IntFilter<"Feedback"> | number
-    feedback?: StringFilter<"Feedback"> | string
+    totalRating?: FloatFilter<"Feedback"> | number
+    summary?: StringFilter<"Feedback"> | string
+    strengths?: StringFilter<"Feedback"> | string
+    weaknesses?: StringFilter<"Feedback"> | string
+    improvements?: StringFilter<"Feedback"> | string
+    assessment?: StringFilter<"Feedback"> | string
+    recommendedForJob?: BoolFilter<"Feedback"> | boolean
     createdAt?: DateTimeFilter<"Feedback"> | Date | string
     updatedAt?: DateTimeFilter<"Feedback"> | Date | string
   }
@@ -7084,7 +8774,7 @@ export namespace Prisma {
     companyName?: string | null
     position?: string | null
     mobile?: string | null
-    expreience?: number
+    experience?: number
     experienceIn?: $Enums.ExperienceIn | null
     bio?: string | null
     linkedIn?: string | null
@@ -7114,7 +8804,7 @@ export namespace Prisma {
     companyName?: string | null
     position?: string | null
     mobile?: string | null
-    expreience?: number
+    experience?: number
     experienceIn?: $Enums.ExperienceIn | null
     bio?: string | null
     linkedIn?: string | null
@@ -7141,20 +8831,32 @@ export namespace Prisma {
 
   export type FeedbackCreateWithoutInterviewInput = {
     id?: string
-    score: number
-    feedback: string
+    totalRating: number
+    summary: string
+    strengths: string
+    weaknesses: string
+    improvements: string
+    assessment: string
+    recommendedForJob: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutFeedbacksInput
+    rating?: RatingItemCreateNestedManyWithoutFeedbackInput
   }
 
   export type FeedbackUncheckedCreateWithoutInterviewInput = {
     id?: string
     userId: string
-    score: number
-    feedback: string
+    totalRating: number
+    summary: string
+    strengths: string
+    weaknesses: string
+    improvements: string
+    assessment: string
+    recommendedForJob: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    rating?: RatingItemUncheckedCreateNestedManyWithoutFeedbackInput
   }
 
   export type FeedbackCreateOrConnectWithoutInterviewInput = {
@@ -7188,7 +8890,7 @@ export namespace Prisma {
     companyName?: NullableStringFieldUpdateOperationsInput | string | null
     position?: NullableStringFieldUpdateOperationsInput | string | null
     mobile?: NullableStringFieldUpdateOperationsInput | string | null
-    expreience?: IntFieldUpdateOperationsInput | number
+    experience?: IntFieldUpdateOperationsInput | number
     experienceIn?: NullableEnumExperienceInFieldUpdateOperationsInput | $Enums.ExperienceIn | null
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     linkedIn?: NullableStringFieldUpdateOperationsInput | string | null
@@ -7218,7 +8920,7 @@ export namespace Prisma {
     companyName?: NullableStringFieldUpdateOperationsInput | string | null
     position?: NullableStringFieldUpdateOperationsInput | string | null
     mobile?: NullableStringFieldUpdateOperationsInput | string | null
-    expreience?: IntFieldUpdateOperationsInput | number
+    experience?: IntFieldUpdateOperationsInput | number
     experienceIn?: NullableEnumExperienceInFieldUpdateOperationsInput | $Enums.ExperienceIn | null
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     linkedIn?: NullableStringFieldUpdateOperationsInput | string | null
@@ -7264,7 +8966,7 @@ export namespace Prisma {
     companyName?: string | null
     position?: string | null
     mobile?: string | null
-    expreience?: number
+    experience?: number
     experienceIn?: $Enums.ExperienceIn | null
     bio?: string | null
     linkedIn?: string | null
@@ -7294,7 +8996,7 @@ export namespace Prisma {
     companyName?: string | null
     position?: string | null
     mobile?: string | null
-    expreience?: number
+    experience?: number
     experienceIn?: $Enums.ExperienceIn | null
     bio?: string | null
     linkedIn?: string | null
@@ -7356,6 +9058,30 @@ export namespace Prisma {
     create: XOR<InterviewCreateWithoutFeedbacksInput, InterviewUncheckedCreateWithoutFeedbacksInput>
   }
 
+  export type RatingItemCreateWithoutFeedbackInput = {
+    id?: string
+    name: string
+    score: number
+    comment: string
+  }
+
+  export type RatingItemUncheckedCreateWithoutFeedbackInput = {
+    id?: string
+    name: string
+    score: number
+    comment: string
+  }
+
+  export type RatingItemCreateOrConnectWithoutFeedbackInput = {
+    where: RatingItemWhereUniqueInput
+    create: XOR<RatingItemCreateWithoutFeedbackInput, RatingItemUncheckedCreateWithoutFeedbackInput>
+  }
+
+  export type RatingItemCreateManyFeedbackInputEnvelope = {
+    data: RatingItemCreateManyFeedbackInput | RatingItemCreateManyFeedbackInput[]
+    skipDuplicates?: boolean
+  }
+
   export type UserUpsertWithoutFeedbacksInput = {
     update: XOR<UserUpdateWithoutFeedbacksInput, UserUncheckedUpdateWithoutFeedbacksInput>
     create: XOR<UserCreateWithoutFeedbacksInput, UserUncheckedCreateWithoutFeedbacksInput>
@@ -7377,7 +9103,7 @@ export namespace Prisma {
     companyName?: NullableStringFieldUpdateOperationsInput | string | null
     position?: NullableStringFieldUpdateOperationsInput | string | null
     mobile?: NullableStringFieldUpdateOperationsInput | string | null
-    expreience?: IntFieldUpdateOperationsInput | number
+    experience?: IntFieldUpdateOperationsInput | number
     experienceIn?: NullableEnumExperienceInFieldUpdateOperationsInput | $Enums.ExperienceIn | null
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     linkedIn?: NullableStringFieldUpdateOperationsInput | string | null
@@ -7407,7 +9133,7 @@ export namespace Prisma {
     companyName?: NullableStringFieldUpdateOperationsInput | string | null
     position?: NullableStringFieldUpdateOperationsInput | string | null
     mobile?: NullableStringFieldUpdateOperationsInput | string | null
-    expreience?: IntFieldUpdateOperationsInput | number
+    experience?: IntFieldUpdateOperationsInput | number
     experienceIn?: NullableEnumExperienceInFieldUpdateOperationsInput | $Enums.ExperienceIn | null
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     linkedIn?: NullableStringFieldUpdateOperationsInput | string | null
@@ -7470,6 +9196,109 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type RatingItemUpsertWithWhereUniqueWithoutFeedbackInput = {
+    where: RatingItemWhereUniqueInput
+    update: XOR<RatingItemUpdateWithoutFeedbackInput, RatingItemUncheckedUpdateWithoutFeedbackInput>
+    create: XOR<RatingItemCreateWithoutFeedbackInput, RatingItemUncheckedCreateWithoutFeedbackInput>
+  }
+
+  export type RatingItemUpdateWithWhereUniqueWithoutFeedbackInput = {
+    where: RatingItemWhereUniqueInput
+    data: XOR<RatingItemUpdateWithoutFeedbackInput, RatingItemUncheckedUpdateWithoutFeedbackInput>
+  }
+
+  export type RatingItemUpdateManyWithWhereWithoutFeedbackInput = {
+    where: RatingItemScalarWhereInput
+    data: XOR<RatingItemUpdateManyMutationInput, RatingItemUncheckedUpdateManyWithoutFeedbackInput>
+  }
+
+  export type RatingItemScalarWhereInput = {
+    AND?: RatingItemScalarWhereInput | RatingItemScalarWhereInput[]
+    OR?: RatingItemScalarWhereInput[]
+    NOT?: RatingItemScalarWhereInput | RatingItemScalarWhereInput[]
+    id?: StringFilter<"RatingItem"> | string
+    name?: StringFilter<"RatingItem"> | string
+    score?: FloatFilter<"RatingItem"> | number
+    comment?: StringFilter<"RatingItem"> | string
+    feedbackId?: StringFilter<"RatingItem"> | string
+  }
+
+  export type FeedbackCreateWithoutRatingInput = {
+    id?: string
+    totalRating: number
+    summary: string
+    strengths: string
+    weaknesses: string
+    improvements: string
+    assessment: string
+    recommendedForJob: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutFeedbacksInput
+    interview: InterviewCreateNestedOneWithoutFeedbacksInput
+  }
+
+  export type FeedbackUncheckedCreateWithoutRatingInput = {
+    id?: string
+    userId: string
+    interviewId: string
+    totalRating: number
+    summary: string
+    strengths: string
+    weaknesses: string
+    improvements: string
+    assessment: string
+    recommendedForJob: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type FeedbackCreateOrConnectWithoutRatingInput = {
+    where: FeedbackWhereUniqueInput
+    create: XOR<FeedbackCreateWithoutRatingInput, FeedbackUncheckedCreateWithoutRatingInput>
+  }
+
+  export type FeedbackUpsertWithoutRatingInput = {
+    update: XOR<FeedbackUpdateWithoutRatingInput, FeedbackUncheckedUpdateWithoutRatingInput>
+    create: XOR<FeedbackCreateWithoutRatingInput, FeedbackUncheckedCreateWithoutRatingInput>
+    where?: FeedbackWhereInput
+  }
+
+  export type FeedbackUpdateToOneWithWhereWithoutRatingInput = {
+    where?: FeedbackWhereInput
+    data: XOR<FeedbackUpdateWithoutRatingInput, FeedbackUncheckedUpdateWithoutRatingInput>
+  }
+
+  export type FeedbackUpdateWithoutRatingInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    totalRating?: FloatFieldUpdateOperationsInput | number
+    summary?: StringFieldUpdateOperationsInput | string
+    strengths?: StringFieldUpdateOperationsInput | string
+    weaknesses?: StringFieldUpdateOperationsInput | string
+    improvements?: StringFieldUpdateOperationsInput | string
+    assessment?: StringFieldUpdateOperationsInput | string
+    recommendedForJob?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutFeedbacksNestedInput
+    interview?: InterviewUpdateOneRequiredWithoutFeedbacksNestedInput
+  }
+
+  export type FeedbackUncheckedUpdateWithoutRatingInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    interviewId?: StringFieldUpdateOperationsInput | string
+    totalRating?: FloatFieldUpdateOperationsInput | number
+    summary?: StringFieldUpdateOperationsInput | string
+    strengths?: StringFieldUpdateOperationsInput | string
+    weaknesses?: StringFieldUpdateOperationsInput | string
+    improvements?: StringFieldUpdateOperationsInput | string
+    assessment?: StringFieldUpdateOperationsInput | string
+    recommendedForJob?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type InterviewCreateManyUserInput = {
     id?: string
     type?: $Enums.InterviewType
@@ -7488,8 +9317,13 @@ export namespace Prisma {
   export type FeedbackCreateManyUserInput = {
     id?: string
     interviewId: string
-    score: number
-    feedback: string
+    totalRating: number
+    summary: string
+    strengths: string
+    weaknesses: string
+    improvements: string
+    assessment: string
+    recommendedForJob: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -7543,27 +9377,44 @@ export namespace Prisma {
 
   export type FeedbackUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
-    score?: IntFieldUpdateOperationsInput | number
-    feedback?: StringFieldUpdateOperationsInput | string
+    totalRating?: FloatFieldUpdateOperationsInput | number
+    summary?: StringFieldUpdateOperationsInput | string
+    strengths?: StringFieldUpdateOperationsInput | string
+    weaknesses?: StringFieldUpdateOperationsInput | string
+    improvements?: StringFieldUpdateOperationsInput | string
+    assessment?: StringFieldUpdateOperationsInput | string
+    recommendedForJob?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     interview?: InterviewUpdateOneRequiredWithoutFeedbacksNestedInput
+    rating?: RatingItemUpdateManyWithoutFeedbackNestedInput
   }
 
   export type FeedbackUncheckedUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     interviewId?: StringFieldUpdateOperationsInput | string
-    score?: IntFieldUpdateOperationsInput | number
-    feedback?: StringFieldUpdateOperationsInput | string
+    totalRating?: FloatFieldUpdateOperationsInput | number
+    summary?: StringFieldUpdateOperationsInput | string
+    strengths?: StringFieldUpdateOperationsInput | string
+    weaknesses?: StringFieldUpdateOperationsInput | string
+    improvements?: StringFieldUpdateOperationsInput | string
+    assessment?: StringFieldUpdateOperationsInput | string
+    recommendedForJob?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    rating?: RatingItemUncheckedUpdateManyWithoutFeedbackNestedInput
   }
 
   export type FeedbackUncheckedUpdateManyWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     interviewId?: StringFieldUpdateOperationsInput | string
-    score?: IntFieldUpdateOperationsInput | number
-    feedback?: StringFieldUpdateOperationsInput | string
+    totalRating?: FloatFieldUpdateOperationsInput | number
+    summary?: StringFieldUpdateOperationsInput | string
+    strengths?: StringFieldUpdateOperationsInput | string
+    weaknesses?: StringFieldUpdateOperationsInput | string
+    improvements?: StringFieldUpdateOperationsInput | string
+    assessment?: StringFieldUpdateOperationsInput | string
+    recommendedForJob?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -7571,37 +9422,87 @@ export namespace Prisma {
   export type FeedbackCreateManyInterviewInput = {
     id?: string
     userId: string
-    score: number
-    feedback: string
+    totalRating: number
+    summary: string
+    strengths: string
+    weaknesses: string
+    improvements: string
+    assessment: string
+    recommendedForJob: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
   export type FeedbackUpdateWithoutInterviewInput = {
     id?: StringFieldUpdateOperationsInput | string
-    score?: IntFieldUpdateOperationsInput | number
-    feedback?: StringFieldUpdateOperationsInput | string
+    totalRating?: FloatFieldUpdateOperationsInput | number
+    summary?: StringFieldUpdateOperationsInput | string
+    strengths?: StringFieldUpdateOperationsInput | string
+    weaknesses?: StringFieldUpdateOperationsInput | string
+    improvements?: StringFieldUpdateOperationsInput | string
+    assessment?: StringFieldUpdateOperationsInput | string
+    recommendedForJob?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutFeedbacksNestedInput
+    rating?: RatingItemUpdateManyWithoutFeedbackNestedInput
   }
 
   export type FeedbackUncheckedUpdateWithoutInterviewInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
-    score?: IntFieldUpdateOperationsInput | number
-    feedback?: StringFieldUpdateOperationsInput | string
+    totalRating?: FloatFieldUpdateOperationsInput | number
+    summary?: StringFieldUpdateOperationsInput | string
+    strengths?: StringFieldUpdateOperationsInput | string
+    weaknesses?: StringFieldUpdateOperationsInput | string
+    improvements?: StringFieldUpdateOperationsInput | string
+    assessment?: StringFieldUpdateOperationsInput | string
+    recommendedForJob?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    rating?: RatingItemUncheckedUpdateManyWithoutFeedbackNestedInput
   }
 
   export type FeedbackUncheckedUpdateManyWithoutInterviewInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
-    score?: IntFieldUpdateOperationsInput | number
-    feedback?: StringFieldUpdateOperationsInput | string
+    totalRating?: FloatFieldUpdateOperationsInput | number
+    summary?: StringFieldUpdateOperationsInput | string
+    strengths?: StringFieldUpdateOperationsInput | string
+    weaknesses?: StringFieldUpdateOperationsInput | string
+    improvements?: StringFieldUpdateOperationsInput | string
+    assessment?: StringFieldUpdateOperationsInput | string
+    recommendedForJob?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RatingItemCreateManyFeedbackInput = {
+    id?: string
+    name: string
+    score: number
+    comment: string
+  }
+
+  export type RatingItemUpdateWithoutFeedbackInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    score?: FloatFieldUpdateOperationsInput | number
+    comment?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type RatingItemUncheckedUpdateWithoutFeedbackInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    score?: FloatFieldUpdateOperationsInput | number
+    comment?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type RatingItemUncheckedUpdateManyWithoutFeedbackInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    score?: FloatFieldUpdateOperationsInput | number
+    comment?: StringFieldUpdateOperationsInput | string
   }
 
 
