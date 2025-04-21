@@ -249,11 +249,12 @@ const config = {
     "db"
   ],
   "activeProvider": "postgresql",
+  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
         "fromEnvVar": "DATABASE_URL",
-        "value": "postgresql://mock-byte_owner:npg_qPF8t7OfroNi@ep-royal-darkness-a5vxvf95-pooler.us-east-2.aws.neon.tech/mock-byte?sslmode=require"
+        "value": null
       }
     }
   },
