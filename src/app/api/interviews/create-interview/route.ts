@@ -32,6 +32,10 @@ export async function POST(req: NextRequest) {
       assessmentType,
     } = body;
 
+    // validate till 20 days
+    const validateTill = new Date();
+    validateTill.setDate(validateTill.getDate() + 20);
+
     const interview = await prisma.interview.create({
       data: {
         createdById: user.id as string,
@@ -47,6 +51,9 @@ export async function POST(req: NextRequest) {
         companyLogo,
         assessmentType,
         noOfQuestions: questions.length,
+        status: "CREATED",
+        validateTill,
+        category: "JOB",
         questions: {
           createMany: {
             data: questions,

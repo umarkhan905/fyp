@@ -166,6 +166,7 @@ exports.Prisma.InterviewScalarFieldEnum = {
   noOfQuestions: 'noOfQuestions',
   status: 'status',
   validateTill: 'validateTill',
+  category: 'category',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -276,6 +277,11 @@ exports.InterviewStatus = exports.$Enums.InterviewStatus = {
   PENDING: 'PENDING',
   CREATED: 'CREATED',
   EXPIRED: 'EXPIRED'
+};
+
+exports.InterviewCategory = exports.$Enums.InterviewCategory = {
+  JOB: 'JOB',
+  MOCK: 'MOCK'
 };
 
 exports.Status = exports.$Enums.Status = {

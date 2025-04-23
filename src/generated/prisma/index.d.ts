@@ -3097,6 +3097,7 @@ export namespace Prisma {
     noOfQuestions: number | null
     status: $Enums.InterviewStatus | null
     validateTill: Date | null
+    category: $Enums.InterviewCategory | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -3121,6 +3122,7 @@ export namespace Prisma {
     noOfQuestions: number | null
     status: $Enums.InterviewStatus | null
     validateTill: Date | null
+    category: $Enums.InterviewCategory | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -3145,6 +3147,7 @@ export namespace Prisma {
     noOfQuestions: number
     status: number
     validateTill: number
+    category: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -3183,6 +3186,7 @@ export namespace Prisma {
     noOfQuestions?: true
     status?: true
     validateTill?: true
+    category?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -3207,6 +3211,7 @@ export namespace Prisma {
     noOfQuestions?: true
     status?: true
     validateTill?: true
+    category?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -3231,6 +3236,7 @@ export namespace Prisma {
     noOfQuestions?: true
     status?: true
     validateTill?: true
+    category?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -3342,6 +3348,7 @@ export namespace Prisma {
     noOfQuestions: number
     status: $Enums.InterviewStatus
     validateTill: Date | null
+    category: $Enums.InterviewCategory
     createdAt: Date
     updatedAt: Date
     _count: InterviewCountAggregateOutputType | null
@@ -3385,6 +3392,7 @@ export namespace Prisma {
     noOfQuestions?: boolean
     status?: boolean
     validateTill?: boolean
+    category?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     createdBy?: boolean | UserDefaultArgs<ExtArgs>
@@ -3414,6 +3422,7 @@ export namespace Prisma {
     noOfQuestions?: boolean
     status?: boolean
     validateTill?: boolean
+    category?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     createdBy?: boolean | UserDefaultArgs<ExtArgs>
@@ -3439,6 +3448,7 @@ export namespace Prisma {
     noOfQuestions?: boolean
     status?: boolean
     validateTill?: boolean
+    category?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     createdBy?: boolean | UserDefaultArgs<ExtArgs>
@@ -3464,11 +3474,12 @@ export namespace Prisma {
     noOfQuestions?: boolean
     status?: boolean
     validateTill?: boolean
+    category?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type InterviewOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "createdById" | "createdByRole" | "type" | "duration" | "difficulty" | "experience" | "experienceIn" | "role" | "description" | "keywords" | "topic" | "companyName" | "companyLogo" | "group" | "assessmentType" | "noOfQuestions" | "status" | "validateTill" | "createdAt" | "updatedAt", ExtArgs["result"]["interview"]>
+  export type InterviewOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "createdById" | "createdByRole" | "type" | "duration" | "difficulty" | "experience" | "experienceIn" | "role" | "description" | "keywords" | "topic" | "companyName" | "companyLogo" | "group" | "assessmentType" | "noOfQuestions" | "status" | "validateTill" | "category" | "createdAt" | "updatedAt", ExtArgs["result"]["interview"]>
   export type InterviewInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     createdBy?: boolean | UserDefaultArgs<ExtArgs>
     questions?: boolean | Interview$questionsArgs<ExtArgs>
@@ -3511,6 +3522,7 @@ export namespace Prisma {
       noOfQuestions: number
       status: $Enums.InterviewStatus
       validateTill: Date | null
+      category: $Enums.InterviewCategory
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["interview"]>
@@ -3959,6 +3971,7 @@ export namespace Prisma {
     readonly noOfQuestions: FieldRef<"Interview", 'Int'>
     readonly status: FieldRef<"Interview", 'InterviewStatus'>
     readonly validateTill: FieldRef<"Interview", 'DateTime'>
+    readonly category: FieldRef<"Interview", 'InterviewCategory'>
     readonly createdAt: FieldRef<"Interview", 'DateTime'>
     readonly updatedAt: FieldRef<"Interview", 'DateTime'>
   }
@@ -9111,6 +9124,7 @@ export namespace Prisma {
     noOfQuestions: 'noOfQuestions',
     status: 'status',
     validateTill: 'validateTill',
+    category: 'category',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -9368,6 +9382,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'InterviewCategory'
+   */
+  export type EnumInterviewCategoryFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'InterviewCategory'>
+    
+
+
+  /**
+   * Reference to a field of type 'InterviewCategory[]'
+   */
+  export type ListEnumInterviewCategoryFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'InterviewCategory[]'>
+    
+
+
+  /**
    * Reference to a field of type 'Status'
    */
   export type EnumStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Status'>
@@ -9589,6 +9617,7 @@ export namespace Prisma {
     noOfQuestions?: IntFilter<"Interview"> | number
     status?: EnumInterviewStatusFilter<"Interview"> | $Enums.InterviewStatus
     validateTill?: DateTimeNullableFilter<"Interview"> | Date | string | null
+    category?: EnumInterviewCategoryFilter<"Interview"> | $Enums.InterviewCategory
     createdAt?: DateTimeFilter<"Interview"> | Date | string
     updatedAt?: DateTimeFilter<"Interview"> | Date | string
     createdBy?: XOR<UserScalarRelationFilter, UserWhereInput>
@@ -9617,6 +9646,7 @@ export namespace Prisma {
     noOfQuestions?: SortOrder
     status?: SortOrder
     validateTill?: SortOrderInput | SortOrder
+    category?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     createdBy?: UserOrderByWithRelationInput
@@ -9648,6 +9678,7 @@ export namespace Prisma {
     noOfQuestions?: IntFilter<"Interview"> | number
     status?: EnumInterviewStatusFilter<"Interview"> | $Enums.InterviewStatus
     validateTill?: DateTimeNullableFilter<"Interview"> | Date | string | null
+    category?: EnumInterviewCategoryFilter<"Interview"> | $Enums.InterviewCategory
     createdAt?: DateTimeFilter<"Interview"> | Date | string
     updatedAt?: DateTimeFilter<"Interview"> | Date | string
     createdBy?: XOR<UserScalarRelationFilter, UserWhereInput>
@@ -9676,6 +9707,7 @@ export namespace Prisma {
     noOfQuestions?: SortOrder
     status?: SortOrder
     validateTill?: SortOrderInput | SortOrder
+    category?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: InterviewCountOrderByAggregateInput
@@ -9708,6 +9740,7 @@ export namespace Prisma {
     noOfQuestions?: IntWithAggregatesFilter<"Interview"> | number
     status?: EnumInterviewStatusWithAggregatesFilter<"Interview"> | $Enums.InterviewStatus
     validateTill?: DateTimeNullableWithAggregatesFilter<"Interview"> | Date | string | null
+    category?: EnumInterviewCategoryWithAggregatesFilter<"Interview"> | $Enums.InterviewCategory
     createdAt?: DateTimeWithAggregatesFilter<"Interview"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Interview"> | Date | string
   }
@@ -10261,6 +10294,7 @@ export namespace Prisma {
     noOfQuestions?: number
     status?: $Enums.InterviewStatus
     validateTill?: Date | string | null
+    category?: $Enums.InterviewCategory
     createdAt?: Date | string
     updatedAt?: Date | string
     createdBy: UserCreateNestedOneWithoutCreatedInterviewsInput
@@ -10289,6 +10323,7 @@ export namespace Prisma {
     noOfQuestions?: number
     status?: $Enums.InterviewStatus
     validateTill?: Date | string | null
+    category?: $Enums.InterviewCategory
     createdAt?: Date | string
     updatedAt?: Date | string
     questions?: QuestionUncheckedCreateNestedManyWithoutInterviewInput
@@ -10315,6 +10350,7 @@ export namespace Prisma {
     noOfQuestions?: IntFieldUpdateOperationsInput | number
     status?: EnumInterviewStatusFieldUpdateOperationsInput | $Enums.InterviewStatus
     validateTill?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    category?: EnumInterviewCategoryFieldUpdateOperationsInput | $Enums.InterviewCategory
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdBy?: UserUpdateOneRequiredWithoutCreatedInterviewsNestedInput
@@ -10343,6 +10379,7 @@ export namespace Prisma {
     noOfQuestions?: IntFieldUpdateOperationsInput | number
     status?: EnumInterviewStatusFieldUpdateOperationsInput | $Enums.InterviewStatus
     validateTill?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    category?: EnumInterviewCategoryFieldUpdateOperationsInput | $Enums.InterviewCategory
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     questions?: QuestionUncheckedUpdateManyWithoutInterviewNestedInput
@@ -10370,6 +10407,7 @@ export namespace Prisma {
     noOfQuestions?: number
     status?: $Enums.InterviewStatus
     validateTill?: Date | string | null
+    category?: $Enums.InterviewCategory
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -10393,6 +10431,7 @@ export namespace Prisma {
     noOfQuestions?: IntFieldUpdateOperationsInput | number
     status?: EnumInterviewStatusFieldUpdateOperationsInput | $Enums.InterviewStatus
     validateTill?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    category?: EnumInterviewCategoryFieldUpdateOperationsInput | $Enums.InterviewCategory
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -10417,6 +10456,7 @@ export namespace Prisma {
     noOfQuestions?: IntFieldUpdateOperationsInput | number
     status?: EnumInterviewStatusFieldUpdateOperationsInput | $Enums.InterviewStatus
     validateTill?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    category?: EnumInterviewCategoryFieldUpdateOperationsInput | $Enums.InterviewCategory
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -11122,6 +11162,13 @@ export namespace Prisma {
     not?: NestedEnumInterviewStatusFilter<$PrismaModel> | $Enums.InterviewStatus
   }
 
+  export type EnumInterviewCategoryFilter<$PrismaModel = never> = {
+    equals?: $Enums.InterviewCategory | EnumInterviewCategoryFieldRefInput<$PrismaModel>
+    in?: $Enums.InterviewCategory[] | ListEnumInterviewCategoryFieldRefInput<$PrismaModel>
+    notIn?: $Enums.InterviewCategory[] | ListEnumInterviewCategoryFieldRefInput<$PrismaModel>
+    not?: NestedEnumInterviewCategoryFilter<$PrismaModel> | $Enums.InterviewCategory
+  }
+
   export type UserScalarRelationFilter = {
     is?: UserWhereInput
     isNot?: UserWhereInput
@@ -11157,6 +11204,7 @@ export namespace Prisma {
     noOfQuestions?: SortOrder
     status?: SortOrder
     validateTill?: SortOrder
+    category?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -11187,6 +11235,7 @@ export namespace Prisma {
     noOfQuestions?: SortOrder
     status?: SortOrder
     validateTill?: SortOrder
+    category?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -11211,6 +11260,7 @@ export namespace Prisma {
     noOfQuestions?: SortOrder
     status?: SortOrder
     validateTill?: SortOrder
+    category?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -11289,6 +11339,16 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumInterviewStatusFilter<$PrismaModel>
     _max?: NestedEnumInterviewStatusFilter<$PrismaModel>
+  }
+
+  export type EnumInterviewCategoryWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.InterviewCategory | EnumInterviewCategoryFieldRefInput<$PrismaModel>
+    in?: $Enums.InterviewCategory[] | ListEnumInterviewCategoryFieldRefInput<$PrismaModel>
+    notIn?: $Enums.InterviewCategory[] | ListEnumInterviewCategoryFieldRefInput<$PrismaModel>
+    not?: NestedEnumInterviewCategoryWithAggregatesFilter<$PrismaModel> | $Enums.InterviewCategory
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumInterviewCategoryFilter<$PrismaModel>
+    _max?: NestedEnumInterviewCategoryFilter<$PrismaModel>
   }
 
   export type EnumStatusFilter<$PrismaModel = never> = {
@@ -11758,6 +11818,10 @@ export namespace Prisma {
 
   export type EnumInterviewStatusFieldUpdateOperationsInput = {
     set?: $Enums.InterviewStatus
+  }
+
+  export type EnumInterviewCategoryFieldUpdateOperationsInput = {
+    set?: $Enums.InterviewCategory
   }
 
   export type UserUpdateOneRequiredWithoutCreatedInterviewsNestedInput = {
@@ -12305,6 +12369,13 @@ export namespace Prisma {
     not?: NestedEnumInterviewStatusFilter<$PrismaModel> | $Enums.InterviewStatus
   }
 
+  export type NestedEnumInterviewCategoryFilter<$PrismaModel = never> = {
+    equals?: $Enums.InterviewCategory | EnumInterviewCategoryFieldRefInput<$PrismaModel>
+    in?: $Enums.InterviewCategory[] | ListEnumInterviewCategoryFieldRefInput<$PrismaModel>
+    notIn?: $Enums.InterviewCategory[] | ListEnumInterviewCategoryFieldRefInput<$PrismaModel>
+    not?: NestedEnumInterviewCategoryFilter<$PrismaModel> | $Enums.InterviewCategory
+  }
+
   export type NestedEnumCreatedByRoleWithAggregatesFilter<$PrismaModel = never> = {
     equals?: $Enums.CreatedByRole | EnumCreatedByRoleFieldRefInput<$PrismaModel>
     in?: $Enums.CreatedByRole[] | ListEnumCreatedByRoleFieldRefInput<$PrismaModel>
@@ -12375,6 +12446,16 @@ export namespace Prisma {
     _max?: NestedEnumInterviewStatusFilter<$PrismaModel>
   }
 
+  export type NestedEnumInterviewCategoryWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.InterviewCategory | EnumInterviewCategoryFieldRefInput<$PrismaModel>
+    in?: $Enums.InterviewCategory[] | ListEnumInterviewCategoryFieldRefInput<$PrismaModel>
+    notIn?: $Enums.InterviewCategory[] | ListEnumInterviewCategoryFieldRefInput<$PrismaModel>
+    not?: NestedEnumInterviewCategoryWithAggregatesFilter<$PrismaModel> | $Enums.InterviewCategory
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumInterviewCategoryFilter<$PrismaModel>
+    _max?: NestedEnumInterviewCategoryFilter<$PrismaModel>
+  }
+
   export type NestedEnumStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.Status | EnumStatusFieldRefInput<$PrismaModel>
     in?: $Enums.Status[] | ListEnumStatusFieldRefInput<$PrismaModel>
@@ -12427,6 +12508,7 @@ export namespace Prisma {
     noOfQuestions?: number
     status?: $Enums.InterviewStatus
     validateTill?: Date | string | null
+    category?: $Enums.InterviewCategory
     createdAt?: Date | string
     updatedAt?: Date | string
     questions?: QuestionCreateNestedManyWithoutInterviewInput
@@ -12453,6 +12535,7 @@ export namespace Prisma {
     noOfQuestions?: number
     status?: $Enums.InterviewStatus
     validateTill?: Date | string | null
+    category?: $Enums.InterviewCategory
     createdAt?: Date | string
     updatedAt?: Date | string
     questions?: QuestionUncheckedCreateNestedManyWithoutInterviewInput
@@ -12581,6 +12664,7 @@ export namespace Prisma {
     noOfQuestions?: IntFilter<"Interview"> | number
     status?: EnumInterviewStatusFilter<"Interview"> | $Enums.InterviewStatus
     validateTill?: DateTimeNullableFilter<"Interview"> | Date | string | null
+    category?: EnumInterviewCategoryFilter<"Interview"> | $Enums.InterviewCategory
     createdAt?: DateTimeFilter<"Interview"> | Date | string
     updatedAt?: DateTimeFilter<"Interview"> | Date | string
   }
@@ -12978,6 +13062,7 @@ export namespace Prisma {
     noOfQuestions?: number
     status?: $Enums.InterviewStatus
     validateTill?: Date | string | null
+    category?: $Enums.InterviewCategory
     createdAt?: Date | string
     updatedAt?: Date | string
     createdBy: UserCreateNestedOneWithoutCreatedInterviewsInput
@@ -13005,6 +13090,7 @@ export namespace Prisma {
     noOfQuestions?: number
     status?: $Enums.InterviewStatus
     validateTill?: Date | string | null
+    category?: $Enums.InterviewCategory
     createdAt?: Date | string
     updatedAt?: Date | string
     questions?: QuestionUncheckedCreateNestedManyWithoutInterviewInput
@@ -13155,6 +13241,7 @@ export namespace Prisma {
     noOfQuestions?: IntFieldUpdateOperationsInput | number
     status?: EnumInterviewStatusFieldUpdateOperationsInput | $Enums.InterviewStatus
     validateTill?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    category?: EnumInterviewCategoryFieldUpdateOperationsInput | $Enums.InterviewCategory
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdBy?: UserUpdateOneRequiredWithoutCreatedInterviewsNestedInput
@@ -13182,6 +13269,7 @@ export namespace Prisma {
     noOfQuestions?: IntFieldUpdateOperationsInput | number
     status?: EnumInterviewStatusFieldUpdateOperationsInput | $Enums.InterviewStatus
     validateTill?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    category?: EnumInterviewCategoryFieldUpdateOperationsInput | $Enums.InterviewCategory
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     questions?: QuestionUncheckedUpdateManyWithoutInterviewNestedInput
@@ -13296,6 +13384,7 @@ export namespace Prisma {
     noOfQuestions?: number
     status?: $Enums.InterviewStatus
     validateTill?: Date | string | null
+    category?: $Enums.InterviewCategory
     createdAt?: Date | string
     updatedAt?: Date | string
     createdBy: UserCreateNestedOneWithoutCreatedInterviewsInput
@@ -13323,6 +13412,7 @@ export namespace Prisma {
     noOfQuestions?: number
     status?: $Enums.InterviewStatus
     validateTill?: Date | string | null
+    category?: $Enums.InterviewCategory
     createdAt?: Date | string
     updatedAt?: Date | string
     participants?: InterviewParticipantUncheckedCreateNestedManyWithoutInterviewInput
@@ -13364,6 +13454,7 @@ export namespace Prisma {
     noOfQuestions?: IntFieldUpdateOperationsInput | number
     status?: EnumInterviewStatusFieldUpdateOperationsInput | $Enums.InterviewStatus
     validateTill?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    category?: EnumInterviewCategoryFieldUpdateOperationsInput | $Enums.InterviewCategory
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdBy?: UserUpdateOneRequiredWithoutCreatedInterviewsNestedInput
@@ -13391,6 +13482,7 @@ export namespace Prisma {
     noOfQuestions?: IntFieldUpdateOperationsInput | number
     status?: EnumInterviewStatusFieldUpdateOperationsInput | $Enums.InterviewStatus
     validateTill?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    category?: EnumInterviewCategoryFieldUpdateOperationsInput | $Enums.InterviewCategory
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     participants?: InterviewParticipantUncheckedUpdateManyWithoutInterviewNestedInput
@@ -13483,6 +13575,7 @@ export namespace Prisma {
     noOfQuestions?: number
     status?: $Enums.InterviewStatus
     validateTill?: Date | string | null
+    category?: $Enums.InterviewCategory
     createdAt?: Date | string
     updatedAt?: Date | string
     createdBy: UserCreateNestedOneWithoutCreatedInterviewsInput
@@ -13510,6 +13603,7 @@ export namespace Prisma {
     noOfQuestions?: number
     status?: $Enums.InterviewStatus
     validateTill?: Date | string | null
+    category?: $Enums.InterviewCategory
     createdAt?: Date | string
     updatedAt?: Date | string
     questions?: QuestionUncheckedCreateNestedManyWithoutInterviewInput
@@ -13673,6 +13767,7 @@ export namespace Prisma {
     noOfQuestions?: IntFieldUpdateOperationsInput | number
     status?: EnumInterviewStatusFieldUpdateOperationsInput | $Enums.InterviewStatus
     validateTill?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    category?: EnumInterviewCategoryFieldUpdateOperationsInput | $Enums.InterviewCategory
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdBy?: UserUpdateOneRequiredWithoutCreatedInterviewsNestedInput
@@ -13700,6 +13795,7 @@ export namespace Prisma {
     noOfQuestions?: IntFieldUpdateOperationsInput | number
     status?: EnumInterviewStatusFieldUpdateOperationsInput | $Enums.InterviewStatus
     validateTill?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    category?: EnumInterviewCategoryFieldUpdateOperationsInput | $Enums.InterviewCategory
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     questions?: QuestionUncheckedUpdateManyWithoutInterviewNestedInput
@@ -13863,6 +13959,7 @@ export namespace Prisma {
     noOfQuestions?: number
     status?: $Enums.InterviewStatus
     validateTill?: Date | string | null
+    category?: $Enums.InterviewCategory
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -13910,6 +14007,7 @@ export namespace Prisma {
     noOfQuestions?: IntFieldUpdateOperationsInput | number
     status?: EnumInterviewStatusFieldUpdateOperationsInput | $Enums.InterviewStatus
     validateTill?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    category?: EnumInterviewCategoryFieldUpdateOperationsInput | $Enums.InterviewCategory
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     questions?: QuestionUpdateManyWithoutInterviewNestedInput
@@ -13936,6 +14034,7 @@ export namespace Prisma {
     noOfQuestions?: IntFieldUpdateOperationsInput | number
     status?: EnumInterviewStatusFieldUpdateOperationsInput | $Enums.InterviewStatus
     validateTill?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    category?: EnumInterviewCategoryFieldUpdateOperationsInput | $Enums.InterviewCategory
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     questions?: QuestionUncheckedUpdateManyWithoutInterviewNestedInput
@@ -13962,6 +14061,7 @@ export namespace Prisma {
     noOfQuestions?: IntFieldUpdateOperationsInput | number
     status?: EnumInterviewStatusFieldUpdateOperationsInput | $Enums.InterviewStatus
     validateTill?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    category?: EnumInterviewCategoryFieldUpdateOperationsInput | $Enums.InterviewCategory
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
