@@ -13,6 +13,9 @@ const GenerateQuestionsSchema = z.object({
   keywords: z
     .string()
     .nonempty({ message: "Please enter at least one keyword" }),
+  assessmentType: z
+    .string()
+    .nonempty({ message: "Assessment Type is required" }),
 });
 
 type GenerateQuestionsSchemaType = z.infer<typeof GenerateQuestionsSchema>;

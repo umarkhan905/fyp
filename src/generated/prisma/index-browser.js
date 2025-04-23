@@ -148,7 +148,8 @@ exports.Prisma.UserScalarFieldEnum = {
 
 exports.Prisma.InterviewScalarFieldEnum = {
   id: 'id',
-  userId: 'userId',
+  createdById: 'createdById',
+  createdByRole: 'createdByRole',
   type: 'type',
   duration: 'duration',
   difficulty: 'difficulty',
@@ -157,7 +158,37 @@ exports.Prisma.InterviewScalarFieldEnum = {
   role: 'role',
   description: 'description',
   keywords: 'keywords',
-  questions: 'questions',
+  topic: 'topic',
+  companyName: 'companyName',
+  companyLogo: 'companyLogo',
+  group: 'group',
+  assessmentType: 'assessmentType',
+  noOfQuestions: 'noOfQuestions',
+  status: 'status',
+  validateTill: 'validateTill',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.InterviewParticipantScalarFieldEnum = {
+  id: 'id',
+  interviewId: 'interviewId',
+  intervieweeId: 'intervieweeId',
+  status: 'status',
+  startedAt: 'startedAt',
+  completedAt: 'completedAt',
+  timeTaken: 'timeTaken'
+};
+
+exports.Prisma.QuestionScalarFieldEnum = {
+  id: 'id',
+  interviewId: 'interviewId',
+  question: 'question',
+  codeEditorRequired: 'codeEditorRequired',
+  questionType: 'questionType',
+  options: 'options',
+  answer: 'answer',
+  explanation: 'explanation',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -166,6 +197,7 @@ exports.Prisma.FeedbackScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
   interviewId: 'interviewId',
+  interviewParticipantId: 'interviewParticipantId',
   totalRating: 'totalRating',
   summary: 'summary',
   strengths: 'strengths',
@@ -190,10 +222,6 @@ exports.Prisma.SortOrder = {
   desc: 'desc'
 };
 
-exports.Prisma.JsonNullValueInput = {
-  JsonNull: Prisma.JsonNull
-};
-
 exports.Prisma.QueryMode = {
   default: 'default',
   insensitive: 'insensitive'
@@ -202,12 +230,6 @@ exports.Prisma.QueryMode = {
 exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
-};
-
-exports.Prisma.JsonNullValueFilter = {
-  DbNull: Prisma.DbNull,
-  JsonNull: Prisma.JsonNull,
-  AnyNull: Prisma.AnyNull
 };
 exports.Role = exports.$Enums.Role = {
   ADMIN: 'ADMIN',
@@ -220,10 +242,18 @@ exports.ExperienceIn = exports.$Enums.ExperienceIn = {
   YEARS: 'YEARS'
 };
 
+exports.CreatedByRole = exports.$Enums.CreatedByRole = {
+  INTERVIEWER: 'INTERVIEWER',
+  INTERVIEWEE: 'INTERVIEWEE'
+};
+
 exports.InterviewType = exports.$Enums.InterviewType = {
   TECHNICAL: 'TECHNICAL',
   BEHAVIORAL: 'BEHAVIORAL',
-  TECHNICAL_AND_BEHAVIORAL: 'TECHNICAL_AND_BEHAVIORAL'
+  TECHNICAL_AND_BEHAVIORAL: 'TECHNICAL_AND_BEHAVIORAL',
+  SYSTEM_DESIGN: 'SYSTEM_DESIGN',
+  HR: 'HR',
+  PROBLEM_SOLVING: 'PROBLEM_SOLVING'
 };
 
 exports.InterviewDifficulty = exports.$Enums.InterviewDifficulty = {
@@ -232,9 +262,33 @@ exports.InterviewDifficulty = exports.$Enums.InterviewDifficulty = {
   HARD: 'HARD'
 };
 
+exports.Group = exports.$Enums.Group = {
+  MANUAL: 'MANUAL',
+  AI_BASED: 'AI_BASED'
+};
+
+exports.AssessmentType = exports.$Enums.AssessmentType = {
+  MCQ_BASED: 'MCQ_BASED',
+  VOICE_BASED: 'VOICE_BASED'
+};
+
+exports.InterviewStatus = exports.$Enums.InterviewStatus = {
+  PENDING: 'PENDING',
+  CREATED: 'CREATED',
+  EXPIRED: 'EXPIRED'
+};
+
+exports.Status = exports.$Enums.Status = {
+  PENDING: 'PENDING',
+  COMPLETED: 'COMPLETED',
+  CANCELLED: 'CANCELLED'
+};
+
 exports.Prisma.ModelName = {
   User: 'User',
   Interview: 'Interview',
+  InterviewParticipant: 'InterviewParticipant',
+  Question: 'Question',
   Feedback: 'Feedback',
   RatingItem: 'RatingItem'
 };

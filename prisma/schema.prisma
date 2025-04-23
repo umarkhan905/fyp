@@ -29,12 +29,47 @@ enum InterviewType {
   TECHNICAL
   BEHAVIORAL
   TECHNICAL_AND_BEHAVIORAL
+  SYSTEM_DESIGN
+  HR
+  PROBLEM_SOLVING
 }
 
 enum InterviewDifficulty {
   EASY
   MEDIUM
   HARD
+}
+
+enum Status {
+  PENDING
+  COMPLETED
+  CANCELLED
+}
+
+enum InterviewStatus {
+  PENDING
+  CREATED
+  EXPIRED
+}
+
+enum Group {
+  MANUAL
+  AI_BASED
+}
+
+enum AssessmentType {
+  MCQ_BASED
+  VOICE_BASED
+}
+
+enum InterviewCategory {
+  JOB
+  MOCK
+}
+
+enum CreatedByRole {
+  INTERVIEWER
+  INTERVIEWEE
 }
 
 model User {
@@ -62,41 +97,101 @@ model User {
   verificationTokenExpiresAt  DateTime?
   resetPasswordToken          String?
   resetPasswordTokenExpiresAt DateTime?
-  interviews                  Interview[]
-  feedbacks                   Feedback[]
-  createdAt                   DateTime      @default(now())
-  updatedAt                   DateTime      @updatedAt
+
+  createdInterviews      Interview[]
+  participatedInterviews InterviewParticipant[]
+
+  feedbacks Feedback[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
 
   @@index([email])
   @@map("users")
 }
 
 model Interview {
-  id           String              @id @default(uuid())
-  userId       String
-  user         User                @relation(fields: [userId], references: [id], onDelete: Cascade)
-  type         InterviewType       @default(TECHNICAL)
-  duration     Int                 @default(0)
-  difficulty   InterviewDifficulty @default(EASY)
-  experience   Int                 @default(0)
-  experienceIn ExperienceIn        @default(MONTHS)
-  role         String
-  description  String
-  keywords     String
-  questions    Json
-  feedbacks    Feedback[]
-  createdAt    DateTime            @default(now())
-  updatedAt    DateTime            @updatedAt
+  id            String        @id @default(uuid())
+  createdById   String
+  createdBy     User          @relation(fields: [createdById], references: [id], onDelete: Cascade)
+  createdByRole CreatedByRole @default(INTERVIEWER)
 
+  type           InterviewType       @default(TECHNICAL)
+  duration       Int                 @default(0)
+  difficulty     InterviewDifficulty @default(EASY)
+  experience     Int                 @default(0)
+  experienceIn   ExperienceIn        @default(MONTHS)
+  role           String
+  description    String
+  keywords       String
+  topic          String?
+  companyName    String?
+  companyLogo    String?
+  group          Group               @default(MANUAL)
+  assessmentType AssessmentType      @default(VOICE_BASED)
+  noOfQuestions  Int                 @default(0)
+  status         InterviewStatus     @default(PENDING)
+  validateTill   DateTime?
+
+  questions    Question[]
+  participants InterviewParticipant[]
+  feedbacks    Feedback[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([createdById])
   @@map("interviews")
 }
 
+model InterviewParticipant {
+  id          String    @id @default(uuid())
+  interviewId String
+  interview   Interview @relation(fields: [interviewId], references: [id], onDelete: Cascade)
+
+  intervieweeId String
+  interviewee   User   @relation(fields: [intervieweeId], references: [id], onDelete: Cascade)
+
+  status      Status    @default(PENDING)
+  startedAt   DateTime?
+  completedAt DateTime?
+  timeTaken   String? // e.g., "1h 30m"
+
+  feedbacks Feedback[]
+
+  @@unique([interviewId, intervieweeId])
+  @@index([interviewId, intervieweeId])
+  @@map("interview_participants")
+}
+
+model Question {
+  id          String    @id @default(uuid())
+  interviewId String
+  interview   Interview @relation(fields: [interviewId], references: [id], onDelete: Cascade)
+
+  question           String
+  codeEditorRequired Boolean @default(false)
+  questionType       String // e.g., "MCQ", "Coding", "Behavioral"
+  options            String? // JSON string for MCQ options
+  answer             String? // Correct answer for MCQ or expected output for coding
+  explanation        String? // Explanation for the answer
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("questions")
+}
+
 model Feedback {
-  id                String       @id @default(uuid())
-  userId            String
-  user              User         @relation(fields: [userId], references: [id], onDelete: Cascade)
-  interviewId       String
-  interview         Interview    @relation(fields: [interviewId], references: [id], onDelete: Cascade)
+  id     String @id @default(uuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  interviewId String
+  interview   Interview @relation(fields: [interviewId], references: [id], onDelete: Cascade)
+
+  interviewParticipantId String?
+  InterviewParticipant   InterviewParticipant? @relation(fields: [interviewParticipantId], references: [id])
+
   totalRating       Float
   summary           String
   strengths         String
@@ -105,9 +200,11 @@ model Feedback {
   assessment        String
   recommendedForJob Boolean
   rating            RatingItem[]
-  createdAt         DateTime     @default(now())
-  updatedAt         DateTime     @updatedAt
 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([interviewId])
   @@map("feedbacks")
 }
 
@@ -119,4 +216,6 @@ model RatingItem {
 
   feedback   Feedback @relation(fields: [feedbackId], references: [id], onDelete: Cascade)
   feedbackId String
+
+  @@map("rating_items")
 }

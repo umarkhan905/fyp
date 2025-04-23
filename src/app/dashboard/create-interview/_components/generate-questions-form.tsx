@@ -53,6 +53,7 @@ export default function GenerateQuestionsForm({
       experience: "",
       experienceIn: "",
       keywords: "",
+      assessmentType: "",
     },
   });
 
@@ -212,6 +213,33 @@ export default function GenerateQuestionsForm({
                     <SelectItem value="EASY">Easy</SelectItem>
                     <SelectItem value="MEDIUM">Medium</SelectItem>
                     <SelectItem value="HARD">Hard</SelectItem>
+                  </SelectContent>
+                </Select>
+              </FormControl>
+
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="assessmentType"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>What type of assessment would you like?</FormLabel>
+              <FormControl>
+                <Select value={field.value} onValueChange={field.onChange}>
+                  <SelectTrigger className="w-full rounded-full min-h-11">
+                    <SelectValue placeholder="Select Assessment Type" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="VOICE_BASED">
+                      Voice Based Interview
+                    </SelectItem>
+                    <SelectItem value="MCQ_BASED">
+                      MCQ Based Interview
+                    </SelectItem>
                   </SelectContent>
                 </Select>
               </FormControl>

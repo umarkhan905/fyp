@@ -25,6 +25,11 @@ type ErrorAPiResponse = {
 
 type IQuestion = {
   question: string;
+  options?: string;
+  answer?: string;
+  explanation?: string;
+  questionType: string;
+  codeEditorRequired?: boolean;
 };
 
 type IGenerateQuestionsFormData = {
@@ -36,12 +41,13 @@ type IGenerateQuestionsFormData = {
   experience: string;
   experienceIn: string;
   keywords: string;
+  assessmentType: string;
 };
 
 type ICreatedInterview = {
   id: string;
   duration: number;
-  questions: IQuestion[];
+  noOfQuestions: number;
 };
 
 type IInterview = {
