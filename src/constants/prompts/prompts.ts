@@ -65,3 +65,31 @@ Format:
   ],
 }
 The goal is to create a structured, relevant, and time-optimized MCQ-based interview plan for a {{role}} role.`;
+
+export const CREATE_MOCK_INTERVIEW_PROMPT = `You are an expert technical interviewer.
+Based on the following inputs, generate a well-structured list of high-quality interview questions:
+Job Role: {{role}}
+Interview Experience: {{experience}}
+Interview Difficulty: {{difficulty}}
+Interview Topic: {{topic}}
+No of Questions: {{numberOfQuestions}}
+Your task:
+Analyze the job role, experience, difficulty, and interview topic of the interview.
+Generate a list of interview questions depends on number of questions.
+Ensure the questions match the tone and structure of a real-life {{type}} interview.
+Format your response in JSON format with array list of questions.
+Just the questions, no other text. Questions has to read by AI voice agent.
+Also let me know either code editor or IDE is used in the interview.
+format: {
+    interviewQuestions=[
+        {
+            question:",
+            codeEditorRequired: true or false,
+            questionType: "type of question" // "technical","behavioral","problem solving" etc
+        },
+        {
+            ...
+        }
+    ],
+}
+The goal is to create a structured, relevant, and time-optimized interview plan for a {{role}} role.`;

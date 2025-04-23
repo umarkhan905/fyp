@@ -12,9 +12,10 @@ const INTERVIEWER_ROUTES = ["/dashboard", "/dashboard/create-interview"];
 
 const INTERVIEWEE_ROUTES = [
   "/dashboard",
-  "/interviews/:id",
-  "/interviews/:id/join",
-  "/interviews/:id/feedback/:feedbackId",
+  "/dashboard/create-interview",
+  "/interview/:id",
+  "/interview/:id/join",
+  "/interview/:id/feedback/:feedbackId",
 ];
 
 export { PUBLIC_ROUTES, INTERVIEWER_ROUTES, INTERVIEWEE_ROUTES };
