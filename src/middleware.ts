@@ -17,6 +17,7 @@ export default auth((req) => {
   const isPublicRoute = matchRoute(nextUrl.pathname, PUBLIC_ROUTES);
   const isIntervieweeRoute = matchRoute(nextUrl.pathname, INTERVIEWEE_ROUTES);
   const isInterviewerRoute = matchRoute(nextUrl.pathname, INTERVIEWER_ROUTES);
+  const isApiRoute = nextUrl.pathname.startsWith("/api");
 
   const role = req.auth?.user?.role;
   const isInterviewee = role === "INTERVIEWEE";
@@ -24,6 +25,8 @@ export default auth((req) => {
 
   const isAdmin = role === "ADMIN";
   const isAdminRoute = nextUrl.pathname.startsWith("/admin");
+
+  if (isApiRoute) return undefined;
 
   if (isLoggedIn && isPublicRoute) {
     // If the user is logged in and tries to access a public route, redirect them to the dashboard

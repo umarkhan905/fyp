@@ -49,7 +49,7 @@ export default function CreatedInterview({
           </div>
           <div className="flex items-center gap-2 text-muted-foreground">
             <List className="size-4" />
-            <span>{interview.questions.length} Questions</span>
+            <span>{interview.noOfQuestions} Questions</span>
           </div>
         </div>
       </section>

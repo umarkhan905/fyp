@@ -1,6 +1,9 @@
 "use server";
 
-import { CREATE_INTERVIEW_PROMPT } from "@/constants/prompts/prompts";
+import {
+  CREATE_INTERVIEW_PROMPT,
+  CREATE_MCQ_INTERVIEW_PROMPT,
+} from "@/constants/prompts/prompts";
 import { geminiModel } from "@/lib/gemini";
 
 import {
@@ -27,15 +30,24 @@ const generateQuestions = async (formData: GenerateQuestionsSchemaType) => {
       experience,
       experienceIn,
       keywords,
+      assessmentType,
     } = data;
 
-    const prompt = CREATE_INTERVIEW_PROMPT.replaceAll("{{role}}", role)
-      .replace("{{description}}", description)
-      .replace("{{type}}", type)
-      .replace("{{duration}}", duration)
-      .replace("{{experience}}", experience + experienceIn)
-      .replace("{{difficulty}}", difficulty)
-      .replace("{{keywords}}", keywords);
+    const prompt =
+      assessmentType === "MCQ_BASED"
+        ? CREATE_MCQ_INTERVIEW_PROMPT.replace("{{description}}", description)
+            .replace("{{type}}", type)
+            .replace("{{duration}}", duration)
+            .replace("{{experience}}", experience + experienceIn)
+            .replace("{{difficulty}}", difficulty)
+            .replace("{{keywords}}", keywords)
+        : CREATE_INTERVIEW_PROMPT.replaceAll("{{role}}", role)
+            .replace("{{description}}", description)
+            .replace("{{type}}", type)
+            .replace("{{duration}}", duration)
+            .replace("{{experience}}", experience + experienceIn)
+            .replace("{{difficulty}}", difficulty)
+            .replace("{{keywords}}", keywords);
 
     const result = await geminiModel.generateContent(prompt);
     const formattedResponse = result.response

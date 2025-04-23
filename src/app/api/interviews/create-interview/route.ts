@@ -27,11 +27,14 @@ export async function POST(req: NextRequest) {
       experienceIn,
       keywords,
       questions,
+      companyName,
+      companyLogo,
+      assessmentType,
     } = body;
 
     const interview = await prisma.interview.create({
       data: {
-        userId: user.id as string,
+        createdById: user.id as string,
         type,
         role,
         description,
@@ -40,7 +43,15 @@ export async function POST(req: NextRequest) {
         experience: parseInt(experience),
         experienceIn,
         keywords,
-        questions,
+        companyName,
+        companyLogo,
+        assessmentType,
+        noOfQuestions: questions.length,
+        questions: {
+          createMany: {
+            data: questions,
+          },
+        },
       },
     });
 
@@ -61,7 +72,7 @@ export async function POST(req: NextRequest) {
         data: {
           id: interview.id,
           duration: interview.duration,
-          questions: interview.questions,
+          noOfQuestions: interview.noOfQuestions,
         },
       },
       { status: 201 }
