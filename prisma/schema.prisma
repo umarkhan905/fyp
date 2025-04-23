@@ -126,11 +126,12 @@ model Interview {
   topic          String?
   companyName    String?
   companyLogo    String?
-  group          Group               @default(MANUAL)
+  group          Group               @default(AI_BASED)
   assessmentType AssessmentType      @default(VOICE_BASED)
   noOfQuestions  Int                 @default(0)
   status         InterviewStatus     @default(PENDING)
   validateTill   DateTime?
+  category       InterviewCategory   @default(JOB)
 
   questions    Question[]
   participants InterviewParticipant[]

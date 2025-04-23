@@ -131,6 +131,7 @@ model Interview {
   noOfQuestions  Int                 @default(0)
   status         InterviewStatus     @default(PENDING)
   validateTill   DateTime?
+  category       InterviewCategory   @default(JOB)
 
   questions    Question[]
   participants InterviewParticipant[]
