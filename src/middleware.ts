@@ -1,6 +1,7 @@
 import NextAuth from "next-auth";
 import { authOptions } from "@/utils/auth-options";
 import {
+  COMMON_ROUTES,
   INTERVIEWEE_ROUTES,
   INTERVIEWER_ROUTES,
   PUBLIC_ROUTES,
@@ -17,6 +18,7 @@ export default auth((req) => {
   const isPublicRoute = matchRoute(nextUrl.pathname, PUBLIC_ROUTES);
   const isIntervieweeRoute = matchRoute(nextUrl.pathname, INTERVIEWEE_ROUTES);
   const isInterviewerRoute = matchRoute(nextUrl.pathname, INTERVIEWER_ROUTES);
+  const isCommonRoute = matchRoute(nextUrl.pathname, COMMON_ROUTES);
   const isApiRoute = nextUrl.pathname.startsWith("/api");
 
   const role = req.auth?.user?.role;
@@ -26,6 +28,7 @@ export default auth((req) => {
   const isAdmin = role === "ADMIN";
   const isAdminRoute = nextUrl.pathname.startsWith("/admin");
 
+  // If the request is an API route, accept the request
   if (isApiRoute) return undefined;
 
   if (isLoggedIn && isPublicRoute) {
@@ -38,15 +41,18 @@ export default auth((req) => {
     return NextResponse.redirect(new URL("/sign-in", req.url));
   }
 
-  if (isLoggedIn && isInterviewee && !isIntervieweeRoute) {
+  if (isLoggedIn && isInterviewee && (isInterviewerRoute || isAdminRoute)) {
     // If the user is logged in as an interviewee and tries to access a non-interviewee route, redirect them to the interviewee dashboard
     return NextResponse.redirect(new URL("/dashboard", req.url));
   }
 
-  if (isLoggedIn && isInterviewer && !isInterviewerRoute) {
+  if (isLoggedIn && isInterviewer && (isIntervieweeRoute || isAdminRoute)) {
     // If the user is logged in as an interviewer and tries to access a non-interviewer route, redirect them to the interviewer dashboard
     return NextResponse.redirect(new URL("/dashboard", req.url));
   }
+
+  // If the user is logged in and tries to access a common route, accept the request
+  if (isLoggedIn && isCommonRoute) return undefined;
 
   if (isLoggedIn && isAdmin && !isAdminRoute) {
     // If the user is logged in as an admin and tries to access a non-admin route, redirect them to the admin dashboard
