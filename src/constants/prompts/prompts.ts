@@ -93,3 +93,68 @@ format: {
     ],
 }
 The goal is to create a structured, relevant, and time-optimized interview plan for a {{role}} role.`;
+
+export const CREATE_FEEDBACK_PROMPT = `
+    You are a professional interviewer analyzing a mock interview. Your task is to evaluate the candidate based on structured categories. Be thorough and detailed in your analysis. Don't be lenient with the candidate. If there are mistakes or areas for improvement, point them out.
+    Transcript:
+    {{transcript}}
+
+     Please score the candidate from 0 to 10 in the following areas. Do not add categories other than the ones provided:
+        - **Communication Skills**: Clarity, articulation, structured responses.
+        - **Technical Knowledge**: Understanding of key concepts for the role.
+        - **Problem-Solving**: Ability to analyze problems and propose solutions.
+        - **Cultural & Role Fit**: Alignment with company values and job role.
+        - **Confidence & Clarity**: Confidence in responses, engagement, and clarity.
+        - **Experience**: Relevant experience and how it relates to the role.
+        - **Presentation Skills**: Ability to present ideas clearly and effectively.
+        - **Total Rating**: Overall impression of the candidate.
+
+   Add summary of the interview in just 3-4 sentences. Add strengths and weaknesses of the user. Also add areas of improvement and final assessment and recommended for the role. Give me response in JSON format. Do not add any extra text.response format should be like:
+
+    {
+      "totalRating": totalRating as number,
+      "rating": [
+       {
+         "name": "Technical Knowledge",
+         "score": score as number,
+         "comment": "comment"
+       },
+          
+        {
+          "name": "Communication Skills",
+          "score": score as number,
+          "comment": "comment"
+        },
+        {
+          "name": "Problem-Solving",
+          "score": score as number,
+          "comment": "comment"
+        },
+        {
+          "name": "Cultural & Role Fit",
+          "score": score as number,
+          "comment": "comment"
+        },
+        {
+          "name": "Confidence & Clarity",
+          "score": score as number,
+          "comment": "comment"
+        },
+        {
+          "name": "Experience",
+          "score": score as number,
+          "comment": "comment"
+        },
+        {
+          "name": "Presentation Skills",
+          "score": score as number,
+          "comment": "comment"
+        }
+      ],
+      "summary": "summary",
+      "strengths": "strengths",
+      "weaknesses": "weaknesses",
+      "improvements": "improvements",
+      "assessment": "assessment"
+      "recommendedForJob": true or false
+    }`;

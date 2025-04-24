@@ -21,6 +21,13 @@ type FeedbackResponse = {
   rating: RatingItem[];
 };
 
+const getTimeTaken = (startTime: Date, endTime: Date) => {
+  const timeDiff = endTime?.getTime() - startTime?.getTime();
+  const hours = Math.floor(timeDiff / (1000 * 60 * 60));
+  const minutes = Math.floor((timeDiff / (1000 * 60)) % 60);
+  return `${hours}h ${minutes}m`;
+};
+
 export async function POST(request: NextRequest) {
   try {
     const user = await getUserSession();
@@ -37,7 +44,32 @@ export async function POST(request: NextRequest) {
     const body = (await request.json()) as {
       conversation: SavedMessage[];
       interviewId: string;
+      interviewParticipantId: string;
+      startedAt: string;
     };
+
+    const endTime = new Date();
+
+    const interviewParticipant = await prisma.interviewParticipant.update({
+      where: {
+        id: body.interviewParticipantId,
+      },
+      data: {
+        completedAt: endTime,
+        timeTaken: getTimeTaken(new Date(body.startedAt), endTime),
+        status: "COMPLETED",
+      },
+    });
+
+    if (!interviewParticipant) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Participant not found",
+        },
+        { status: 400 }
+      );
+    }
 
     const feedback = await generateFeedback(body.conversation);
     if (!feedback.success) {
@@ -64,6 +96,7 @@ export async function POST(request: NextRequest) {
         improvements: feedbackResponse.improvements,
         assessment: feedbackResponse.assessment,
         recommendedForJob: feedbackResponse.recommendedForJob,
+        interviewParticipantId: interviewParticipant.id,
         rating: {
           createMany: {
             data: feedbackResponse.rating,

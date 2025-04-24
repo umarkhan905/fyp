@@ -126,7 +126,7 @@ model Interview {
   topic          String?
   companyName    String?
   companyLogo    String?
-  group          Group               @default(MANUAL)
+  group          Group               @default(AI_BASED)
   assessmentType AssessmentType      @default(VOICE_BASED)
   noOfQuestions  Int                 @default(0)
   status         InterviewStatus     @default(PENDING)
@@ -159,7 +159,6 @@ model InterviewParticipant {
 
   feedbacks Feedback[]
 
-  @@unique([interviewId, intervieweeId])
   @@index([interviewId, intervieweeId])
   @@map("interview_participants")
 }

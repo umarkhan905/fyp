@@ -4,7 +4,7 @@ import React, { useEffect } from "react";
 import Logo from "@/components/branding/logo";
 import BrandName from "@/components/branding/brand-name";
 import Image from "next/image";
-import { Clock, Info, List, Mic } from "lucide-react";
+import { Book, Clock, Info, List, Mic } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import Container from "@/components/ui/container";
 import { Button } from "@/components/ui/button";
@@ -71,21 +71,27 @@ export function Interview({ interview, user }: InterviewProps) {
 
       <Container className="space-y-3">
         <h2 className="text-2xl font-semibold text-center">
-          {interview?.role} Interview
+          {interview?.role}{" "}
+          {interview?.category === "JOB" ? "Job Interview" : "Mock Interview"}
         </h2>
 
         <Card className="max-w-sm w-full mx-auto py-3 rounded-md">
           <CardContent className="flex items-center justify-between px-2">
-            <div className="flex items-center gap-1 text-muted-foreground">
-              <Clock className="size-4" />
-              <p className="text-sm ">{interview?.duration} Minutes</p>
-            </div>
+            {interview?.duration !== 0 ? (
+              <div className="flex items-center gap-1 text-muted-foreground">
+                <Clock className="size-4" />
+                <p className="text-sm ">{interview?.duration} Minutes</p>
+              </div>
+            ) : (
+              <div className="flex items-center gap-1 text-muted-foreground">
+                <Book className="size-4" />
+                <p className="text-sm ">{interview?.topic}</p>
+              </div>
+            )}
 
             <div className="flex items-center gap-1 text-muted-foreground">
               <List className="size-4" />
-              <p className="text-sm ">
-                {interview?.questions?.length} Questions
-              </p>
+              <p className="text-sm ">{interview?.noOfQuestions} Questions</p>
             </div>
           </CardContent>
         </Card>
@@ -111,7 +117,7 @@ export function Interview({ interview, user }: InterviewProps) {
 
               <ul className="list-disc px-5 mt-2 text-muted-foreground">
                 <li className="text-sm ">
-                  You will be asked {interview?.questions?.length} questions and
+                  You will be asked {interview?.noOfQuestions} questions and
                   have {interview?.duration} minutes to answer them.
                 </li>
                 {instructions.map((instruction) => (

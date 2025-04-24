@@ -159,7 +159,6 @@ model InterviewParticipant {
 
   feedbacks Feedback[]
 
-  @@unique([interviewId, intervieweeId])
   @@index([interviewId, intervieweeId])
   @@map("interview_participants")
 }
