@@ -8,7 +8,15 @@ const PUBLIC_ROUTES = [
   "/verify-email/:id",
 ];
 
-const COMMON_ROUTES = ["/dashboard", "/dashboard/create-interview"];
+const COMMON_ROUTES = [
+  "/dashboard",
+  "/dashboard/create-interview",
+  "dashboard/billing",
+  "/dashboard/history",
+  "/dashboard/account",
+  "/dashboard/subscription",
+  "/dashboard/help-and-support",
+];
 
 const INTERVIEWER_ROUTES = [""];
 

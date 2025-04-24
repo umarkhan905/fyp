@@ -52,7 +52,7 @@ export default auth((req) => {
   }
 
   // If the user is logged in and tries to access a common route, accept the request
-  if (isLoggedIn && isCommonRoute) return undefined;
+  if (isLoggedIn && !isAdmin && isCommonRoute) return undefined;
 
   if (isLoggedIn && isAdmin && !isAdminRoute) {
     // If the user is logged in as an admin and tries to access a non-admin route, redirect them to the admin dashboard
