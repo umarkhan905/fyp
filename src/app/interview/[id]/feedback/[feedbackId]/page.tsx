@@ -133,14 +133,16 @@ export default async function Feedback({
           >
             <Link href="/dashboard">Back to Dashboard</Link>
           </Button>
-          <Button
-            className="min-h-10 md:min-h-11 rounded-full flex-1 text-white"
-            asChild
-          >
-            <Link href={`/interview/${feedback?.interviewId}`}>
-              Retake Interview
-            </Link>
-          </Button>
+          {feedback.interview.category === "MOCK" && (
+            <Button
+              className="min-h-10 md:min-h-11 rounded-full flex-1 text-white"
+              asChild
+            >
+              <Link href={`/interview/${feedback?.interviewId}`}>
+                Retake Interview
+              </Link>
+            </Button>
+          )}
         </section>
       </Container>
     </main>

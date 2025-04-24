@@ -18,6 +18,7 @@ const getFeedbackById = async (id: string) => {
       interview: {
         select: {
           role: true,
+          category: true,
         },
       },
     },
