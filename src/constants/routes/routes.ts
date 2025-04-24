@@ -8,14 +8,14 @@ const PUBLIC_ROUTES = [
   "/verify-email/:id",
 ];
 
-const INTERVIEWER_ROUTES = ["/dashboard", "/dashboard/create-interview"];
+const COMMON_ROUTES = ["/dashboard", "/dashboard/create-interview"];
+
+const INTERVIEWER_ROUTES = [""];
 
 const INTERVIEWEE_ROUTES = [
-  "/dashboard",
-  "/dashboard/create-interview",
   "/interview/:id",
   "/interview/:id/join",
   "/interview/:id/feedback/:feedbackId",
 ];
 
-export { PUBLIC_ROUTES, INTERVIEWER_ROUTES, INTERVIEWEE_ROUTES };
+export { PUBLIC_ROUTES, INTERVIEWER_ROUTES, INTERVIEWEE_ROUTES, COMMON_ROUTES };
