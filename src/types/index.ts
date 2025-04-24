@@ -52,18 +52,34 @@ type ICreatedInterview = {
 
 type IInterview = {
   id: string;
-  userId: string;
-  type: "TECHNICAL" | "BEHAVIORAL" | "TECHNICAL_AND_BEHAVIORAL";
+  group: "MANUAL" | "AI_BASED";
+  status: "PENDING" | "CREATED" | "EXPIRED";
+  role: string;
+  type:
+    | "TECHNICAL"
+    | "BEHAVIORAL"
+    | "TECHNICAL_AND_BEHAVIORAL"
+    | "SYSTEM_DESIGN"
+    | "HR"
+    | "PROBLEM_SOLVING";
   duration: number;
-  difficulty: "EASY" | "MEDIUM" | "HARD";
+  topic: string | null;
+  companyName: string | null;
   experience: number;
   experienceIn: "MONTHS" | "YEARS";
-  role: string;
-  description: string;
-  keywords: string;
-  questions: IQuestion[];
   createdAt: Date;
   updatedAt: Date;
+  createdById: string;
+  createdByRole: "INTERVIEWER" | "INTERVIEWEE";
+  difficulty: "EASY" | "MEDIUM" | "HARD";
+  description: string;
+  keywords: string;
+  companyLogo: string | null;
+  assessmentType: "MCQ_BASED" | "VOICE_BASED";
+  noOfQuestions: number;
+  validateTill: Date | null;
+  category: "JOB" | "MOCK";
+  questions: IQuestion[] | null;
 };
 
 enum CallStatus {

@@ -9776,7 +9776,6 @@ export namespace Prisma {
 
   export type InterviewParticipantWhereUniqueInput = Prisma.AtLeast<{
     id?: string
-    interviewId_intervieweeId?: InterviewParticipantInterviewIdIntervieweeIdCompoundUniqueInput
     AND?: InterviewParticipantWhereInput | InterviewParticipantWhereInput[]
     OR?: InterviewParticipantWhereInput[]
     NOT?: InterviewParticipantWhereInput | InterviewParticipantWhereInput[]
@@ -9789,7 +9788,7 @@ export namespace Prisma {
     interview?: XOR<InterviewScalarRelationFilter, InterviewWhereInput>
     interviewee?: XOR<UserScalarRelationFilter, UserWhereInput>
     feedbacks?: FeedbackListRelationFilter
-  }, "id" | "interviewId_intervieweeId">
+  }, "id">
 
   export type InterviewParticipantOrderByWithAggregationInput = {
     id?: SortOrder
@@ -11361,11 +11360,6 @@ export namespace Prisma {
   export type InterviewScalarRelationFilter = {
     is?: InterviewWhereInput
     isNot?: InterviewWhereInput
-  }
-
-  export type InterviewParticipantInterviewIdIntervieweeIdCompoundUniqueInput = {
-    interviewId: string
-    intervieweeId: string
   }
 
   export type InterviewParticipantCountOrderByAggregateInput = {

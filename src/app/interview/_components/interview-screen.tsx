@@ -11,6 +11,7 @@ import Spinner from "./interview-screen/spinner";
 import MainScreen from "./interview-screen/main-screen";
 import axios from "axios";
 import { toast } from "sonner";
+import { createInterviewParticipation } from "@/actions/interview-actions";
 
 export function InterviewScreen() {
   const { interview, user } = useInterviewContext();
@@ -20,7 +21,28 @@ export function InterviewScreen() {
   const [lastMessage, setLastMessage] = useState<string>("");
   const [isGeneratingFeedback, setIsGeneratingFeedback] =
     useState<boolean>(false);
+  const [isInterviewParticipationCreated, setIsInterviewParticipationCreated] =
+    useState<boolean>(false);
+  const [participation, setParticipation] = useState<{
+    id: string;
+    startedAt: Date;
+  } | null>(null);
   const router = useRouter();
+
+  const createParticipation = async () => {
+    const participation = await createInterviewParticipation(
+      interview?.id as string
+    );
+    if (participation) {
+      setParticipation({
+        id: participation.id,
+        startedAt: participation.startedAt!,
+      });
+      setIsInterviewParticipationCreated(true);
+    }
+  };
+
+  console.log("participation", participation);
 
   const startInterview = async () => {
     setCallStatus(CallStatus.CONNECTING);
@@ -55,6 +77,8 @@ export function InterviewScreen() {
         {
           conversation: messages,
           interviewId: interview?.id,
+          interviewParticipantId: participation?.id,
+          startedAt: participation?.startedAt,
         }
       );
 
@@ -74,8 +98,8 @@ export function InterviewScreen() {
   };
 
   useEffect(() => {
-    if (interview) startInterview();
-  }, [interview]);
+    if (interview && isInterviewParticipationCreated) startInterview();
+  }, [interview, isInterviewParticipationCreated]);
 
   useEffect(() => {
     const onCallStart = () => {
@@ -135,6 +159,10 @@ export function InterviewScreen() {
       console.log("Interview finished, feedback generated");
     }
   }, [messages, callStatus]);
+
+  useEffect(() => {
+    createParticipation();
+  }, []);
 
   return (
     <main className="w-full">

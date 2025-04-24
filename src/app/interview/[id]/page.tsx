@@ -4,6 +4,7 @@ import { Interview } from "../_components/interview";
 import { notFound, redirect } from "next/navigation";
 import { getUserSession } from "@/lib/session";
 import { IInterview } from "@/types";
+import { prisma } from "@/lib/prisma";
 
 export default async function InterviewPage({
   params,
@@ -22,6 +23,26 @@ export default async function InterviewPage({
 
   // Check if the interview exists, if not, return a 404 page
   if (!interview) notFound();
+
+  // check if interview is valid and not expired, if not, return a expired page
+  if (
+    interview &&
+    (interview.validateTill! < new Date() || interview.status === "EXPIRED")
+  ) {
+    // set interview as expired if not already
+    if (interview.status !== "EXPIRED") {
+      await prisma.interview.update({
+        where: {
+          id: id,
+        },
+        data: {
+          status: "EXPIRED",
+        },
+      });
+    }
+
+    return <div>The interview has expired</div>;
+  }
 
   return <Interview interview={interview as IInterview} user={user} />;
 }
