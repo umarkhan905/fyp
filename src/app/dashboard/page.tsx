@@ -6,14 +6,12 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { prisma } from "@/lib/prisma";
 import { getUserSession } from "@/lib/session";
-import { formatDate } from "@/utils/format-date";
 import {
-  ArrowRight,
   Award,
   BarChart4,
   BookOpen,
-  CalendarDays,
   Check,
   Clock,
   MessageSquare,
@@ -21,50 +19,56 @@ import {
   TrendingUp,
 } from "lucide-react";
 import Link from "next/link";
-import { FaStar } from "react-icons/fa";
-import { FcGoogle } from "react-icons/fc";
-import { RiReactjsLine, RiTailwindCssFill } from "react-icons/ri";
+import NewInterviewCard from "./_components/new-interview-card";
+import { getCreatedInterviews } from "@/actions/interview-actions";
 
 export default async function Dashboard() {
   const user = await getUserSession();
-  const userData = {
-    name: "Alex Johnson",
-    completedInterviews: 8,
-    upcomingInterviews: 2,
-    totalHours: 5.5,
-    averageScore: 7.8,
-    recommendations: [
-      "Practice behavioral questions more",
-      "Work on technical explanations",
-      "Improve answer structure",
-    ],
-    recentInterviews: [
-      {
-        id: 1,
-        type: "Software Engineer",
-        date: "2025-04-01",
-        score: 8.2,
-        description:
-          "This is a sample description for the recent interview. It should provide some context for the user.",
-      },
-      {
-        id: 2,
-        type: "Product Manager",
-        date: "2025-03-25",
-        score: 7.5,
-        description:
-          "This is a sample description for the recent interview. It should provide some context for the user.",
-      },
-      {
-        id: 3,
-        type: "Data Scientist",
-        date: "2025-03-18",
-        score: 7.7,
-        description:
-          "This is a sample description for the recent interview. It should provide some context for the user.",
-      },
-    ],
-  };
+
+  const [avgAndCount, practiceInterviews, recentInterviews] = await Promise.all(
+    [
+      prisma.feedback.aggregate({
+        _count: {
+          id: true,
+        },
+        _avg: {
+          totalRating: true,
+        },
+        where: {
+          userId: user?.id as string,
+        },
+      }),
+      prisma.interviewParticipant.findMany({
+        where: {
+          intervieweeId: user?.id as string,
+          status: "COMPLETED",
+        },
+        select: {
+          startedAt: true,
+          completedAt: true,
+        },
+      }),
+      getCreatedInterviews(user?.id as string, 4),
+    ]
+  );
+
+  // TODO: Optimize this query by adding duration field in prisma model and using aggregate function
+  const practiveTime = practiceInterviews.reduce((acc, curr) => {
+    if (!curr.completedAt || !curr.startedAt) {
+      return acc;
+    }
+
+    const time = curr.completedAt.getTime() - curr.startedAt.getTime();
+    return acc + time;
+  }, 0);
+
+  const totalHours = practiveTime / 1000 / 60 / 60;
+
+  const recommendations = [
+    "Practice behavioral questions more",
+    "Work on technical explanations",
+    "Improve answer structure",
+  ];
 
   return (
     <>
@@ -93,7 +97,9 @@ export default async function Dashboard() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-4xl font-semibold text-center">2</p>
+            <p className="text-4xl font-semibold text-center">
+              {avgAndCount._count?.id || 0}
+            </p>
           </CardContent>
         </Card>
 
@@ -108,7 +114,9 @@ export default async function Dashboard() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-4xl font-semibold text-center">5.5</p>
+            <p className="text-4xl font-semibold text-center">
+              {totalHours.toFixed(2)}
+            </p>
           </CardContent>
         </Card>
 
@@ -123,7 +131,9 @@ export default async function Dashboard() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-4xl font-semibold text-center">5.5</p>
+            <p className="text-4xl font-semibold text-center">
+              {avgAndCount?._avg?.totalRating || 0}
+            </p>
           </CardContent>
         </Card>
       </div>
@@ -146,7 +156,7 @@ export default async function Dashboard() {
                 size="lg"
                 asChild
               >
-                <Link href="/interview/new">
+                <Link href="/dashboard/create-interview">
                   <PlayCircle className="mr-2 h-5 w-5" />
                   Start New Interview
                 </Link>
@@ -174,68 +184,17 @@ export default async function Dashboard() {
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-                {userData.recentInterviews.map((interview) => (
-                  <div
+                {recentInterviews.map((interview) => (
+                  <NewInterviewCard
                     key={interview.id}
-                    className="flex flex-col p-4 gap-2 border rounded-lg hover:bg-foreground/10 bg-gradient-to-t from-background/10 via-background/10 to-foreground/10 transition-all duration-300 relative"
-                  >
-                    {/* Interview Type */}
-                    <div className="p-1 px-2 rounded-se-md rounded-es-md absolute top-0 right-0 bg-primary/40 text-xs text-foreground">
-                      {interview.type}
-                    </div>
-
-                    {/* Interview Image */}
-                    {/* <div className="size-10 rounded-full bg-primary"></div> */}
-                    <FcGoogle className="size-10" />
-
-                    {/* Interview Name */}
-                    <h3 className="text-lg font-semibold">
-                      {interview.type} Interview
-                    </h3>
-
-                    {/* Date and Score */}
-                    <section className="flex items-center gap-4">
-                      <div className="flex items-center gap-1 text-muted-foreground">
-                        <CalendarDays className="size-4" />
-                        <p className="text-sm">
-                          {formatDate(new Date(interview.date))}
-                        </p>
-                      </div>
-                      <div className="flex items-center gap-1 text-muted-foreground">
-                        <FaStar className="size-4" />
-                        <p className="text-sm">{interview.score}/10</p>
-                      </div>
-                    </section>
-
-                    {/* Interview Description */}
-                    <p className="text-sm text-muted-foreground">
-                      {interview.description}
-                    </p>
-
-                    {/* Button */}
-                    <section className="flex items-center justify-between flex-wrap gap-2">
-                      {/* Interview Icons */}
-                      <section className="flex items-center">
-                        <div className="flex items-center p-2 rounded-full bg-primary/20 text-primary border border-primary/30">
-                          <RiTailwindCssFill className="size-6" />
-                        </div>
-                        <div
-                          className={`flex items-center p-2 rounded-full bg-primary/20 text-primary -ml-2 border border-primary/30`}
-                        >
-                          <RiReactjsLine className="size-6" />
-                        </div>
-                      </section>
-
-                      <Button className="rounded-full text-white">
-                        View Interview <ArrowRight />
-                      </Button>
-                    </section>
-                  </div>
+                    interview={interview}
+                    userId={user?.id}
+                  />
                 ))}
               </div>
               <div className="mt-4 text-center">
                 <Button variant="outline" asChild>
-                  <Link href="/interview/history">View All Interviews</Link>
+                  <Link href="/dashboard/history">View All Interviews</Link>
                 </Button>
               </div>
             </CardContent>
@@ -255,7 +214,7 @@ export default async function Dashboard() {
           </CardHeader>
           <CardContent>
             <ul className="space-y-4">
-              {userData.recommendations.map((recommendation, index) => (
+              {recommendations.map((recommendation, index) => (
                 <li key={index} className="flex items-start">
                   <div className="flex-shrink-0 mr-2">
                     <div className="h-5 w-5 rounded-full bg-primary/20 flex items-center justify-center">
