@@ -50,6 +50,16 @@ type ICreatedInterview = {
   noOfQuestions: number;
 };
 
+type IInterviewParticipant = {
+  id: string;
+  status: "PENDING" | "COMPLETED" | "CANCELLED";
+  interviewId: string;
+  intervieweeId: string;
+  startedAt: Date | null;
+  completedAt: Date | null;
+  timeTaken: string | null;
+};
+
 type IInterview = {
   id: string;
   group: "MANUAL" | "AI_BASED";
@@ -79,7 +89,8 @@ type IInterview = {
   noOfQuestions: number;
   validateTill: Date | null;
   category: "JOB" | "MOCK";
-  questions: IQuestion[] | null;
+  questions?: IQuestion[] | null;
+  participants?: IInterviewParticipant[] | null;
 };
 
 enum CallStatus {

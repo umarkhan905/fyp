@@ -1,3 +1,5 @@
+import { v4 as uuidv4 } from "uuid";
+import { IInterview } from "@/types";
 import { CreateAssistantDTO } from "@vapi-ai/web/dist/api";
 
 export const BASE_ADDRESS =
@@ -130,3 +132,161 @@ export const INTERVIEWER: CreateAssistantDTO = {
     ],
   },
 };
+
+export const DUMMY_INTERVIEWS: IInterview[] = [
+  {
+    id: uuidv4(),
+    group: "AI_BASED",
+    status: "CREATED",
+    role: "MERN Stack Developer",
+    type: "TECHNICAL",
+    duration: 5,
+    topic: null,
+    companyName: "Meta",
+    experience: 2,
+    experienceIn: "YEARS",
+    createdAt: new Date(),
+    updatedAt: new Date(),
+    createdById: "user_001",
+    createdByRole: "INTERVIEWER",
+    difficulty: "HARD",
+    description:
+      "Advanced MERN Stack interview focused on real-world project scenarios, optimization techniques, and debugging complex full stack applications.",
+    keywords:
+      "MERN, React JS, Node JS, Express, MongoDB, Optimization, Debugging",
+    companyLogo: null,
+    assessmentType: "MCQ_BASED",
+    noOfQuestions: 10,
+    validateTill: null,
+    category: "JOB",
+    questions: [
+      {
+        question:
+          "Explain how you would optimize a MongoDB aggregation pipeline for performance.",
+        questionType: "OPEN_ENDED",
+      },
+      {
+        question:
+          "What are common memory leaks in React and how can you avoid them?",
+        questionType: "OPEN_ENDED",
+      },
+      {
+        question:
+          "Describe how you would manage environment-specific configurations in a MERN stack application.",
+        questionType: "OPEN_ENDED",
+      },
+      {
+        question:
+          "How do you structure a large-scale Node.js application and why?",
+        questionType: "OPEN_ENDED",
+      },
+      {
+        question:
+          "Compare React Query and Redux for data fetching and state management.",
+        questionType: "OPEN_ENDED",
+      },
+    ],
+    participants: null,
+  },
+  {
+    id: uuidv4(),
+    group: "MANUAL",
+    status: "CREATED",
+    role: "Next.js Developer",
+    type: "TECHNICAL_AND_BEHAVIORAL",
+    duration: 5,
+    topic: null,
+    companyName: "Amazon",
+    experience: 1,
+    experienceIn: "YEARS",
+    createdAt: new Date(),
+    updatedAt: new Date(),
+    createdById: "user_002",
+    createdByRole: "INTERVIEWER",
+    difficulty: "MEDIUM",
+    description:
+      "Balanced interview assessing technical expertise in building SSR and SSG applications using Next.js, along with problem-solving and communication skills.",
+    keywords: "Next JS, SSR, SSG, API Routes, Tailwind CSS, Communication",
+    companyLogo: null,
+    assessmentType: "VOICE_BASED",
+    noOfQuestions: 8,
+    validateTill: null,
+    category: "JOB",
+    questions: [
+      {
+        question: "How do you decide when to use SSR vs SSG in a Next.js app?",
+        questionType: "OPEN_ENDED",
+      },
+      {
+        question:
+          "Describe your approach to styling a scalable UI with Tailwind CSS.",
+        questionType: "OPEN_ENDED",
+      },
+      {
+        question:
+          "Tell me about a time you had to explain a complex technical topic to a non-technical stakeholder.",
+        questionType: "BEHAVIORAL",
+      },
+      {
+        question: "What is ISR in Next.js and when would you use it?",
+        questionType: "OPEN_ENDED",
+      },
+      {
+        question:
+          "How do you handle form validation and error management in Next.js apps?",
+        questionType: "OPEN_ENDED",
+      },
+    ],
+    participants: null,
+  },
+  {
+    id: uuidv4(),
+    group: "AI_BASED",
+    status: "CREATED",
+    role: "Prisma & Database Integration Developer",
+    type: "TECHNICAL",
+    duration: 5,
+    topic: null,
+    companyName: "Netflix",
+    experience: 1,
+    experienceIn: "YEARS",
+    createdAt: new Date(),
+    updatedAt: new Date(),
+    createdById: "user_003",
+    createdByRole: "INTERVIEWER",
+    difficulty: "MEDIUM",
+    description:
+      "Interview focusing on practical knowledge of Prisma ORM, database relationships, query optimization, and integration in full stack apps.",
+    keywords:
+      "Prisma, PostgreSQL, MongoDB, Database Optimization, ORM, Schema Design",
+    companyLogo: null,
+    assessmentType: "MCQ_BASED",
+    noOfQuestions: 7,
+    validateTill: null,
+    category: "JOB",
+    questions: [
+      {
+        question: "What are the benefits of using Prisma over raw SQL queries?",
+        questionType: "OPEN_ENDED",
+      },
+      {
+        question: "How do you handle many-to-many relationships in Prisma?",
+        questionType: "OPEN_ENDED",
+      },
+      {
+        question:
+          "Explain how Prisma migrations work and how you would roll back a migration.",
+        questionType: "OPEN_ENDED",
+      },
+      {
+        question: "How would you optimize Prisma queries for performance?",
+        questionType: "OPEN_ENDED",
+      },
+      {
+        question: "Describe how to seed a database using Prisma.",
+        questionType: "OPEN_ENDED",
+      },
+    ],
+    participants: null,
+  },
+];
