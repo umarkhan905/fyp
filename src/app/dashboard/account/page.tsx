@@ -4,8 +4,10 @@ import { FilePen, Paintbrush2, Settings, User } from "lucide-react";
 import Profile from "./_components/profile";
 import SettingsPage from "./_components/settings";
 import Appearance from "./_components/appearance";
+import { getUserSession } from "@/lib/session";
+import { getUserById } from "@/actions/user-actions";
 
-export default function Account() {
+export default async function Account() {
   const tabs = [
     {
       value: "profile",
@@ -28,6 +30,9 @@ export default function Account() {
       icon: <Settings className="size-5" />,
     },
   ];
+  const userId = (await getUserSession())?.id as string;
+  const user = await getUserById(userId);
+
   return (
     <>
       <section>
@@ -63,7 +68,7 @@ export default function Account() {
 
             {/* Tabs Content */}
             <TabsContent value="profile">
-              <Profile />
+              <Profile user={user} />
             </TabsContent>
             <TabsContent value="appearance">
               <Appearance />
@@ -72,7 +77,7 @@ export default function Account() {
               Make changes to your interview preferences here.
             </TabsContent>
             <TabsContent value="settings">
-              <SettingsPage />
+              <SettingsPage user={user} />
             </TabsContent>
           </Tabs>
         </div>
