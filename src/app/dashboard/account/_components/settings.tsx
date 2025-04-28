@@ -1,3 +1,8 @@
+"use client";
+
+import { deleteAccount, updatePassword } from "@/actions/account-actions";
+import { logout } from "@/actions/auth-actions";
+import FormError from "@/components/form/form-error";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -6,13 +11,109 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
-import { Settings } from "lucide-react";
-import React from "react";
+import { User } from "@/generated/prisma";
+import {
+  ChangePasswordSchema,
+  ChangePasswordSchemaType,
+} from "@/schemas/account/change-password";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Loader2, Settings } from "lucide-react";
+import React, { useState } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import DeleteAccountModal from "./modal/delete-account-modal";
 
-export default function SettingsPage() {
+export default function SettingsPage({ user }: { user: User | null }) {
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
+  const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
+  const [accountDeletingLoading, setaccountDeletingLoading] =
+    useState<boolean>(false);
+  const [accountDeletingError, setaccountDeletingError] = useState<
+    string | null
+  >(null);
+
+  const form = useForm<ChangePasswordSchemaType>({
+    resolver: zodResolver(ChangePasswordSchema),
+    defaultValues: {
+      currentPassword: "",
+      newPassword: "",
+      confirmPassword: "",
+    },
+  });
+
+  const onSubmit = async (data: ChangePasswordSchemaType) => {
+    setLoading(true);
+    setError(null);
+    try {
+      const result = ChangePasswordSchema.safeParse(data);
+      if (!result.success) {
+        setError(result.error.format()._errors[0]);
+        return;
+      }
+
+      const { newPassword, confirmPassword, currentPassword } = result.data;
+      if (currentPassword === newPassword) {
+        setError("New password must be different from the current password.");
+        return;
+      }
+
+      if (newPassword !== confirmPassword) {
+        setError("New password and confirm password do not match.");
+        return;
+      }
+
+      const passwordResult = await updatePassword(data, user?.id as string);
+
+      if (!passwordResult.success) {
+        setError(passwordResult.message as string);
+        return;
+      }
+
+      // clear form
+      form.reset();
+      toast.success("Password updated successfully.");
+    } catch (error) {
+      console.log("Error occurs while updating password: ", error);
+      setError(error as string);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleDeleteAccount = async () => {
+    setaccountDeletingLoading(true);
+    setaccountDeletingError(null);
+    try {
+      const result = await deleteAccount(user?.id as string);
+      if (!result.success) {
+        setError(result.message as string);
+        return;
+      }
+
+      setIsOpenModal(false);
+      toast.success("Account deleted successfully.");
+
+      await logout();
+    } catch (error) {
+      console.log("Error occurs while deleting account: ", error);
+      setError("Error occurs while deleting account.");
+    } finally {
+      setaccountDeletingLoading(false);
+    }
+  };
+  const handleOpenChange = () => setIsOpenModal((isOpenModal) => !isOpenModal);
+
   return (
     <Card className="group">
       <CardHeader>
@@ -40,48 +141,95 @@ export default function SettingsPage() {
             </div>
 
             {/* Chnage Password Form */}
-            <form className="space-y-4">
-              <div className="space-y-2">
-                <Label className="text-sm dark:text-muted-foreground font-normal">
-                  Current Password
-                </Label>
-                <Input
-                  type="password"
-                  placeholder="••••••••"
-                  className="placeholder:text-muted-foreground text-sm rounded-full min-h-11"
+            <Form {...form}>
+              <form
+                className="space-y-4"
+                onSubmit={form.handleSubmit(onSubmit)}
+              >
+                <FormField
+                  control={form.control}
+                  name="currentPassword"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-sm dark:text-muted-foreground font-normal">
+                        Current Password
+                      </FormLabel>
+                      <FormControl>
+                        <Input
+                          type="password"
+                          placeholder="••••••••"
+                          className="placeholder:text-muted-foreground text-sm rounded-full min-h-11"
+                          {...field}
+                        />
+                      </FormControl>
+
+                      <FormMessage />
+                    </FormItem>
+                  )}
                 />
-              </div>
-              <div className="flex flex-col md:flex-row gap-4 w-full">
-                <div className="space-y-2 w-full md:w-1/2">
-                  <Label className="text-sm dark:text-muted-foreground font-normal">
-                    New Password
-                  </Label>
-                  <Input
-                    type="password"
-                    placeholder="••••••••"
-                    className="placeholder:text-muted-foreground text-sm rounded-full min-h-11"
+
+                <div className="flex flex-col md:flex-row gap-4 w-full">
+                  <FormField
+                    control={form.control}
+                    name="newPassword"
+                    render={({ field }) => (
+                      <FormItem className="w-full md:w-1/2">
+                        <FormLabel className="text-sm dark:text-muted-foreground font-normal">
+                          New Password
+                        </FormLabel>
+                        <FormControl>
+                          <Input
+                            type="password"
+                            placeholder="••••••••"
+                            className="placeholder:text-muted-foreground text-sm rounded-full min-h-11"
+                            {...field}
+                          />
+                        </FormControl>
+
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="confirmPassword"
+                    render={({ field }) => (
+                      <FormItem className="w-full md:w-1/2">
+                        <FormLabel className="text-sm dark:text-muted-foreground font-normal">
+                          Confirm Password
+                        </FormLabel>
+                        <FormControl>
+                          <Input
+                            type="password"
+                            placeholder="••••••••"
+                            className="placeholder:text-muted-foreground text-sm rounded-full min-h-11"
+                            {...field}
+                          />
+                        </FormControl>
+
+                        <FormMessage />
+                      </FormItem>
+                    )}
                   />
                 </div>
-                <div className="space-y-2 w-full md:w-1/2">
-                  <Label className="text-sm dark:text-muted-foreground font-normal">
-                    Confirm Password
-                  </Label>
-                  <Input
-                    type="password"
-                    placeholder="••••••••"
-                    className="placeholder:text-muted-foreground text-sm rounded-full min-h-11"
-                  />
+
+                {error && <FormError message={error} />}
+
+                <div className="flex justify-end">
+                  <Button
+                    type="submit"
+                    className="w-full text-white min-h-11 sm:w-36 rounded-full"
+                  >
+                    {loading ? (
+                      <Loader2 className="size-5 animate-spin" />
+                    ) : (
+                      "Update Password"
+                    )}
+                  </Button>
                 </div>
-              </div>
-              <div className="flex justify-end">
-                <Button
-                  type="submit"
-                  className="w-full text-white min-h-11 sm:w-auto rounded-full"
-                >
-                  Update Password
-                </Button>
-              </div>
-            </form>
+              </form>
+            </Form>
           </section>
 
           <Separator className="my-4 md:my-6 max-w-md w-full mx-auto" />
@@ -123,11 +271,20 @@ export default function SettingsPage() {
                 variant={"destructive"}
                 type="submit"
                 className="w-full min-h-11 sm:w-xs rounded-full"
+                onClick={() => setIsOpenModal(true)}
               >
                 Delete Account
               </Button>
             </div>
           </section>
+
+          <DeleteAccountModal
+            isOpen={isOpenModal}
+            error={accountDeletingError}
+            loading={accountDeletingLoading}
+            handleDeleteAccount={handleDeleteAccount}
+            handleOpenChange={handleOpenChange}
+          />
 
           <Separator className="my-4 md:my-6 max-w-md w-full mx-auto" />
 
@@ -144,6 +301,7 @@ export default function SettingsPage() {
                 variant={"outline"}
                 type="submit"
                 className="w-full min-h-11 sm:w-xs rounded-full"
+                onClick={logout}
               >
                 Logout
               </Button>
