@@ -7,6 +7,7 @@ import { render } from "@react-email/components";
 import { EmailVerification } from "@/emails/email-verification";
 import { BASE_ADDRESS } from "@/constants";
 import { sendEmail } from "@/utils/send-email";
+import { signOut } from "@/auth";
 
 const resendVerificationEmail = async (id: string) => {
   try {
@@ -69,4 +70,8 @@ const resendVerificationEmail = async (id: string) => {
   }
 };
 
-export { resendVerificationEmail };
+const logout = async () => {
+  await signOut();
+};
+
+export { resendVerificationEmail, logout };
