@@ -73,7 +73,8 @@ export default function Profile({ user }: ProfileProps) {
 
         const res = await updateProfileImage(
           user?.id as string,
-          result.secure_url
+          result.secure_url,
+          "/dashboard/account"
         );
 
         if (!res.success) {
@@ -110,7 +111,11 @@ export default function Profile({ user }: ProfileProps) {
         return;
       }
 
-      const res = await updateProfileImage(user?.id as string, "");
+      const res = await updateProfileImage(
+        user?.id as string,
+        "",
+        "/dashboard/account"
+      );
       if (!res.success) {
         setuploadingImageError(res.message);
         return;
@@ -172,6 +177,8 @@ export default function Profile({ user }: ProfileProps) {
       setImage(user.image);
     }
   }, [user]);
+
+  console.log("user", user);
 
   return (
     <Card className="group">

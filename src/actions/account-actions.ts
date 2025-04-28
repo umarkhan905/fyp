@@ -170,7 +170,11 @@ const deleteAccount = async (userId: string) => {
   };
 };
 
-const updateProfileImage = async (userId: string, cloudinaryPath: string) => {
+const updateProfileImage = async (
+  userId: string,
+  cloudinaryPath: string,
+  pathToRevalidate?: string
+) => {
   const user = await prisma.user.update({
     where: {
       id: userId,
@@ -186,6 +190,9 @@ const updateProfileImage = async (userId: string, cloudinaryPath: string) => {
     };
   }
 
+  if (pathToRevalidate) {
+    revalidatePath(pathToRevalidate);
+  }
   return {
     success: true,
     message: "Profile image updated successfully",
