@@ -170,4 +170,26 @@ const deleteAccount = async (userId: string) => {
   };
 };
 
-export { updateProfile, updatePassword, deleteAccount };
+const updateProfileImage = async (userId: string, cloudinaryPath: string) => {
+  const user = await prisma.user.update({
+    where: {
+      id: userId,
+    },
+    data: {
+      image: cloudinaryPath,
+    },
+  });
+  if (!user) {
+    return {
+      success: false,
+      message: "User not found to update profile image",
+    };
+  }
+
+  return {
+    success: true,
+    message: "Profile image updated successfully",
+  };
+};
+
+export { updateProfile, updatePassword, deleteAccount, updateProfileImage };

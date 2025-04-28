@@ -177,11 +177,7 @@ export default function AiBasedInterview() {
           </FormCard>
         )
       ) : step === 3 ? (
-        <CompanyDetails
-          onStepChange={handleStepChange}
-          onFinish={onFinished}
-          loading={loading}
-        />
+        <CompanyDetails onFinish={onFinished} loading={loading} />
       ) : (
         <CreatedInterview
           interview={interview}

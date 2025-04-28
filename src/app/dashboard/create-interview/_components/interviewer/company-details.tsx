@@ -29,13 +29,11 @@ import { toast } from "sonner";
 
 interface CompanyDetailsProps {
   onFinish: (data: { companyName: string; companyLogo: string }) => void;
-  onStepChange: (step: number) => void;
   loading: boolean;
 }
 
 export default function CompanyDetails({
   onFinish,
-  onStepChange,
   loading,
 }: CompanyDetailsProps) {
   const [image, setImage] = useState<string | undefined>(undefined);
