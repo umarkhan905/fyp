@@ -1663,6 +1663,7 @@ export namespace Prisma {
     verificationTokenExpiresAt: Date | null
     resetPasswordToken: string | null
     resetPasswordTokenExpiresAt: Date | null
+    image: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -1692,6 +1693,7 @@ export namespace Prisma {
     verificationTokenExpiresAt: Date | null
     resetPasswordToken: string | null
     resetPasswordTokenExpiresAt: Date | null
+    image: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -1721,6 +1723,7 @@ export namespace Prisma {
     verificationTokenExpiresAt: number
     resetPasswordToken: number
     resetPasswordTokenExpiresAt: number
+    image: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -1762,6 +1765,7 @@ export namespace Prisma {
     verificationTokenExpiresAt?: true
     resetPasswordToken?: true
     resetPasswordTokenExpiresAt?: true
+    image?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -1791,6 +1795,7 @@ export namespace Prisma {
     verificationTokenExpiresAt?: true
     resetPasswordToken?: true
     resetPasswordTokenExpiresAt?: true
+    image?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -1820,6 +1825,7 @@ export namespace Prisma {
     verificationTokenExpiresAt?: true
     resetPasswordToken?: true
     resetPasswordTokenExpiresAt?: true
+    image?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -1936,6 +1942,7 @@ export namespace Prisma {
     verificationTokenExpiresAt: Date | null
     resetPasswordToken: string | null
     resetPasswordTokenExpiresAt: Date | null
+    image: string | null
     createdAt: Date
     updatedAt: Date
     _count: UserCountAggregateOutputType | null
@@ -1984,6 +1991,7 @@ export namespace Prisma {
     verificationTokenExpiresAt?: boolean
     resetPasswordToken?: boolean
     resetPasswordTokenExpiresAt?: boolean
+    image?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     createdInterviews?: boolean | User$createdInterviewsArgs<ExtArgs>
@@ -2017,6 +2025,7 @@ export namespace Prisma {
     verificationTokenExpiresAt?: boolean
     resetPasswordToken?: boolean
     resetPasswordTokenExpiresAt?: boolean
+    image?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["user"]>
@@ -2046,6 +2055,7 @@ export namespace Prisma {
     verificationTokenExpiresAt?: boolean
     resetPasswordToken?: boolean
     resetPasswordTokenExpiresAt?: boolean
+    image?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["user"]>
@@ -2075,11 +2085,12 @@ export namespace Prisma {
     verificationTokenExpiresAt?: boolean
     resetPasswordToken?: boolean
     resetPasswordTokenExpiresAt?: boolean
+    image?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "firstName" | "lastName" | "email" | "password" | "role" | "companyName" | "position" | "mobile" | "experience" | "experienceIn" | "bio" | "linkedIn" | "gitHub" | "location" | "resume" | "coins" | "verified" | "verifiedAt" | "lastLogin" | "verificationToken" | "verificationTokenExpiresAt" | "resetPasswordToken" | "resetPasswordTokenExpiresAt" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "firstName" | "lastName" | "email" | "password" | "role" | "companyName" | "position" | "mobile" | "experience" | "experienceIn" | "bio" | "linkedIn" | "gitHub" | "location" | "resume" | "coins" | "verified" | "verifiedAt" | "lastLogin" | "verificationToken" | "verificationTokenExpiresAt" | "resetPasswordToken" | "resetPasswordTokenExpiresAt" | "image" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     createdInterviews?: boolean | User$createdInterviewsArgs<ExtArgs>
     participatedInterviews?: boolean | User$participatedInterviewsArgs<ExtArgs>
@@ -2121,6 +2132,7 @@ export namespace Prisma {
       verificationTokenExpiresAt: Date | null
       resetPasswordToken: string | null
       resetPasswordTokenExpiresAt: Date | null
+      image: string | null
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["user"]>
@@ -2573,6 +2585,7 @@ export namespace Prisma {
     readonly verificationTokenExpiresAt: FieldRef<"User", 'DateTime'>
     readonly resetPasswordToken: FieldRef<"User", 'String'>
     readonly resetPasswordTokenExpiresAt: FieldRef<"User", 'DateTime'>
+    readonly image: FieldRef<"User", 'String'>
     readonly createdAt: FieldRef<"User", 'DateTime'>
     readonly updatedAt: FieldRef<"User", 'DateTime'>
   }
@@ -9097,6 +9110,7 @@ export namespace Prisma {
     verificationTokenExpiresAt: 'verificationTokenExpiresAt',
     resetPasswordToken: 'resetPasswordToken',
     resetPasswordTokenExpiresAt: 'resetPasswordTokenExpiresAt',
+    image: 'image',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -9454,6 +9468,7 @@ export namespace Prisma {
     verificationTokenExpiresAt?: DateTimeNullableFilter<"User"> | Date | string | null
     resetPasswordToken?: StringNullableFilter<"User"> | string | null
     resetPasswordTokenExpiresAt?: DateTimeNullableFilter<"User"> | Date | string | null
+    image?: StringNullableFilter<"User"> | string | null
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
     createdInterviews?: InterviewListRelationFilter
@@ -9486,6 +9501,7 @@ export namespace Prisma {
     verificationTokenExpiresAt?: SortOrderInput | SortOrder
     resetPasswordToken?: SortOrderInput | SortOrder
     resetPasswordTokenExpiresAt?: SortOrderInput | SortOrder
+    image?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     createdInterviews?: InterviewOrderByRelationAggregateInput
@@ -9521,6 +9537,7 @@ export namespace Prisma {
     verificationTokenExpiresAt?: DateTimeNullableFilter<"User"> | Date | string | null
     resetPasswordToken?: StringNullableFilter<"User"> | string | null
     resetPasswordTokenExpiresAt?: DateTimeNullableFilter<"User"> | Date | string | null
+    image?: StringNullableFilter<"User"> | string | null
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
     createdInterviews?: InterviewListRelationFilter
@@ -9553,6 +9570,7 @@ export namespace Prisma {
     verificationTokenExpiresAt?: SortOrderInput | SortOrder
     resetPasswordToken?: SortOrderInput | SortOrder
     resetPasswordTokenExpiresAt?: SortOrderInput | SortOrder
+    image?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: UserCountOrderByAggregateInput
@@ -9590,6 +9608,7 @@ export namespace Prisma {
     verificationTokenExpiresAt?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
     resetPasswordToken?: StringNullableWithAggregatesFilter<"User"> | string | null
     resetPasswordTokenExpiresAt?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
+    image?: StringNullableWithAggregatesFilter<"User"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
   }
@@ -10084,6 +10103,7 @@ export namespace Prisma {
     verificationTokenExpiresAt?: Date | string | null
     resetPasswordToken?: string | null
     resetPasswordTokenExpiresAt?: Date | string | null
+    image?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     createdInterviews?: InterviewCreateNestedManyWithoutCreatedByInput
@@ -10116,6 +10136,7 @@ export namespace Prisma {
     verificationTokenExpiresAt?: Date | string | null
     resetPasswordToken?: string | null
     resetPasswordTokenExpiresAt?: Date | string | null
+    image?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     createdInterviews?: InterviewUncheckedCreateNestedManyWithoutCreatedByInput
@@ -10148,6 +10169,7 @@ export namespace Prisma {
     verificationTokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     resetPasswordToken?: NullableStringFieldUpdateOperationsInput | string | null
     resetPasswordTokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdInterviews?: InterviewUpdateManyWithoutCreatedByNestedInput
@@ -10180,6 +10202,7 @@ export namespace Prisma {
     verificationTokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     resetPasswordToken?: NullableStringFieldUpdateOperationsInput | string | null
     resetPasswordTokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdInterviews?: InterviewUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -10212,6 +10235,7 @@ export namespace Prisma {
     verificationTokenExpiresAt?: Date | string | null
     resetPasswordToken?: string | null
     resetPasswordTokenExpiresAt?: Date | string | null
+    image?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -10241,6 +10265,7 @@ export namespace Prisma {
     verificationTokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     resetPasswordToken?: NullableStringFieldUpdateOperationsInput | string | null
     resetPasswordTokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -10270,6 +10295,7 @@ export namespace Prisma {
     verificationTokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     resetPasswordToken?: NullableStringFieldUpdateOperationsInput | string | null
     resetPasswordTokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -10932,6 +10958,7 @@ export namespace Prisma {
     verificationTokenExpiresAt?: SortOrder
     resetPasswordToken?: SortOrder
     resetPasswordTokenExpiresAt?: SortOrder
+    image?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -10966,6 +10993,7 @@ export namespace Prisma {
     verificationTokenExpiresAt?: SortOrder
     resetPasswordToken?: SortOrder
     resetPasswordTokenExpiresAt?: SortOrder
+    image?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -10995,6 +11023,7 @@ export namespace Prisma {
     verificationTokenExpiresAt?: SortOrder
     resetPasswordToken?: SortOrder
     resetPasswordTokenExpiresAt?: SortOrder
+    image?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -12752,6 +12781,7 @@ export namespace Prisma {
     verificationTokenExpiresAt?: Date | string | null
     resetPasswordToken?: string | null
     resetPasswordTokenExpiresAt?: Date | string | null
+    image?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     participatedInterviews?: InterviewParticipantCreateNestedManyWithoutIntervieweeInput
@@ -12783,6 +12813,7 @@ export namespace Prisma {
     verificationTokenExpiresAt?: Date | string | null
     resetPasswordToken?: string | null
     resetPasswordTokenExpiresAt?: Date | string | null
+    image?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     participatedInterviews?: InterviewParticipantUncheckedCreateNestedManyWithoutIntervieweeInput
@@ -12936,6 +12967,7 @@ export namespace Prisma {
     verificationTokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     resetPasswordToken?: NullableStringFieldUpdateOperationsInput | string | null
     resetPasswordTokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     participatedInterviews?: InterviewParticipantUpdateManyWithoutIntervieweeNestedInput
@@ -12967,6 +12999,7 @@ export namespace Prisma {
     verificationTokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     resetPasswordToken?: NullableStringFieldUpdateOperationsInput | string | null
     resetPasswordTokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     participatedInterviews?: InterviewParticipantUncheckedUpdateManyWithoutIntervieweeNestedInput
@@ -13121,6 +13154,7 @@ export namespace Prisma {
     verificationTokenExpiresAt?: Date | string | null
     resetPasswordToken?: string | null
     resetPasswordTokenExpiresAt?: Date | string | null
+    image?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     createdInterviews?: InterviewCreateNestedManyWithoutCreatedByInput
@@ -13152,6 +13186,7 @@ export namespace Prisma {
     verificationTokenExpiresAt?: Date | string | null
     resetPasswordToken?: string | null
     resetPasswordTokenExpiresAt?: Date | string | null
+    image?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     createdInterviews?: InterviewUncheckedCreateNestedManyWithoutCreatedByInput
@@ -13306,6 +13341,7 @@ export namespace Prisma {
     verificationTokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     resetPasswordToken?: NullableStringFieldUpdateOperationsInput | string | null
     resetPasswordTokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdInterviews?: InterviewUpdateManyWithoutCreatedByNestedInput
@@ -13337,6 +13373,7 @@ export namespace Prisma {
     verificationTokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     resetPasswordToken?: NullableStringFieldUpdateOperationsInput | string | null
     resetPasswordTokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdInterviews?: InterviewUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -13508,6 +13545,7 @@ export namespace Prisma {
     verificationTokenExpiresAt?: Date | string | null
     resetPasswordToken?: string | null
     resetPasswordTokenExpiresAt?: Date | string | null
+    image?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     createdInterviews?: InterviewCreateNestedManyWithoutCreatedByInput
@@ -13539,6 +13577,7 @@ export namespace Prisma {
     verificationTokenExpiresAt?: Date | string | null
     resetPasswordToken?: string | null
     resetPasswordTokenExpiresAt?: Date | string | null
+    image?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     createdInterviews?: InterviewUncheckedCreateNestedManyWithoutCreatedByInput
@@ -13694,6 +13733,7 @@ export namespace Prisma {
     verificationTokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     resetPasswordToken?: NullableStringFieldUpdateOperationsInput | string | null
     resetPasswordTokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdInterviews?: InterviewUpdateManyWithoutCreatedByNestedInput
@@ -13725,6 +13765,7 @@ export namespace Prisma {
     verificationTokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     resetPasswordToken?: NullableStringFieldUpdateOperationsInput | string | null
     resetPasswordTokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdInterviews?: InterviewUncheckedUpdateManyWithoutCreatedByNestedInput
