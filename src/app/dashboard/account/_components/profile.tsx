@@ -1,3 +1,7 @@
+"use client";
+
+import { updateProfile } from "@/actions/account-actions";
+import FormError from "@/components/form/form-error";
 import { Avatar } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -7,8 +11,15 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
@@ -17,11 +28,66 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import { User as UserType } from "@/generated/prisma";
+import {
+  ProfileSchema,
+  ProfileSchemaType,
+} from "@/schemas/account/profile-schema";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
-import { Camera, Save, Trash, User } from "lucide-react";
-import React from "react";
+import { Camera, Loader2, Save, Trash, User } from "lucide-react";
+import React, { useState } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 
-export default function Profile() {
+interface ProfileProps {
+  user: UserType | null;
+}
+
+export default function Profile({ user }: ProfileProps) {
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
+  const form = useForm<ProfileSchemaType>({
+    resolver: zodResolver(ProfileSchema),
+    defaultValues: {
+      firstName: user?.firstName || "",
+      lastName: user?.lastName || "",
+      email: user?.email || "",
+      mobile: user?.mobile || "",
+      companyName: user?.companyName || "",
+      position: user?.position || "",
+      experience: user?.experience?.toString() || "",
+      experienceIn: user?.experienceIn || "",
+      github: user?.gitHub || "",
+      linkedIn: user?.linkedIn || "",
+      location: user?.location || "",
+      bio: user?.bio || "",
+    },
+  });
+
+  const onSubmit = async (data: ProfileSchemaType) => {
+    setLoading(true);
+    setError(null);
+    try {
+      const result = await updateProfile(
+        { ...data, mobile: data.mobile.replace("-", "") },
+        user?.id as string,
+        "/dashboard/account"
+      );
+      if (!result.success) {
+        setError(result.message as string);
+        return;
+      }
+
+      toast.success("Profile updated successfully.");
+    } catch (error) {
+      console.log("Error occurs while updating profile: ", error);
+      setError(error as string);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <Card className="group">
       <CardHeader>
@@ -38,8 +104,10 @@ export default function Profile() {
         {/* Profile Image*/}
         <div className="size-fit mx-auto relative flex items-center justify-center z-0 group/avatar">
           <Avatar className="size-20 items-center justify-center">
-            <AvatarImage src="https://github.com/shadcn.png" />
-            <AvatarFallback>CN</AvatarFallback>
+            <AvatarImage src="https://github.com/shadcn.pngn" />
+            <AvatarFallback className="size-full bg-primary/20 text-primary flex items-center justify-center">
+              {user?.firstName?.charAt(0) || "MB"}
+            </AvatarFallback>
           </Avatar>
 
           {/* Avatar overly */}
@@ -54,107 +122,289 @@ export default function Profile() {
         </div>
 
         {/* Profile Form */}
-        <form className="space-y-4">
-          <div className="flex flex-col md:flex-row gap-4 w-full">
-            <div className="space-y-2 w-full md:w-1/2">
-              <Label className="text-sm dark:text-muted-foreground font-normal">
-                First Name
-              </Label>
-              <Input
-                placeholder="John"
-                className="placeholder:text-muted-foreground text-sm rounded-full min-h-11"
-              />
-            </div>
-            <div className="space-y-2 w-full md:w-1/2">
-              <Label className="text-sm dark:text-muted-foreground font-normal">
-                Last Name
-              </Label>
-              <Input
-                placeholder="Doe"
-                className="placeholder:text-muted-foreground text-sm rounded-full min-h-11"
-              />
-            </div>
-          </div>
-          <div className="space-y-2">
-            <Label className="text-sm dark:text-muted-foreground font-normal">
-              Username
-            </Label>
-            <Input
-              defaultValue={"john_doe_905"}
-              className="placeholder:text-muted-foreground text-sm rounded-full min-h-11"
-              disabled
-            />
-          </div>
-          <div className="space-y-2">
-            <Label className="text-sm dark:text-muted-foreground font-normal">
-              Email
-            </Label>
-            <Input
-              defaultValue={"cNtPj@example.com"}
-              className="placeholder:text-muted-foreground text-sm rounded-full min-h-11"
-              disabled
-            />
-          </div>
-          <div className="space-y-2">
-            <Label className="text-sm dark:text-muted-foreground font-normal">
-              Phone Number
-            </Label>
-            <Input
-              placeholder="+1 (123) 456-7890"
-              className="placeholder:text-muted-foreground text-sm rounded-full min-h-11"
-            />
-          </div>
-          <div className="space-y-2">
-            <Label className="text-sm dark:text-muted-foreground font-normal">
-              Profession
-            </Label>
-            <Input
-              placeholder="Software Engineer"
-              className="placeholder:text-muted-foreground text-sm rounded-full min-h-11"
-            />
-          </div>
-          <div className="space-y-2">
-            <Label className="text-sm dark:text-muted-foreground font-normal">
-              Experience
-            </Label>
-            <div className="flex items-center gap-2">
-              <Input
-                placeholder="1"
-                className="placeholder:text-muted-foreground text-sm rounded-full min-h-11"
-                type="number"
-                min={0}
-              />
-              <Select>
-                <SelectTrigger className="placeholder:text-muted-foreground text-sm rounded-full min-h-11">
-                  <SelectValue placeholder="Experience In" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="year">Years</SelectItem>
-                  <SelectItem value="month">Months</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-          </div>
-          <div className="space-y-2">
-            <Label className="text-sm dark:text-muted-foreground font-normal">
-              Bio
-            </Label>
-            <Textarea
-              placeholder="My bio"
-              className="placeholder:text-muted-foreground text-sm  min-h-24 resize-none"
-            />
-          </div>
+        <Form {...form}>
+          <form className="space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
+            <div className="flex flex-col md:flex-row gap-4 w-full">
+              <FormField
+                control={form.control}
+                name="firstName"
+                render={({ field }) => (
+                  <FormItem className="w-full md:w-1/2">
+                    <FormLabel className="text-sm dark:text-muted-foreground font-normal">
+                      First Name
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="John"
+                        className="placeholder:text-muted-foreground text-sm rounded-full min-h-11"
+                        {...field}
+                      />
+                    </FormControl>
 
-          <div className="flex justify-end">
-            <Button
-              type="submit"
-              className="w-full text-white min-h-11 sm:w-auto rounded-full"
-            >
-              <Save className="size-5" />
-              Save Changes
-            </Button>
-          </div>
-        </form>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="lastName"
+                render={({ field }) => (
+                  <FormItem className="w-full md:w-1/2">
+                    <FormLabel className="text-sm dark:text-muted-foreground font-normal">
+                      First Name
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Doe"
+                        className="placeholder:text-muted-foreground text-sm rounded-full min-h-11"
+                        {...field}
+                      />
+                    </FormControl>
+
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-sm dark:text-muted-foreground font-normal">
+                    Email
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="johndoe@mockbyte.com"
+                      className="placeholder:text-muted-foreground text-sm rounded-full min-h-11"
+                      disabled
+                      {...field}
+                    />
+                  </FormControl>
+
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="mobile"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-sm dark:text-muted-foreground font-normal">
+                    Phone Number
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="03xxxxxxxxx"
+                      className="placeholder:text-muted-foreground text-sm rounded-full min-h-11"
+                      {...field}
+                    />
+                  </FormControl>
+
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="companyName"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-sm dark:text-muted-foreground font-normal">
+                    Company Name
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Google"
+                      className="placeholder:text-muted-foreground text-sm rounded-full min-h-11"
+                      {...field}
+                    />
+                  </FormControl>
+
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="position"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-sm dark:text-muted-foreground font-normal">
+                    Position
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Software Engineer"
+                      className="placeholder:text-muted-foreground text-sm rounded-full min-h-11"
+                      {...field}
+                    />
+                  </FormControl>
+
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="experience"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-sm dark:text-muted-foreground font-normal">
+                    Experience
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="1"
+                      type="number"
+                      min={0}
+                      className="placeholder:text-muted-foreground text-sm rounded-full min-h-11"
+                      {...field}
+                    />
+                  </FormControl>
+
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="experienceIn"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-sm dark:text-muted-foreground font-normal">
+                    ExperienceIn
+                  </FormLabel>
+                  <FormControl>
+                    <Select value={field.value} onValueChange={field.onChange}>
+                      <SelectTrigger className="w-full placeholder:text-muted-foreground text-sm rounded-full min-h-11">
+                        <SelectValue placeholder="Experience In" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="YEARS">Years</SelectItem>
+                        <SelectItem value="MONTHS">Months</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </FormControl>
+
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="github"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-sm dark:text-muted-foreground font-normal">
+                    Github Profile
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="https://github.com/mockbyte"
+                      className="placeholder:text-muted-foreground text-sm rounded-full min-h-11"
+                      {...field}
+                    />
+                  </FormControl>
+
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="linkedIn"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-sm dark:text-muted-foreground font-normal">
+                    LinkedIn Profile
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="https://linkedin.com/in/mockbyte"
+                      className="placeholder:text-muted-foreground text-sm rounded-full min-h-11"
+                      {...field}
+                    />
+                  </FormControl>
+
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="location"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-sm dark:text-muted-foreground font-normal">
+                    Location
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="New York, USA"
+                      className="placeholder:text-muted-foreground text-sm rounded-full min-h-11"
+                      {...field}
+                    />
+                  </FormControl>
+
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="bio"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-sm dark:text-muted-foreground font-normal">
+                    Bio
+                  </FormLabel>
+                  <FormControl>
+                    <Textarea
+                      placeholder="My bio"
+                      className="placeholder:text-muted-foreground text-sm  min-h-24 resize-none"
+                      {...field}
+                    />
+                  </FormControl>
+
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            {error && <FormError message={error} />}
+
+            <div className="w-full flex justify-end">
+              <Button
+                type="submit"
+                className="w-full text-white min-h-11 sm:w-40 rounded-full"
+                disabled={loading}
+              >
+                {loading ? (
+                  <Loader2 className="size-5 animate-spin" />
+                ) : (
+                  <>
+                    <Save className="size-5" />
+                    Save Changes
+                  </>
+                )}
+              </Button>
+            </div>
+          </form>
+        </Form>
       </CardContent>
     </Card>
   );
