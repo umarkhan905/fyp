@@ -188,11 +188,17 @@ exports.Prisma.QuestionScalarFieldEnum = {
   question: 'question',
   codeEditorRequired: 'codeEditorRequired',
   questionType: 'questionType',
-  options: 'options',
   answer: 'answer',
   explanation: 'explanation',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
+};
+
+exports.Prisma.OptionScalarFieldEnum = {
+  id: 'id',
+  questionId: 'questionId',
+  option: 'option',
+  isCorrect: 'isCorrect'
 };
 
 exports.Prisma.FeedbackScalarFieldEnum = {
@@ -296,6 +302,7 @@ exports.Prisma.ModelName = {
   Interview: 'Interview',
   InterviewParticipant: 'InterviewParticipant',
   Question: 'Question',
+  Option: 'Option',
   Feedback: 'Feedback',
   RatingItem: 'RatingItem'
 };

@@ -34,6 +34,11 @@ export type InterviewParticipant = $Result.DefaultSelection<Prisma.$InterviewPar
  */
 export type Question = $Result.DefaultSelection<Prisma.$QuestionPayload>
 /**
+ * Model Option
+ * 
+ */
+export type Option = $Result.DefaultSelection<Prisma.$OptionPayload>
+/**
  * Model Feedback
  * 
  */
@@ -341,6 +346,16 @@ export class PrismaClient<
     * ```
     */
   get question(): Prisma.QuestionDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.option`: Exposes CRUD operations for the **Option** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Options
+    * const options = await prisma.option.findMany()
+    * ```
+    */
+  get option(): Prisma.OptionDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.feedback`: Exposes CRUD operations for the **Feedback** model.
@@ -805,6 +820,7 @@ export namespace Prisma {
     Interview: 'Interview',
     InterviewParticipant: 'InterviewParticipant',
     Question: 'Question',
+    Option: 'Option',
     Feedback: 'Feedback',
     RatingItem: 'RatingItem'
   };
@@ -825,7 +841,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "interview" | "interviewParticipant" | "question" | "feedback" | "ratingItem"
+      modelProps: "user" | "interview" | "interviewParticipant" | "question" | "option" | "feedback" | "ratingItem"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1125,6 +1141,80 @@ export namespace Prisma {
           }
         }
       }
+      Option: {
+        payload: Prisma.$OptionPayload<ExtArgs>
+        fields: Prisma.OptionFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.OptionFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OptionPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.OptionFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OptionPayload>
+          }
+          findFirst: {
+            args: Prisma.OptionFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OptionPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.OptionFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OptionPayload>
+          }
+          findMany: {
+            args: Prisma.OptionFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OptionPayload>[]
+          }
+          create: {
+            args: Prisma.OptionCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OptionPayload>
+          }
+          createMany: {
+            args: Prisma.OptionCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.OptionCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OptionPayload>[]
+          }
+          delete: {
+            args: Prisma.OptionDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OptionPayload>
+          }
+          update: {
+            args: Prisma.OptionUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OptionPayload>
+          }
+          deleteMany: {
+            args: Prisma.OptionDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.OptionUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.OptionUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OptionPayload>[]
+          }
+          upsert: {
+            args: Prisma.OptionUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OptionPayload>
+          }
+          aggregate: {
+            args: Prisma.OptionAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateOption>
+          }
+          groupBy: {
+            args: Prisma.OptionGroupByArgs<ExtArgs>
+            result: $Utils.Optional<OptionGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.OptionCountArgs<ExtArgs>
+            result: $Utils.Optional<OptionCountAggregateOutputType> | number
+          }
+        }
+      }
       Feedback: {
         payload: Prisma.$FeedbackPayload<ExtArgs>
         fields: Prisma.FeedbackFieldRefs
@@ -1361,6 +1451,7 @@ export namespace Prisma {
     interview?: InterviewOmit
     interviewParticipant?: InterviewParticipantOmit
     question?: QuestionOmit
+    option?: OptionOmit
     feedback?: FeedbackOmit
     ratingItem?: RatingItemOmit
   }
@@ -1578,6 +1669,37 @@ export namespace Prisma {
    */
   export type InterviewParticipantCountOutputTypeCountFeedbacksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: FeedbackWhereInput
+  }
+
+
+  /**
+   * Count Type QuestionCountOutputType
+   */
+
+  export type QuestionCountOutputType = {
+    options: number
+  }
+
+  export type QuestionCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    options?: boolean | QuestionCountOutputTypeCountOptionsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * QuestionCountOutputType without action
+   */
+  export type QuestionCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuestionCountOutputType
+     */
+    select?: QuestionCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * QuestionCountOutputType without action
+   */
+  export type QuestionCountOutputTypeCountOptionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: OptionWhereInput
   }
 
 
@@ -5611,7 +5733,6 @@ export namespace Prisma {
     question: string | null
     codeEditorRequired: boolean | null
     questionType: string | null
-    options: string | null
     answer: string | null
     explanation: string | null
     createdAt: Date | null
@@ -5624,7 +5745,6 @@ export namespace Prisma {
     question: string | null
     codeEditorRequired: boolean | null
     questionType: string | null
-    options: string | null
     answer: string | null
     explanation: string | null
     createdAt: Date | null
@@ -5637,7 +5757,6 @@ export namespace Prisma {
     question: number
     codeEditorRequired: number
     questionType: number
-    options: number
     answer: number
     explanation: number
     createdAt: number
@@ -5652,7 +5771,6 @@ export namespace Prisma {
     question?: true
     codeEditorRequired?: true
     questionType?: true
-    options?: true
     answer?: true
     explanation?: true
     createdAt?: true
@@ -5665,7 +5783,6 @@ export namespace Prisma {
     question?: true
     codeEditorRequired?: true
     questionType?: true
-    options?: true
     answer?: true
     explanation?: true
     createdAt?: true
@@ -5678,7 +5795,6 @@ export namespace Prisma {
     question?: true
     codeEditorRequired?: true
     questionType?: true
-    options?: true
     answer?: true
     explanation?: true
     createdAt?: true
@@ -5764,7 +5880,6 @@ export namespace Prisma {
     question: string
     codeEditorRequired: boolean
     questionType: string
-    options: string | null
     answer: string | null
     explanation: string | null
     createdAt: Date
@@ -5794,12 +5909,13 @@ export namespace Prisma {
     question?: boolean
     codeEditorRequired?: boolean
     questionType?: boolean
-    options?: boolean
     answer?: boolean
     explanation?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     interview?: boolean | InterviewDefaultArgs<ExtArgs>
+    options?: boolean | Question$optionsArgs<ExtArgs>
+    _count?: boolean | QuestionCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["question"]>
 
   export type QuestionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -5808,7 +5924,6 @@ export namespace Prisma {
     question?: boolean
     codeEditorRequired?: boolean
     questionType?: boolean
-    options?: boolean
     answer?: boolean
     explanation?: boolean
     createdAt?: boolean
@@ -5822,7 +5937,6 @@ export namespace Prisma {
     question?: boolean
     codeEditorRequired?: boolean
     questionType?: boolean
-    options?: boolean
     answer?: boolean
     explanation?: boolean
     createdAt?: boolean
@@ -5836,16 +5950,17 @@ export namespace Prisma {
     question?: boolean
     codeEditorRequired?: boolean
     questionType?: boolean
-    options?: boolean
     answer?: boolean
     explanation?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type QuestionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "interviewId" | "question" | "codeEditorRequired" | "questionType" | "options" | "answer" | "explanation" | "createdAt" | "updatedAt", ExtArgs["result"]["question"]>
+  export type QuestionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "interviewId" | "question" | "codeEditorRequired" | "questionType" | "answer" | "explanation" | "createdAt" | "updatedAt", ExtArgs["result"]["question"]>
   export type QuestionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     interview?: boolean | InterviewDefaultArgs<ExtArgs>
+    options?: boolean | Question$optionsArgs<ExtArgs>
+    _count?: boolean | QuestionCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type QuestionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     interview?: boolean | InterviewDefaultArgs<ExtArgs>
@@ -5858,6 +5973,7 @@ export namespace Prisma {
     name: "Question"
     objects: {
       interview: Prisma.$InterviewPayload<ExtArgs>
+      options: Prisma.$OptionPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -5865,7 +5981,6 @@ export namespace Prisma {
       question: string
       codeEditorRequired: boolean
       questionType: string
-      options: string | null
       answer: string | null
       explanation: string | null
       createdAt: Date
@@ -6265,6 +6380,7 @@ export namespace Prisma {
   export interface Prisma__QuestionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     interview<T extends InterviewDefaultArgs<ExtArgs> = {}>(args?: Subset<T, InterviewDefaultArgs<ExtArgs>>): Prisma__InterviewClient<$Result.GetResult<Prisma.$InterviewPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    options<T extends Question$optionsArgs<ExtArgs> = {}>(args?: Subset<T, Question$optionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OptionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -6299,7 +6415,6 @@ export namespace Prisma {
     readonly question: FieldRef<"Question", 'String'>
     readonly codeEditorRequired: FieldRef<"Question", 'Boolean'>
     readonly questionType: FieldRef<"Question", 'String'>
-    readonly options: FieldRef<"Question", 'String'>
     readonly answer: FieldRef<"Question", 'String'>
     readonly explanation: FieldRef<"Question", 'String'>
     readonly createdAt: FieldRef<"Question", 'DateTime'>
@@ -6700,6 +6815,30 @@ export namespace Prisma {
   }
 
   /**
+   * Question.options
+   */
+  export type Question$optionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Option
+     */
+    select?: OptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Option
+     */
+    omit?: OptionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OptionInclude<ExtArgs> | null
+    where?: OptionWhereInput
+    orderBy?: OptionOrderByWithRelationInput | OptionOrderByWithRelationInput[]
+    cursor?: OptionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: OptionScalarFieldEnum | OptionScalarFieldEnum[]
+  }
+
+  /**
    * Question without action
    */
   export type QuestionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -6715,6 +6854,1051 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: QuestionInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Option
+   */
+
+  export type AggregateOption = {
+    _count: OptionCountAggregateOutputType | null
+    _min: OptionMinAggregateOutputType | null
+    _max: OptionMaxAggregateOutputType | null
+  }
+
+  export type OptionMinAggregateOutputType = {
+    id: string | null
+    questionId: string | null
+    option: string | null
+    isCorrect: boolean | null
+  }
+
+  export type OptionMaxAggregateOutputType = {
+    id: string | null
+    questionId: string | null
+    option: string | null
+    isCorrect: boolean | null
+  }
+
+  export type OptionCountAggregateOutputType = {
+    id: number
+    questionId: number
+    option: number
+    isCorrect: number
+    _all: number
+  }
+
+
+  export type OptionMinAggregateInputType = {
+    id?: true
+    questionId?: true
+    option?: true
+    isCorrect?: true
+  }
+
+  export type OptionMaxAggregateInputType = {
+    id?: true
+    questionId?: true
+    option?: true
+    isCorrect?: true
+  }
+
+  export type OptionCountAggregateInputType = {
+    id?: true
+    questionId?: true
+    option?: true
+    isCorrect?: true
+    _all?: true
+  }
+
+  export type OptionAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Option to aggregate.
+     */
+    where?: OptionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Options to fetch.
+     */
+    orderBy?: OptionOrderByWithRelationInput | OptionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: OptionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Options from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Options.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Options
+    **/
+    _count?: true | OptionCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: OptionMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: OptionMaxAggregateInputType
+  }
+
+  export type GetOptionAggregateType<T extends OptionAggregateArgs> = {
+        [P in keyof T & keyof AggregateOption]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateOption[P]>
+      : GetScalarType<T[P], AggregateOption[P]>
+  }
+
+
+
+
+  export type OptionGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: OptionWhereInput
+    orderBy?: OptionOrderByWithAggregationInput | OptionOrderByWithAggregationInput[]
+    by: OptionScalarFieldEnum[] | OptionScalarFieldEnum
+    having?: OptionScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: OptionCountAggregateInputType | true
+    _min?: OptionMinAggregateInputType
+    _max?: OptionMaxAggregateInputType
+  }
+
+  export type OptionGroupByOutputType = {
+    id: string
+    questionId: string
+    option: string
+    isCorrect: boolean
+    _count: OptionCountAggregateOutputType | null
+    _min: OptionMinAggregateOutputType | null
+    _max: OptionMaxAggregateOutputType | null
+  }
+
+  type GetOptionGroupByPayload<T extends OptionGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<OptionGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof OptionGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], OptionGroupByOutputType[P]>
+            : GetScalarType<T[P], OptionGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type OptionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    questionId?: boolean
+    option?: boolean
+    isCorrect?: boolean
+    question?: boolean | QuestionDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["option"]>
+
+  export type OptionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    questionId?: boolean
+    option?: boolean
+    isCorrect?: boolean
+    question?: boolean | QuestionDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["option"]>
+
+  export type OptionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    questionId?: boolean
+    option?: boolean
+    isCorrect?: boolean
+    question?: boolean | QuestionDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["option"]>
+
+  export type OptionSelectScalar = {
+    id?: boolean
+    questionId?: boolean
+    option?: boolean
+    isCorrect?: boolean
+  }
+
+  export type OptionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "questionId" | "option" | "isCorrect", ExtArgs["result"]["option"]>
+  export type OptionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    question?: boolean | QuestionDefaultArgs<ExtArgs>
+  }
+  export type OptionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    question?: boolean | QuestionDefaultArgs<ExtArgs>
+  }
+  export type OptionIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    question?: boolean | QuestionDefaultArgs<ExtArgs>
+  }
+
+  export type $OptionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Option"
+    objects: {
+      question: Prisma.$QuestionPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      questionId: string
+      option: string
+      isCorrect: boolean
+    }, ExtArgs["result"]["option"]>
+    composites: {}
+  }
+
+  type OptionGetPayload<S extends boolean | null | undefined | OptionDefaultArgs> = $Result.GetResult<Prisma.$OptionPayload, S>
+
+  type OptionCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<OptionFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: OptionCountAggregateInputType | true
+    }
+
+  export interface OptionDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Option'], meta: { name: 'Option' } }
+    /**
+     * Find zero or one Option that matches the filter.
+     * @param {OptionFindUniqueArgs} args - Arguments to find a Option
+     * @example
+     * // Get one Option
+     * const option = await prisma.option.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends OptionFindUniqueArgs>(args: SelectSubset<T, OptionFindUniqueArgs<ExtArgs>>): Prisma__OptionClient<$Result.GetResult<Prisma.$OptionPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Option that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {OptionFindUniqueOrThrowArgs} args - Arguments to find a Option
+     * @example
+     * // Get one Option
+     * const option = await prisma.option.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends OptionFindUniqueOrThrowArgs>(args: SelectSubset<T, OptionFindUniqueOrThrowArgs<ExtArgs>>): Prisma__OptionClient<$Result.GetResult<Prisma.$OptionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Option that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OptionFindFirstArgs} args - Arguments to find a Option
+     * @example
+     * // Get one Option
+     * const option = await prisma.option.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends OptionFindFirstArgs>(args?: SelectSubset<T, OptionFindFirstArgs<ExtArgs>>): Prisma__OptionClient<$Result.GetResult<Prisma.$OptionPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Option that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OptionFindFirstOrThrowArgs} args - Arguments to find a Option
+     * @example
+     * // Get one Option
+     * const option = await prisma.option.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends OptionFindFirstOrThrowArgs>(args?: SelectSubset<T, OptionFindFirstOrThrowArgs<ExtArgs>>): Prisma__OptionClient<$Result.GetResult<Prisma.$OptionPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Options that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OptionFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Options
+     * const options = await prisma.option.findMany()
+     * 
+     * // Get first 10 Options
+     * const options = await prisma.option.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const optionWithIdOnly = await prisma.option.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends OptionFindManyArgs>(args?: SelectSubset<T, OptionFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OptionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Option.
+     * @param {OptionCreateArgs} args - Arguments to create a Option.
+     * @example
+     * // Create one Option
+     * const Option = await prisma.option.create({
+     *   data: {
+     *     // ... data to create a Option
+     *   }
+     * })
+     * 
+     */
+    create<T extends OptionCreateArgs>(args: SelectSubset<T, OptionCreateArgs<ExtArgs>>): Prisma__OptionClient<$Result.GetResult<Prisma.$OptionPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Options.
+     * @param {OptionCreateManyArgs} args - Arguments to create many Options.
+     * @example
+     * // Create many Options
+     * const option = await prisma.option.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends OptionCreateManyArgs>(args?: SelectSubset<T, OptionCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Options and returns the data saved in the database.
+     * @param {OptionCreateManyAndReturnArgs} args - Arguments to create many Options.
+     * @example
+     * // Create many Options
+     * const option = await prisma.option.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Options and only return the `id`
+     * const optionWithIdOnly = await prisma.option.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends OptionCreateManyAndReturnArgs>(args?: SelectSubset<T, OptionCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OptionPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Option.
+     * @param {OptionDeleteArgs} args - Arguments to delete one Option.
+     * @example
+     * // Delete one Option
+     * const Option = await prisma.option.delete({
+     *   where: {
+     *     // ... filter to delete one Option
+     *   }
+     * })
+     * 
+     */
+    delete<T extends OptionDeleteArgs>(args: SelectSubset<T, OptionDeleteArgs<ExtArgs>>): Prisma__OptionClient<$Result.GetResult<Prisma.$OptionPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Option.
+     * @param {OptionUpdateArgs} args - Arguments to update one Option.
+     * @example
+     * // Update one Option
+     * const option = await prisma.option.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends OptionUpdateArgs>(args: SelectSubset<T, OptionUpdateArgs<ExtArgs>>): Prisma__OptionClient<$Result.GetResult<Prisma.$OptionPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Options.
+     * @param {OptionDeleteManyArgs} args - Arguments to filter Options to delete.
+     * @example
+     * // Delete a few Options
+     * const { count } = await prisma.option.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends OptionDeleteManyArgs>(args?: SelectSubset<T, OptionDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Options.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OptionUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Options
+     * const option = await prisma.option.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends OptionUpdateManyArgs>(args: SelectSubset<T, OptionUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Options and returns the data updated in the database.
+     * @param {OptionUpdateManyAndReturnArgs} args - Arguments to update many Options.
+     * @example
+     * // Update many Options
+     * const option = await prisma.option.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Options and only return the `id`
+     * const optionWithIdOnly = await prisma.option.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends OptionUpdateManyAndReturnArgs>(args: SelectSubset<T, OptionUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OptionPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Option.
+     * @param {OptionUpsertArgs} args - Arguments to update or create a Option.
+     * @example
+     * // Update or create a Option
+     * const option = await prisma.option.upsert({
+     *   create: {
+     *     // ... data to create a Option
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Option we want to update
+     *   }
+     * })
+     */
+    upsert<T extends OptionUpsertArgs>(args: SelectSubset<T, OptionUpsertArgs<ExtArgs>>): Prisma__OptionClient<$Result.GetResult<Prisma.$OptionPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Options.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OptionCountArgs} args - Arguments to filter Options to count.
+     * @example
+     * // Count the number of Options
+     * const count = await prisma.option.count({
+     *   where: {
+     *     // ... the filter for the Options we want to count
+     *   }
+     * })
+    **/
+    count<T extends OptionCountArgs>(
+      args?: Subset<T, OptionCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], OptionCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Option.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OptionAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends OptionAggregateArgs>(args: Subset<T, OptionAggregateArgs>): Prisma.PrismaPromise<GetOptionAggregateType<T>>
+
+    /**
+     * Group by Option.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OptionGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends OptionGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: OptionGroupByArgs['orderBy'] }
+        : { orderBy?: OptionGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, OptionGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetOptionGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Option model
+   */
+  readonly fields: OptionFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Option.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__OptionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    question<T extends QuestionDefaultArgs<ExtArgs> = {}>(args?: Subset<T, QuestionDefaultArgs<ExtArgs>>): Prisma__QuestionClient<$Result.GetResult<Prisma.$QuestionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Option model
+   */
+  interface OptionFieldRefs {
+    readonly id: FieldRef<"Option", 'String'>
+    readonly questionId: FieldRef<"Option", 'String'>
+    readonly option: FieldRef<"Option", 'String'>
+    readonly isCorrect: FieldRef<"Option", 'Boolean'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Option findUnique
+   */
+  export type OptionFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Option
+     */
+    select?: OptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Option
+     */
+    omit?: OptionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OptionInclude<ExtArgs> | null
+    /**
+     * Filter, which Option to fetch.
+     */
+    where: OptionWhereUniqueInput
+  }
+
+  /**
+   * Option findUniqueOrThrow
+   */
+  export type OptionFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Option
+     */
+    select?: OptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Option
+     */
+    omit?: OptionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OptionInclude<ExtArgs> | null
+    /**
+     * Filter, which Option to fetch.
+     */
+    where: OptionWhereUniqueInput
+  }
+
+  /**
+   * Option findFirst
+   */
+  export type OptionFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Option
+     */
+    select?: OptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Option
+     */
+    omit?: OptionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OptionInclude<ExtArgs> | null
+    /**
+     * Filter, which Option to fetch.
+     */
+    where?: OptionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Options to fetch.
+     */
+    orderBy?: OptionOrderByWithRelationInput | OptionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Options.
+     */
+    cursor?: OptionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Options from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Options.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Options.
+     */
+    distinct?: OptionScalarFieldEnum | OptionScalarFieldEnum[]
+  }
+
+  /**
+   * Option findFirstOrThrow
+   */
+  export type OptionFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Option
+     */
+    select?: OptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Option
+     */
+    omit?: OptionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OptionInclude<ExtArgs> | null
+    /**
+     * Filter, which Option to fetch.
+     */
+    where?: OptionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Options to fetch.
+     */
+    orderBy?: OptionOrderByWithRelationInput | OptionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Options.
+     */
+    cursor?: OptionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Options from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Options.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Options.
+     */
+    distinct?: OptionScalarFieldEnum | OptionScalarFieldEnum[]
+  }
+
+  /**
+   * Option findMany
+   */
+  export type OptionFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Option
+     */
+    select?: OptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Option
+     */
+    omit?: OptionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OptionInclude<ExtArgs> | null
+    /**
+     * Filter, which Options to fetch.
+     */
+    where?: OptionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Options to fetch.
+     */
+    orderBy?: OptionOrderByWithRelationInput | OptionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Options.
+     */
+    cursor?: OptionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Options from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Options.
+     */
+    skip?: number
+    distinct?: OptionScalarFieldEnum | OptionScalarFieldEnum[]
+  }
+
+  /**
+   * Option create
+   */
+  export type OptionCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Option
+     */
+    select?: OptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Option
+     */
+    omit?: OptionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OptionInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Option.
+     */
+    data: XOR<OptionCreateInput, OptionUncheckedCreateInput>
+  }
+
+  /**
+   * Option createMany
+   */
+  export type OptionCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Options.
+     */
+    data: OptionCreateManyInput | OptionCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Option createManyAndReturn
+   */
+  export type OptionCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Option
+     */
+    select?: OptionSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Option
+     */
+    omit?: OptionOmit<ExtArgs> | null
+    /**
+     * The data used to create many Options.
+     */
+    data: OptionCreateManyInput | OptionCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OptionIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Option update
+   */
+  export type OptionUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Option
+     */
+    select?: OptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Option
+     */
+    omit?: OptionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OptionInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Option.
+     */
+    data: XOR<OptionUpdateInput, OptionUncheckedUpdateInput>
+    /**
+     * Choose, which Option to update.
+     */
+    where: OptionWhereUniqueInput
+  }
+
+  /**
+   * Option updateMany
+   */
+  export type OptionUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Options.
+     */
+    data: XOR<OptionUpdateManyMutationInput, OptionUncheckedUpdateManyInput>
+    /**
+     * Filter which Options to update
+     */
+    where?: OptionWhereInput
+    /**
+     * Limit how many Options to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Option updateManyAndReturn
+   */
+  export type OptionUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Option
+     */
+    select?: OptionSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Option
+     */
+    omit?: OptionOmit<ExtArgs> | null
+    /**
+     * The data used to update Options.
+     */
+    data: XOR<OptionUpdateManyMutationInput, OptionUncheckedUpdateManyInput>
+    /**
+     * Filter which Options to update
+     */
+    where?: OptionWhereInput
+    /**
+     * Limit how many Options to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OptionIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Option upsert
+   */
+  export type OptionUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Option
+     */
+    select?: OptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Option
+     */
+    omit?: OptionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OptionInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Option to update in case it exists.
+     */
+    where: OptionWhereUniqueInput
+    /**
+     * In case the Option found by the `where` argument doesn't exist, create a new Option with this data.
+     */
+    create: XOR<OptionCreateInput, OptionUncheckedCreateInput>
+    /**
+     * In case the Option was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<OptionUpdateInput, OptionUncheckedUpdateInput>
+  }
+
+  /**
+   * Option delete
+   */
+  export type OptionDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Option
+     */
+    select?: OptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Option
+     */
+    omit?: OptionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OptionInclude<ExtArgs> | null
+    /**
+     * Filter which Option to delete.
+     */
+    where: OptionWhereUniqueInput
+  }
+
+  /**
+   * Option deleteMany
+   */
+  export type OptionDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Options to delete
+     */
+    where?: OptionWhereInput
+    /**
+     * Limit how many Options to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Option without action
+   */
+  export type OptionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Option
+     */
+    select?: OptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Option
+     */
+    omit?: OptionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OptionInclude<ExtArgs> | null
   }
 
 
@@ -9165,7 +10349,6 @@ export namespace Prisma {
     question: 'question',
     codeEditorRequired: 'codeEditorRequired',
     questionType: 'questionType',
-    options: 'options',
     answer: 'answer',
     explanation: 'explanation',
     createdAt: 'createdAt',
@@ -9173,6 +10356,16 @@ export namespace Prisma {
   };
 
   export type QuestionScalarFieldEnum = (typeof QuestionScalarFieldEnum)[keyof typeof QuestionScalarFieldEnum]
+
+
+  export const OptionScalarFieldEnum: {
+    id: 'id',
+    questionId: 'questionId',
+    option: 'option',
+    isCorrect: 'isCorrect'
+  };
+
+  export type OptionScalarFieldEnum = (typeof OptionScalarFieldEnum)[keyof typeof OptionScalarFieldEnum]
 
 
   export const FeedbackScalarFieldEnum: {
@@ -9844,12 +11037,12 @@ export namespace Prisma {
     question?: StringFilter<"Question"> | string
     codeEditorRequired?: BoolFilter<"Question"> | boolean
     questionType?: StringFilter<"Question"> | string
-    options?: StringNullableFilter<"Question"> | string | null
     answer?: StringNullableFilter<"Question"> | string | null
     explanation?: StringNullableFilter<"Question"> | string | null
     createdAt?: DateTimeFilter<"Question"> | Date | string
     updatedAt?: DateTimeFilter<"Question"> | Date | string
     interview?: XOR<InterviewScalarRelationFilter, InterviewWhereInput>
+    options?: OptionListRelationFilter
   }
 
   export type QuestionOrderByWithRelationInput = {
@@ -9858,12 +11051,12 @@ export namespace Prisma {
     question?: SortOrder
     codeEditorRequired?: SortOrder
     questionType?: SortOrder
-    options?: SortOrderInput | SortOrder
     answer?: SortOrderInput | SortOrder
     explanation?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     interview?: InterviewOrderByWithRelationInput
+    options?: OptionOrderByRelationAggregateInput
   }
 
   export type QuestionWhereUniqueInput = Prisma.AtLeast<{
@@ -9875,12 +11068,12 @@ export namespace Prisma {
     question?: StringFilter<"Question"> | string
     codeEditorRequired?: BoolFilter<"Question"> | boolean
     questionType?: StringFilter<"Question"> | string
-    options?: StringNullableFilter<"Question"> | string | null
     answer?: StringNullableFilter<"Question"> | string | null
     explanation?: StringNullableFilter<"Question"> | string | null
     createdAt?: DateTimeFilter<"Question"> | Date | string
     updatedAt?: DateTimeFilter<"Question"> | Date | string
     interview?: XOR<InterviewScalarRelationFilter, InterviewWhereInput>
+    options?: OptionListRelationFilter
   }, "id">
 
   export type QuestionOrderByWithAggregationInput = {
@@ -9889,7 +11082,6 @@ export namespace Prisma {
     question?: SortOrder
     codeEditorRequired?: SortOrder
     questionType?: SortOrder
-    options?: SortOrderInput | SortOrder
     answer?: SortOrderInput | SortOrder
     explanation?: SortOrderInput | SortOrder
     createdAt?: SortOrder
@@ -9908,11 +11100,60 @@ export namespace Prisma {
     question?: StringWithAggregatesFilter<"Question"> | string
     codeEditorRequired?: BoolWithAggregatesFilter<"Question"> | boolean
     questionType?: StringWithAggregatesFilter<"Question"> | string
-    options?: StringNullableWithAggregatesFilter<"Question"> | string | null
     answer?: StringNullableWithAggregatesFilter<"Question"> | string | null
     explanation?: StringNullableWithAggregatesFilter<"Question"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Question"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Question"> | Date | string
+  }
+
+  export type OptionWhereInput = {
+    AND?: OptionWhereInput | OptionWhereInput[]
+    OR?: OptionWhereInput[]
+    NOT?: OptionWhereInput | OptionWhereInput[]
+    id?: StringFilter<"Option"> | string
+    questionId?: StringFilter<"Option"> | string
+    option?: StringFilter<"Option"> | string
+    isCorrect?: BoolFilter<"Option"> | boolean
+    question?: XOR<QuestionScalarRelationFilter, QuestionWhereInput>
+  }
+
+  export type OptionOrderByWithRelationInput = {
+    id?: SortOrder
+    questionId?: SortOrder
+    option?: SortOrder
+    isCorrect?: SortOrder
+    question?: QuestionOrderByWithRelationInput
+  }
+
+  export type OptionWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: OptionWhereInput | OptionWhereInput[]
+    OR?: OptionWhereInput[]
+    NOT?: OptionWhereInput | OptionWhereInput[]
+    questionId?: StringFilter<"Option"> | string
+    option?: StringFilter<"Option"> | string
+    isCorrect?: BoolFilter<"Option"> | boolean
+    question?: XOR<QuestionScalarRelationFilter, QuestionWhereInput>
+  }, "id">
+
+  export type OptionOrderByWithAggregationInput = {
+    id?: SortOrder
+    questionId?: SortOrder
+    option?: SortOrder
+    isCorrect?: SortOrder
+    _count?: OptionCountOrderByAggregateInput
+    _max?: OptionMaxOrderByAggregateInput
+    _min?: OptionMinOrderByAggregateInput
+  }
+
+  export type OptionScalarWhereWithAggregatesInput = {
+    AND?: OptionScalarWhereWithAggregatesInput | OptionScalarWhereWithAggregatesInput[]
+    OR?: OptionScalarWhereWithAggregatesInput[]
+    NOT?: OptionScalarWhereWithAggregatesInput | OptionScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Option"> | string
+    questionId?: StringWithAggregatesFilter<"Option"> | string
+    option?: StringWithAggregatesFilter<"Option"> | string
+    isCorrect?: BoolWithAggregatesFilter<"Option"> | boolean
   }
 
   export type FeedbackWhereInput = {
@@ -10563,12 +11804,12 @@ export namespace Prisma {
     question: string
     codeEditorRequired?: boolean
     questionType: string
-    options?: string | null
     answer?: string | null
     explanation?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     interview: InterviewCreateNestedOneWithoutQuestionsInput
+    options?: OptionCreateNestedManyWithoutQuestionInput
   }
 
   export type QuestionUncheckedCreateInput = {
@@ -10577,11 +11818,11 @@ export namespace Prisma {
     question: string
     codeEditorRequired?: boolean
     questionType: string
-    options?: string | null
     answer?: string | null
     explanation?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    options?: OptionUncheckedCreateNestedManyWithoutQuestionInput
   }
 
   export type QuestionUpdateInput = {
@@ -10589,12 +11830,12 @@ export namespace Prisma {
     question?: StringFieldUpdateOperationsInput | string
     codeEditorRequired?: BoolFieldUpdateOperationsInput | boolean
     questionType?: StringFieldUpdateOperationsInput | string
-    options?: NullableStringFieldUpdateOperationsInput | string | null
     answer?: NullableStringFieldUpdateOperationsInput | string | null
     explanation?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     interview?: InterviewUpdateOneRequiredWithoutQuestionsNestedInput
+    options?: OptionUpdateManyWithoutQuestionNestedInput
   }
 
   export type QuestionUncheckedUpdateInput = {
@@ -10603,11 +11844,11 @@ export namespace Prisma {
     question?: StringFieldUpdateOperationsInput | string
     codeEditorRequired?: BoolFieldUpdateOperationsInput | boolean
     questionType?: StringFieldUpdateOperationsInput | string
-    options?: NullableStringFieldUpdateOperationsInput | string | null
     answer?: NullableStringFieldUpdateOperationsInput | string | null
     explanation?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    options?: OptionUncheckedUpdateManyWithoutQuestionNestedInput
   }
 
   export type QuestionCreateManyInput = {
@@ -10616,7 +11857,6 @@ export namespace Prisma {
     question: string
     codeEditorRequired?: boolean
     questionType: string
-    options?: string | null
     answer?: string | null
     explanation?: string | null
     createdAt?: Date | string
@@ -10628,7 +11868,6 @@ export namespace Prisma {
     question?: StringFieldUpdateOperationsInput | string
     codeEditorRequired?: BoolFieldUpdateOperationsInput | boolean
     questionType?: StringFieldUpdateOperationsInput | string
-    options?: NullableStringFieldUpdateOperationsInput | string | null
     answer?: NullableStringFieldUpdateOperationsInput | string | null
     explanation?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -10641,11 +11880,58 @@ export namespace Prisma {
     question?: StringFieldUpdateOperationsInput | string
     codeEditorRequired?: BoolFieldUpdateOperationsInput | boolean
     questionType?: StringFieldUpdateOperationsInput | string
-    options?: NullableStringFieldUpdateOperationsInput | string | null
     answer?: NullableStringFieldUpdateOperationsInput | string | null
     explanation?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type OptionCreateInput = {
+    id?: string
+    option: string
+    isCorrect: boolean
+    question: QuestionCreateNestedOneWithoutOptionsInput
+  }
+
+  export type OptionUncheckedCreateInput = {
+    id?: string
+    questionId: string
+    option: string
+    isCorrect: boolean
+  }
+
+  export type OptionUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    option?: StringFieldUpdateOperationsInput | string
+    isCorrect?: BoolFieldUpdateOperationsInput | boolean
+    question?: QuestionUpdateOneRequiredWithoutOptionsNestedInput
+  }
+
+  export type OptionUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    questionId?: StringFieldUpdateOperationsInput | string
+    option?: StringFieldUpdateOperationsInput | string
+    isCorrect?: BoolFieldUpdateOperationsInput | boolean
+  }
+
+  export type OptionCreateManyInput = {
+    id?: string
+    questionId: string
+    option: string
+    isCorrect: boolean
+  }
+
+  export type OptionUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    option?: StringFieldUpdateOperationsInput | string
+    isCorrect?: BoolFieldUpdateOperationsInput | boolean
+  }
+
+  export type OptionUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    questionId?: StringFieldUpdateOperationsInput | string
+    option?: StringFieldUpdateOperationsInput | string
+    isCorrect?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type FeedbackCreateInput = {
@@ -11431,13 +12717,22 @@ export namespace Prisma {
     _max?: NestedEnumStatusFilter<$PrismaModel>
   }
 
+  export type OptionListRelationFilter = {
+    every?: OptionWhereInput
+    some?: OptionWhereInput
+    none?: OptionWhereInput
+  }
+
+  export type OptionOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type QuestionCountOrderByAggregateInput = {
     id?: SortOrder
     interviewId?: SortOrder
     question?: SortOrder
     codeEditorRequired?: SortOrder
     questionType?: SortOrder
-    options?: SortOrder
     answer?: SortOrder
     explanation?: SortOrder
     createdAt?: SortOrder
@@ -11450,7 +12745,6 @@ export namespace Prisma {
     question?: SortOrder
     codeEditorRequired?: SortOrder
     questionType?: SortOrder
-    options?: SortOrder
     answer?: SortOrder
     explanation?: SortOrder
     createdAt?: SortOrder
@@ -11463,11 +12757,36 @@ export namespace Prisma {
     question?: SortOrder
     codeEditorRequired?: SortOrder
     questionType?: SortOrder
-    options?: SortOrder
     answer?: SortOrder
     explanation?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+  }
+
+  export type QuestionScalarRelationFilter = {
+    is?: QuestionWhereInput
+    isNot?: QuestionWhereInput
+  }
+
+  export type OptionCountOrderByAggregateInput = {
+    id?: SortOrder
+    questionId?: SortOrder
+    option?: SortOrder
+    isCorrect?: SortOrder
+  }
+
+  export type OptionMaxOrderByAggregateInput = {
+    id?: SortOrder
+    questionId?: SortOrder
+    option?: SortOrder
+    isCorrect?: SortOrder
+  }
+
+  export type OptionMinOrderByAggregateInput = {
+    id?: SortOrder
+    questionId?: SortOrder
+    option?: SortOrder
+    isCorrect?: SortOrder
   }
 
   export type FloatFilter<$PrismaModel = never> = {
@@ -12019,12 +13338,68 @@ export namespace Prisma {
     connect?: InterviewWhereUniqueInput
   }
 
+  export type OptionCreateNestedManyWithoutQuestionInput = {
+    create?: XOR<OptionCreateWithoutQuestionInput, OptionUncheckedCreateWithoutQuestionInput> | OptionCreateWithoutQuestionInput[] | OptionUncheckedCreateWithoutQuestionInput[]
+    connectOrCreate?: OptionCreateOrConnectWithoutQuestionInput | OptionCreateOrConnectWithoutQuestionInput[]
+    createMany?: OptionCreateManyQuestionInputEnvelope
+    connect?: OptionWhereUniqueInput | OptionWhereUniqueInput[]
+  }
+
+  export type OptionUncheckedCreateNestedManyWithoutQuestionInput = {
+    create?: XOR<OptionCreateWithoutQuestionInput, OptionUncheckedCreateWithoutQuestionInput> | OptionCreateWithoutQuestionInput[] | OptionUncheckedCreateWithoutQuestionInput[]
+    connectOrCreate?: OptionCreateOrConnectWithoutQuestionInput | OptionCreateOrConnectWithoutQuestionInput[]
+    createMany?: OptionCreateManyQuestionInputEnvelope
+    connect?: OptionWhereUniqueInput | OptionWhereUniqueInput[]
+  }
+
   export type InterviewUpdateOneRequiredWithoutQuestionsNestedInput = {
     create?: XOR<InterviewCreateWithoutQuestionsInput, InterviewUncheckedCreateWithoutQuestionsInput>
     connectOrCreate?: InterviewCreateOrConnectWithoutQuestionsInput
     upsert?: InterviewUpsertWithoutQuestionsInput
     connect?: InterviewWhereUniqueInput
     update?: XOR<XOR<InterviewUpdateToOneWithWhereWithoutQuestionsInput, InterviewUpdateWithoutQuestionsInput>, InterviewUncheckedUpdateWithoutQuestionsInput>
+  }
+
+  export type OptionUpdateManyWithoutQuestionNestedInput = {
+    create?: XOR<OptionCreateWithoutQuestionInput, OptionUncheckedCreateWithoutQuestionInput> | OptionCreateWithoutQuestionInput[] | OptionUncheckedCreateWithoutQuestionInput[]
+    connectOrCreate?: OptionCreateOrConnectWithoutQuestionInput | OptionCreateOrConnectWithoutQuestionInput[]
+    upsert?: OptionUpsertWithWhereUniqueWithoutQuestionInput | OptionUpsertWithWhereUniqueWithoutQuestionInput[]
+    createMany?: OptionCreateManyQuestionInputEnvelope
+    set?: OptionWhereUniqueInput | OptionWhereUniqueInput[]
+    disconnect?: OptionWhereUniqueInput | OptionWhereUniqueInput[]
+    delete?: OptionWhereUniqueInput | OptionWhereUniqueInput[]
+    connect?: OptionWhereUniqueInput | OptionWhereUniqueInput[]
+    update?: OptionUpdateWithWhereUniqueWithoutQuestionInput | OptionUpdateWithWhereUniqueWithoutQuestionInput[]
+    updateMany?: OptionUpdateManyWithWhereWithoutQuestionInput | OptionUpdateManyWithWhereWithoutQuestionInput[]
+    deleteMany?: OptionScalarWhereInput | OptionScalarWhereInput[]
+  }
+
+  export type OptionUncheckedUpdateManyWithoutQuestionNestedInput = {
+    create?: XOR<OptionCreateWithoutQuestionInput, OptionUncheckedCreateWithoutQuestionInput> | OptionCreateWithoutQuestionInput[] | OptionUncheckedCreateWithoutQuestionInput[]
+    connectOrCreate?: OptionCreateOrConnectWithoutQuestionInput | OptionCreateOrConnectWithoutQuestionInput[]
+    upsert?: OptionUpsertWithWhereUniqueWithoutQuestionInput | OptionUpsertWithWhereUniqueWithoutQuestionInput[]
+    createMany?: OptionCreateManyQuestionInputEnvelope
+    set?: OptionWhereUniqueInput | OptionWhereUniqueInput[]
+    disconnect?: OptionWhereUniqueInput | OptionWhereUniqueInput[]
+    delete?: OptionWhereUniqueInput | OptionWhereUniqueInput[]
+    connect?: OptionWhereUniqueInput | OptionWhereUniqueInput[]
+    update?: OptionUpdateWithWhereUniqueWithoutQuestionInput | OptionUpdateWithWhereUniqueWithoutQuestionInput[]
+    updateMany?: OptionUpdateManyWithWhereWithoutQuestionInput | OptionUpdateManyWithWhereWithoutQuestionInput[]
+    deleteMany?: OptionScalarWhereInput | OptionScalarWhereInput[]
+  }
+
+  export type QuestionCreateNestedOneWithoutOptionsInput = {
+    create?: XOR<QuestionCreateWithoutOptionsInput, QuestionUncheckedCreateWithoutOptionsInput>
+    connectOrCreate?: QuestionCreateOrConnectWithoutOptionsInput
+    connect?: QuestionWhereUniqueInput
+  }
+
+  export type QuestionUpdateOneRequiredWithoutOptionsNestedInput = {
+    create?: XOR<QuestionCreateWithoutOptionsInput, QuestionUncheckedCreateWithoutOptionsInput>
+    connectOrCreate?: QuestionCreateOrConnectWithoutOptionsInput
+    upsert?: QuestionUpsertWithoutOptionsInput
+    connect?: QuestionWhereUniqueInput
+    update?: XOR<XOR<QuestionUpdateToOneWithWhereWithoutOptionsInput, QuestionUpdateWithoutOptionsInput>, QuestionUncheckedUpdateWithoutOptionsInput>
   }
 
   export type UserCreateNestedOneWithoutFeedbacksInput = {
@@ -12830,11 +14205,11 @@ export namespace Prisma {
     question: string
     codeEditorRequired?: boolean
     questionType: string
-    options?: string | null
     answer?: string | null
     explanation?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    options?: OptionCreateNestedManyWithoutQuestionInput
   }
 
   export type QuestionUncheckedCreateWithoutInterviewInput = {
@@ -12842,11 +14217,11 @@ export namespace Prisma {
     question: string
     codeEditorRequired?: boolean
     questionType: string
-    options?: string | null
     answer?: string | null
     explanation?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    options?: OptionUncheckedCreateNestedManyWithoutQuestionInput
   }
 
   export type QuestionCreateOrConnectWithoutInterviewInput = {
@@ -13031,7 +14406,6 @@ export namespace Prisma {
     question?: StringFilter<"Question"> | string
     codeEditorRequired?: BoolFilter<"Question"> | boolean
     questionType?: StringFilter<"Question"> | string
-    options?: StringNullableFilter<"Question"> | string | null
     answer?: StringNullableFilter<"Question"> | string | null
     explanation?: StringNullableFilter<"Question"> | string | null
     createdAt?: DateTimeFilter<"Question"> | Date | string
@@ -13455,6 +14829,28 @@ export namespace Prisma {
     create: XOR<InterviewCreateWithoutQuestionsInput, InterviewUncheckedCreateWithoutQuestionsInput>
   }
 
+  export type OptionCreateWithoutQuestionInput = {
+    id?: string
+    option: string
+    isCorrect: boolean
+  }
+
+  export type OptionUncheckedCreateWithoutQuestionInput = {
+    id?: string
+    option: string
+    isCorrect: boolean
+  }
+
+  export type OptionCreateOrConnectWithoutQuestionInput = {
+    where: OptionWhereUniqueInput
+    create: XOR<OptionCreateWithoutQuestionInput, OptionUncheckedCreateWithoutQuestionInput>
+  }
+
+  export type OptionCreateManyQuestionInputEnvelope = {
+    data: OptionCreateManyQuestionInput | OptionCreateManyQuestionInput[]
+    skipDuplicates?: boolean
+  }
+
   export type InterviewUpsertWithoutQuestionsInput = {
     update: XOR<InterviewUpdateWithoutQuestionsInput, InterviewUncheckedUpdateWithoutQuestionsInput>
     create: XOR<InterviewCreateWithoutQuestionsInput, InterviewUncheckedCreateWithoutQuestionsInput>
@@ -13518,6 +14914,96 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     participants?: InterviewParticipantUncheckedUpdateManyWithoutInterviewNestedInput
     feedbacks?: FeedbackUncheckedUpdateManyWithoutInterviewNestedInput
+  }
+
+  export type OptionUpsertWithWhereUniqueWithoutQuestionInput = {
+    where: OptionWhereUniqueInput
+    update: XOR<OptionUpdateWithoutQuestionInput, OptionUncheckedUpdateWithoutQuestionInput>
+    create: XOR<OptionCreateWithoutQuestionInput, OptionUncheckedCreateWithoutQuestionInput>
+  }
+
+  export type OptionUpdateWithWhereUniqueWithoutQuestionInput = {
+    where: OptionWhereUniqueInput
+    data: XOR<OptionUpdateWithoutQuestionInput, OptionUncheckedUpdateWithoutQuestionInput>
+  }
+
+  export type OptionUpdateManyWithWhereWithoutQuestionInput = {
+    where: OptionScalarWhereInput
+    data: XOR<OptionUpdateManyMutationInput, OptionUncheckedUpdateManyWithoutQuestionInput>
+  }
+
+  export type OptionScalarWhereInput = {
+    AND?: OptionScalarWhereInput | OptionScalarWhereInput[]
+    OR?: OptionScalarWhereInput[]
+    NOT?: OptionScalarWhereInput | OptionScalarWhereInput[]
+    id?: StringFilter<"Option"> | string
+    questionId?: StringFilter<"Option"> | string
+    option?: StringFilter<"Option"> | string
+    isCorrect?: BoolFilter<"Option"> | boolean
+  }
+
+  export type QuestionCreateWithoutOptionsInput = {
+    id?: string
+    question: string
+    codeEditorRequired?: boolean
+    questionType: string
+    answer?: string | null
+    explanation?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    interview: InterviewCreateNestedOneWithoutQuestionsInput
+  }
+
+  export type QuestionUncheckedCreateWithoutOptionsInput = {
+    id?: string
+    interviewId: string
+    question: string
+    codeEditorRequired?: boolean
+    questionType: string
+    answer?: string | null
+    explanation?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type QuestionCreateOrConnectWithoutOptionsInput = {
+    where: QuestionWhereUniqueInput
+    create: XOR<QuestionCreateWithoutOptionsInput, QuestionUncheckedCreateWithoutOptionsInput>
+  }
+
+  export type QuestionUpsertWithoutOptionsInput = {
+    update: XOR<QuestionUpdateWithoutOptionsInput, QuestionUncheckedUpdateWithoutOptionsInput>
+    create: XOR<QuestionCreateWithoutOptionsInput, QuestionUncheckedCreateWithoutOptionsInput>
+    where?: QuestionWhereInput
+  }
+
+  export type QuestionUpdateToOneWithWhereWithoutOptionsInput = {
+    where?: QuestionWhereInput
+    data: XOR<QuestionUpdateWithoutOptionsInput, QuestionUncheckedUpdateWithoutOptionsInput>
+  }
+
+  export type QuestionUpdateWithoutOptionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    question?: StringFieldUpdateOperationsInput | string
+    codeEditorRequired?: BoolFieldUpdateOperationsInput | boolean
+    questionType?: StringFieldUpdateOperationsInput | string
+    answer?: NullableStringFieldUpdateOperationsInput | string | null
+    explanation?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    interview?: InterviewUpdateOneRequiredWithoutQuestionsNestedInput
+  }
+
+  export type QuestionUncheckedUpdateWithoutOptionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    interviewId?: StringFieldUpdateOperationsInput | string
+    question?: StringFieldUpdateOperationsInput | string
+    codeEditorRequired?: BoolFieldUpdateOperationsInput | boolean
+    questionType?: StringFieldUpdateOperationsInput | string
+    answer?: NullableStringFieldUpdateOperationsInput | string | null
+    explanation?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type UserCreateWithoutFeedbacksInput = {
@@ -14182,7 +15668,6 @@ export namespace Prisma {
     question: string
     codeEditorRequired?: boolean
     questionType: string
-    options?: string | null
     answer?: string | null
     explanation?: string | null
     createdAt?: Date | string
@@ -14218,11 +15703,11 @@ export namespace Prisma {
     question?: StringFieldUpdateOperationsInput | string
     codeEditorRequired?: BoolFieldUpdateOperationsInput | boolean
     questionType?: StringFieldUpdateOperationsInput | string
-    options?: NullableStringFieldUpdateOperationsInput | string | null
     answer?: NullableStringFieldUpdateOperationsInput | string | null
     explanation?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    options?: OptionUpdateManyWithoutQuestionNestedInput
   }
 
   export type QuestionUncheckedUpdateWithoutInterviewInput = {
@@ -14230,11 +15715,11 @@ export namespace Prisma {
     question?: StringFieldUpdateOperationsInput | string
     codeEditorRequired?: BoolFieldUpdateOperationsInput | boolean
     questionType?: StringFieldUpdateOperationsInput | string
-    options?: NullableStringFieldUpdateOperationsInput | string | null
     answer?: NullableStringFieldUpdateOperationsInput | string | null
     explanation?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    options?: OptionUncheckedUpdateManyWithoutQuestionNestedInput
   }
 
   export type QuestionUncheckedUpdateManyWithoutInterviewInput = {
@@ -14242,7 +15727,6 @@ export namespace Prisma {
     question?: StringFieldUpdateOperationsInput | string
     codeEditorRequired?: BoolFieldUpdateOperationsInput | boolean
     questionType?: StringFieldUpdateOperationsInput | string
-    options?: NullableStringFieldUpdateOperationsInput | string | null
     answer?: NullableStringFieldUpdateOperationsInput | string | null
     explanation?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -14385,6 +15869,30 @@ export namespace Prisma {
     recommendedForJob?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type OptionCreateManyQuestionInput = {
+    id?: string
+    option: string
+    isCorrect: boolean
+  }
+
+  export type OptionUpdateWithoutQuestionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    option?: StringFieldUpdateOperationsInput | string
+    isCorrect?: BoolFieldUpdateOperationsInput | boolean
+  }
+
+  export type OptionUncheckedUpdateWithoutQuestionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    option?: StringFieldUpdateOperationsInput | string
+    isCorrect?: BoolFieldUpdateOperationsInput | boolean
+  }
+
+  export type OptionUncheckedUpdateManyWithoutQuestionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    option?: StringFieldUpdateOperationsInput | string
+    isCorrect?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type RatingItemCreateManyFeedbackInput = {
