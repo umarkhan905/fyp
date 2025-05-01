@@ -43,19 +43,19 @@ export function Interview({ interview, user, participant }: InterviewProps) {
     if (interview) {
       handleInterviewChange(interview);
     }
-  }, [interview, handleInterviewChange]);
+  }, [interview]);
 
   useEffect(() => {
     if (user) {
       handleSetUser(user);
     }
-  }, [user, handleSetUser]);
+  }, [user]);
 
   useEffect(() => {
     if (participant) {
       handleParticipantChange(participant);
     }
-  }, [participant, handleParticipantChange]);
+  }, [participant]);
 
   return (
     <main className="min-h-screen py-4 sm:py-6 space-y-4">
