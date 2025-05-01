@@ -10,17 +10,20 @@ import Container from "@/components/ui/container";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import TestAudioButton from "./TestAudioButton";
-import { IInterview } from "@/types";
+import { IInterview, IInterviewParticipant } from "@/types";
 import { useInterviewContext } from "@/context/interview-context";
 import { User } from "next-auth";
 
 interface InterviewProps {
   interview: IInterview | null;
   user: User | null;
+  participant: IInterviewParticipant | null;
 }
 
-export function Interview({ interview, user }: InterviewProps) {
-  const { handleInterviewChange, handleSetUser } = useInterviewContext();
+export function Interview({ interview, user, participant }: InterviewProps) {
+  const { handleInterviewChange, handleSetUser, handleParticipantChange } =
+    useInterviewContext();
+
   const instructions = [
     {
       id: 1,
@@ -47,6 +50,12 @@ export function Interview({ interview, user }: InterviewProps) {
       handleSetUser(user);
     }
   }, [user, handleSetUser]);
+
+  useEffect(() => {
+    if (participant) {
+      handleParticipantChange(participant);
+    }
+  }, [participant, handleParticipantChange]);
 
   return (
     <main className="min-h-screen py-4 sm:py-6 space-y-4">
@@ -134,13 +143,19 @@ export function Interview({ interview, user }: InterviewProps) {
       {/* Join Interview */}
       <Container className="max-w-sm space-y-2">
         <Button className="w-full min-h-11 rounded-full" asChild>
-          <Link href={`/interview/${interview?.id}/join`}>
+          <Link
+            href={
+              interview?.assessmentType === "VOICE_BASED"
+                ? `/interview/${interview?.id}/join`
+                : `/interview/${interview?.id}/join-mcqs`
+            }
+          >
             <Mic className="size-4" />
             Join Interview
           </Link>
         </Button>
 
-        <TestAudioButton />
+        {interview?.assessmentType === "VOICE_BASED" && <TestAudioButton />}
       </Container>
     </main>
   );
