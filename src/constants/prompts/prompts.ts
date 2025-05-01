@@ -119,37 +119,7 @@ export const CREATE_FEEDBACK_PROMPT = `
          "score": score as number,
          "comment": "comment"
        },
-          
-        {
-          "name": "Communication Skills",
-          "score": score as number,
-          "comment": "comment"
-        },
-        {
-          "name": "Problem-Solving",
-          "score": score as number,
-          "comment": "comment"
-        },
-        {
-          "name": "Cultural & Role Fit",
-          "score": score as number,
-          "comment": "comment"
-        },
-        {
-          "name": "Confidence & Clarity",
-          "score": score as number,
-          "comment": "comment"
-        },
-        {
-          "name": "Experience",
-          "score": score as number,
-          "comment": "comment"
-        },
-        {
-          "name": "Presentation Skills",
-          "score": score as number,
-          "comment": "comment"
-        }
+       ...
       ],
       "summary": "summary",
       "strengths": "strengths",
@@ -158,3 +128,53 @@ export const CREATE_FEEDBACK_PROMPT = `
       "assessment": "assessment"
       "recommendedForJob": true or false
     }`;
+
+export const CREATE_MCQ_FEEDBACK_PROMPT = `
+You are an expert interview evaluator reviewing a multiple-choice based technical interview. Based on the provided user answers, correct answers, and any available timing data, generate a detailed feedback report.
+
+Input:
+- Questions: A list of questions, thier correct answer, explanation, question type, and the user's selected answer.
+- Total Questions: {{totalQuestions}}
+- Correct Answers: {{correctAnswers}}
+- Wrong Answers: {{wrongAnswers}}
+- Accuracy: {{accuracy}}%
+- Time Taken: {{totalTime}} (HOURS:MINUTES:SECONDS)
+
+Your task:
+- Evaluate the candidate across the following categories:
+    - **Technical Knowledge**: Accuracy and difficulty of answered questions.
+    - **Problem-Solving**: Ability to choose the best solution among options.
+    - **Time Management**: How efficiently time was used.
+    - **Total Rating**: An overall score out of 10 based on performance.
+
+Rating Evaluations for Job Recommendation:
+    - 0-4: Not recommended for the role.
+    - 5-7: Potential suitable with further evaluations.
+    - 8-10: Recommended for the role.    
+
+Output:
+- Provide a short summary (3–4 sentences).
+- Mention strengths and weaknesses.
+- Suggest areas for improvement.
+- Give a final assessment and say whether the candidate is recommended for the role.
+
+Respond strictly in this JSON format:
+
+{
+  "totalRating": number,
+  "rating": [
+    {
+      "name": "Technical Knowledge",
+      "score": number,
+      "comment": "..."
+    },
+    ...
+  ],
+  "summary": "...",
+  "strengths": "...",
+  "weaknesses": "...",
+  "improvements": "...",
+  "assessment": "...",
+  "recommendedForJob": true or false
+}
+`;
