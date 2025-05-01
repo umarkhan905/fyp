@@ -1,32 +1,8 @@
 import { generateFeedback } from "@/actions/ai-actions";
 import { prisma } from "@/lib/prisma";
 import { getUserSession } from "@/lib/session";
-import { SavedMessage } from "@/types";
+import { SavedMessage, FeedbackResponse } from "@/types";
 import { NextRequest, NextResponse } from "next/server";
-
-type RatingItem = {
-  name: string;
-  score: number;
-  comment: string;
-};
-
-type FeedbackResponse = {
-  totalRating: number;
-  summary: string;
-  strengths: string;
-  weaknesses: string;
-  improvements: string;
-  assessment: string;
-  recommendedForJob: boolean;
-  rating: RatingItem[];
-};
-
-const getTimeTaken = (startTime: Date, endTime: Date) => {
-  const timeDiff = endTime?.getTime() - startTime?.getTime();
-  const hours = Math.floor(timeDiff / (1000 * 60 * 60));
-  const minutes = Math.floor((timeDiff / (1000 * 60)) % 60);
-  return `${hours}h ${minutes}m`;
-};
 
 export async function POST(request: NextRequest) {
   try {
@@ -44,24 +20,25 @@ export async function POST(request: NextRequest) {
     const body = (await request.json()) as {
       conversation: SavedMessage[];
       interviewId: string;
-      interviewParticipantId: string;
+      participantId: string;
       startedAt: string;
+      timeTaken: string;
     };
 
     const endTime = new Date();
 
-    const interviewParticipant = await prisma.interviewParticipant.update({
+    const participant = await prisma.interviewParticipant.update({
       where: {
-        id: body.interviewParticipantId,
+        id: body.participantId,
       },
       data: {
         completedAt: endTime,
-        timeTaken: getTimeTaken(new Date(body.startedAt), endTime),
+        timeTaken: body.timeTaken,
         status: "COMPLETED",
       },
     });
 
-    if (!interviewParticipant) {
+    if (!participant) {
       return NextResponse.json(
         {
           success: false,
@@ -96,7 +73,7 @@ export async function POST(request: NextRequest) {
         improvements: feedbackResponse.improvements,
         assessment: feedbackResponse.assessment,
         recommendedForJob: feedbackResponse.recommendedForJob,
-        interviewParticipantId: interviewParticipant.id,
+        interviewParticipantId: body.participantId,
         rating: {
           createMany: {
             data: feedbackResponse.rating,
