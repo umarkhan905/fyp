@@ -5,44 +5,35 @@ import React, { useEffect, useState } from "react";
 import { useInterviewContext } from "@/context/interview-context";
 import { vapi } from "@/lib/vapi";
 import { INTERVIEWER } from "@/constants";
-import { ApiResponse, CallStatus, IQuestion, SavedMessage } from "@/types";
+import {
+  ApiResponse,
+  CallStatus,
+  ErrorAPiResponse,
+  IQuestion,
+  ITimer,
+  SavedMessage,
+} from "@/types";
 import { useRouter } from "next/navigation";
-import Spinner from "./interview-screen/spinner";
 import MainScreen from "./interview-screen/main-screen";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { toast } from "sonner";
-import { createInterviewParticipation } from "@/actions/interview-actions";
+import { LoadingScreen } from "./loading-screen";
 
 export function InterviewScreen() {
-  const { interview, user } = useInterviewContext();
+  const { interview, user, participant } = useInterviewContext();
   const [callStatus, setCallStatus] = useState<CallStatus>(CallStatus.INACTIVE);
   const [messages, setMessages] = useState<SavedMessage[]>([]);
   const [isSpeaking, setIsSpeaking] = useState<boolean>(false);
   const [lastMessage, setLastMessage] = useState<string>("");
-  const [isGeneratingFeedback, setIsGeneratingFeedback] =
-    useState<boolean>(false);
-  const [isInterviewParticipationCreated, setIsInterviewParticipationCreated] =
-    useState<boolean>(false);
-  const [participation, setParticipation] = useState<{
-    id: string;
-    startedAt: Date;
-  } | null>(null);
+  const [error, setError] = useState<string | null>(null);
+
+  const [time, setTime] = useState<ITimer>({
+    hours: 0,
+    minutes: 0,
+    seconds: 0,
+  });
+
   const router = useRouter();
-
-  const createParticipation = async () => {
-    const participation = await createInterviewParticipation(
-      interview?.id as string
-    );
-    if (participation) {
-      setParticipation({
-        id: participation.id,
-        startedAt: participation.startedAt!,
-      });
-      setIsInterviewParticipationCreated(true);
-    }
-  };
-
-  console.log("participation", participation);
 
   const startInterview = async () => {
     setCallStatus(CallStatus.CONNECTING);
@@ -70,36 +61,39 @@ export function InterviewScreen() {
   };
 
   const handleFeedback = async () => {
-    setIsGeneratingFeedback(true);
+    setCallStatus(CallStatus.GENERATING_FEEDBACK);
+    setError(null);
     try {
       const res = await axios.post<ApiResponse<{ id: string }>>(
         "/api/interviews/feedback",
         {
           conversation: messages,
           interviewId: interview?.id,
-          interviewParticipantId: participation?.id,
-          startedAt: participation?.startedAt,
+          participantId: participant?.id,
+          startedAt: participant?.startedAt,
+          timeTaken: `${time.hours}:${time.minutes}:${time.seconds}`,
         }
       );
 
       const data = res.data;
       if (data.success) {
+        setCallStatus(CallStatus.REDIRECTING);
         toast.success("Feedback generated successfully");
         router.push(
           `/interview/${interview?.id}/feedback/${data?.data?.id as string}`
         );
       }
     } catch (error) {
+      setCallStatus(CallStatus.ERROR);
       console.error("Error generating feedback:", error);
-      toast.error("Error generating feedback. Please try again.");
-    } finally {
-      setIsGeneratingFeedback(false);
+      const axiosError = error as AxiosError<ErrorAPiResponse>;
+      setError(axiosError.response?.data.message || "Internal server error");
     }
   };
 
   useEffect(() => {
-    if (interview && isInterviewParticipationCreated) startInterview();
-  }, [interview, isInterviewParticipationCreated]);
+    if (interview && participant) startInterview();
+  }, [interview, participant]);
 
   useEffect(() => {
     const onCallStart = () => {
@@ -160,33 +154,30 @@ export function InterviewScreen() {
     }
   }, [messages, callStatus]);
 
-  useEffect(() => {
-    createParticipation();
-  }, []);
+  if (
+    callStatus === CallStatus.CONNECTING ||
+    callStatus === CallStatus.INACTIVE
+  )
+    return <LoadingScreen message="Connecting" />;
 
   return (
     <main className="w-full">
-      {callStatus === CallStatus.CONNECTING ||
-      callStatus === CallStatus.INACTIVE ? (
-        <section className="h-screen flex items-center justify-center">
-          <Spinner message="Connecting" />
-        </section>
-      ) : callStatus === CallStatus.FINISHED ? (
-        <section className="h-screen flex items-center justify-center">
-          <Spinner
-            message={
-              isGeneratingFeedback ? "Generating Feedback" : "Redirecting"
-            }
-          />
-        </section>
-      ) : (
+      {callStatus === CallStatus.ACTIVE ? (
         <MainScreen
           isSpeaking={isSpeaking}
           handleEndInterview={handleEndInterview}
           lastMessage={lastMessage}
           messages={messages}
+          time={time}
+          setTime={setTime}
         />
-      )}
+      ) : callStatus === CallStatus.GENERATING_FEEDBACK ? (
+        <LoadingScreen message="Generating Feedback" />
+      ) : callStatus === CallStatus.REDIRECTING ? (
+        <LoadingScreen message="Redirecting" />
+      ) : callStatus === CallStatus.ERROR ? (
+        <div>An error occurred: {error}</div>
+      ) : null}
     </main>
   );
 }

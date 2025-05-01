@@ -5,29 +5,21 @@ import InterviewActions from "./interview-actions";
 import InterviewHeader from "./interview-header";
 import InterviewProgress from "./interview-progress";
 import QuestionCard from "./question-card";
-import Spinner from "../spinner";
 import { useInterviewContext } from "@/context/interview-context";
 import { ApiResponse, ErrorAPiResponse, IQuestion, ITimer } from "@/types";
 import axios, { AxiosError } from "axios";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { LoadingScreen } from "../loading-screen";
 
 enum InterviewStatus {
-  CONNECTING,
-  CONNECTED,
-  FINISHED,
-  RESULTING,
-  REDIRECTING,
-  ERROR,
+  CONNECTING = "CONNECTING",
+  CONNECTED = "CONNECTED",
+  FINISHED = "FINISHED",
+  RESULTING = "RESULTING",
+  REDIRECTING = "REDIRECTING",
+  ERROR = "ERROR",
 }
-
-const LoadingScreen = ({ message }: { message: string }) => {
-  return (
-    <div className="flex flex-col items-center justify-center h-screen">
-      <Spinner message={message} />
-    </div>
-  );
-};
 
 export function InterviewScreen() {
   const [status, setStatus] = useState<InterviewStatus>(
@@ -179,10 +171,7 @@ export function InterviewScreen() {
     <LoadingScreen message="Generating Feedback" />
   ) : status === InterviewStatus.REDIRECTING ? (
     <LoadingScreen message="Redirecting" />
-  ) : (
-    <div>
-      Some Error Occurred:
-      {error}
-    </div>
-  );
+  ) : status === InterviewStatus.ERROR ? (
+    <div>An error occurred: {error}</div>
+  ) : null;
 }
