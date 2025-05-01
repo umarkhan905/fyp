@@ -103,6 +103,18 @@ const getJobInterviews = async (
   });
 };
 
+const getUniqueParticipant = async (
+  interviewId: string,
+  intervieweeId: string
+) => {
+  return await prisma.interviewParticipant.findFirst({
+    where: {
+      interviewId,
+      intervieweeId,
+    },
+  });
+};
+
 export {
   getInterviewById,
   getFeedbackById,
@@ -110,4 +122,5 @@ export {
   getCreatedInterviews,
   getJobInterviews,
   getInterviewParticipants,
+  getUniqueParticipant,
 };

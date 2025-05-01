@@ -3,6 +3,7 @@
 import {
   CREATE_FEEDBACK_PROMPT,
   CREATE_INTERVIEW_PROMPT,
+  CREATE_MCQ_FEEDBACK_PROMPT,
   CREATE_MCQ_INTERVIEW_PROMPT,
   CREATE_MOCK_INTERVIEW_PROMPT,
 } from "@/constants/prompts/prompts";
@@ -163,4 +164,58 @@ const generateFeedback = async (conversation: SavedMessage[]) => {
   }
 };
 
-export { generateQuestions, generateFeedback, generateMockInterviewQuestions };
+type MCQ_FEEDBACK_QUESTIONS = {
+  question: string;
+  options: string;
+  correctAnswer: string;
+  explanation: string;
+  questionType: string;
+  userAnswer: string;
+};
+
+const generateMcqFeedback = async (
+  correctAnswers: number,
+  wrongAnswers: number,
+  accuracy: number,
+  timeTaken: string,
+  questions: MCQ_FEEDBACK_QUESTIONS[]
+) => {
+  try {
+    const prompt = CREATE_MCQ_FEEDBACK_PROMPT.replace(
+      "{{correctAnswers}}",
+      correctAnswers.toString()
+    )
+      .replace("{{wrongAnswers}}", wrongAnswers.toString())
+      .replace("{{accuracy}}", accuracy.toString())
+      .replace("{{totalTime}}", timeTaken)
+      .replace("{{totalQuestions}}", questions.length.toString())
+      .replace("{{questions}}", JSON.stringify(questions));
+
+    const result = await geminiModel.generateContent(prompt);
+    const feedback = result.response
+      .text()
+      .replace("```json", "")
+      .replace("```", "");
+
+    console.log("feedback", result.response.text());
+
+    return {
+      success: true,
+      message: "Feedback generated successfully",
+      data: feedback,
+    };
+  } catch (error) {
+    console.log("Error generating feedback:", error);
+    return {
+      success: false,
+      message: "Error generating feedback. Please try again.",
+    };
+  }
+};
+
+export {
+  generateQuestions,
+  generateFeedback,
+  generateMockInterviewQuestions,
+  generateMcqFeedback,
+};
