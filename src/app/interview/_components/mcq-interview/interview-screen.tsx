@@ -11,6 +11,7 @@ import axios, { AxiosError } from "axios";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { LoadingScreen } from "../loading-screen";
+import { clearInterviewStorage } from "@/utils/clear-localstorage";
 
 enum InterviewStatus {
   CONNECTING = "CONNECTING",
@@ -106,6 +107,7 @@ export function InterviewScreen() {
 
       const data = res.data;
       if (data.success) {
+        clearInterviewStorage();
         setStatus(InterviewStatus.REDIRECTING);
         toast.success("Feedback generated successfully");
         router.push(

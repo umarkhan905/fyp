@@ -18,6 +18,7 @@ import MainScreen from "./interview-screen/main-screen";
 import axios, { AxiosError } from "axios";
 import { toast } from "sonner";
 import { LoadingScreen } from "./loading-screen";
+import { clearInterviewStorage } from "@/utils/clear-localstorage";
 
 export function InterviewScreen() {
   const { interview, user, participant } = useInterviewContext();
@@ -77,6 +78,7 @@ export function InterviewScreen() {
 
       const data = res.data;
       if (data.success) {
+        clearInterviewStorage();
         setCallStatus(CallStatus.REDIRECTING);
         toast.success("Feedback generated successfully");
         router.push(
