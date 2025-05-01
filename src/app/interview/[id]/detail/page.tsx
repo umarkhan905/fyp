@@ -165,15 +165,17 @@ export default async function InterviewDetails({
                     className="flex items-center justify-between bg-muted p-3 rounded-lg border"
                   >
                     <div className="flex items-center gap-3">
-                      <Avatar className="size-12">
-                        <AvatarImage
-                          src={"https://github.com/shadcn.pngn"}
-                          alt={"Avatar"}
-                        />
-                        <AvatarFallback className="flex items-center justify-center bg-primary/20 text-primary">
-                          {participant.interviewee.firstName?.[0]}
-                        </AvatarFallback>
-                      </Avatar>
+                      <Link href={`/profile/${participant.interviewee.id}`}>
+                        <Avatar className="size-12">
+                          <AvatarImage
+                            src={"https://github.com/shadcn.pngn"}
+                            alt={"Avatar"}
+                          />
+                          <AvatarFallback className="flex items-center justify-center bg-primary/20 text-primary">
+                            {participant.interviewee.firstName?.[0]}
+                          </AvatarFallback>
+                        </Avatar>
+                      </Link>
                       <div>
                         <p className="font-medium text-sm text-gray-900">
                           {participant.interviewee.firstName}{" "}
@@ -256,15 +258,17 @@ export default async function InterviewDetails({
                     className="flex items-center justify-between bg-bg-muted p-3 rounded-lg border"
                   >
                     <div className="flex items-center gap-3">
-                      <Avatar className="size-12">
-                        <AvatarImage
-                          src={"https://github.com/shadcn.pngn"}
-                          alt={"Avatar"}
-                        />
-                        <AvatarFallback className="flex items-center justify-center bg-primary/20 text-primary">
-                          {participant.interviewee.firstName?.[0]}
-                        </AvatarFallback>
-                      </Avatar>
+                      <Link href={`/profile/${participant.interviewee.id}`}>
+                        <Avatar className="size-12">
+                          <AvatarImage
+                            src={"https://github.com/shadcn.pngn"}
+                            alt={"Avatar"}
+                          />
+                          <AvatarFallback className="flex items-center justify-center bg-primary/20 text-primary">
+                            {participant.interviewee.firstName?.[0]}
+                          </AvatarFallback>
+                        </Avatar>
+                      </Link>
                       <div>
                         <p className="font-medium text-sm text-foreground">
                           {participant.interviewee.firstName}{" "}

@@ -1,30 +1,34 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import { ITimer } from "@/types";
+import React, { useEffect } from "react";
 
-type TimerState = {
-  minutes: number;
-  seconds: number;
-};
+interface Props {
+  time: ITimer;
+  setTime: React.Dispatch<React.SetStateAction<ITimer>>;
+}
 
-export default function Timer() {
-  const [timer, setTimer] = useState<TimerState>({
-    minutes: 0,
-    seconds: 0,
-  });
-
+export default function Timer({ time, setTime }: Props) {
   const startTimer = () => {
-    let seconds = 0;
+    let hours = 0;
     let minutes = 0;
+    let seconds = 0;
 
     const interval = setInterval(() => {
       seconds = seconds + 1;
-      setTimer({ minutes, seconds });
+      setTime({ minutes, seconds, hours });
 
       if (seconds === 59) {
         minutes = minutes + 1;
         seconds = 0;
-        setTimer({ minutes, seconds });
+        setTime({ minutes, seconds, hours });
+      }
+
+      if (minutes === 59) {
+        hours = hours + 1;
+        minutes = 0;
+        seconds = 0;
+        setTime({ minutes, seconds, hours });
       }
     }, 1000);
 
@@ -39,9 +43,11 @@ export default function Timer() {
 
   return (
     <div className="bg-muted text-foreground text-lg font-semibold px-2 py-1 rounded-full">
-      {timer.minutes < 10 ? `0${timer.minutes}` : timer.minutes}
+      {time.hours < 10 ? `0${time.hours}` : time.hours}
       <span className="mx-1">:</span>
-      {timer.seconds < 10 ? `0${timer.seconds}` : timer.seconds}
+      {time.minutes < 10 ? `0${time.minutes}` : time.minutes}
+      <span className="mx-1">:</span>
+      {time.seconds < 10 ? `0${time.seconds}` : time.seconds}
     </div>
   );
 }

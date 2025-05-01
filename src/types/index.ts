@@ -24,6 +24,7 @@ type ErrorAPiResponse = {
 };
 
 type IQuestion = {
+  id: string;
   question: string;
   options?: string;
   answer?: string;
@@ -135,6 +136,29 @@ type IFeedback = {
   updatedAt: string;
 };
 
+type ITimer = {
+  hours: number;
+  minutes: number;
+  seconds: number;
+};
+
+type RatingItemForFeedback = {
+  name: string;
+  score: number;
+  comment: string;
+};
+
+type FeedbackResponse = {
+  totalRating: number;
+  summary: string;
+  strengths: string;
+  weaknesses: string;
+  improvements: string;
+  assessment: string;
+  recommendedForJob: boolean;
+  rating: RatingItemForFeedback[];
+};
+
 export type {
   ICreateUser,
   ApiResponse,
@@ -146,5 +170,9 @@ export type {
   SavedMessage,
   IRatingItem,
   IFeedback,
+  IInterviewParticipant,
+  ITimer,
+  FeedbackResponse,
 };
+
 export { CallStatus };

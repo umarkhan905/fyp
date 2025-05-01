@@ -16,6 +16,7 @@ import {
   Clock,
   MessageSquare,
   PlayCircle,
+  Plus,
   TrendingUp,
 } from "lucide-react";
 import Link from "next/link";
@@ -157,7 +158,7 @@ export default async function Dashboard() {
                 asChild
               >
                 <Link href="/dashboard/create-interview">
-                  <PlayCircle className="mr-2 h-5 w-5" />
+                  <PlayCircle className="size-5" />
                   Start New Interview
                 </Link>
               </Button>
@@ -182,21 +183,47 @@ export default async function Dashboard() {
                 Your past interview sessions and scores
               </CardDescription>
             </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-                {recentInterviews.map((interview) => (
-                  <NewInterviewCard
-                    key={interview.id}
-                    interview={interview}
-                    userId={user?.id}
-                  />
-                ))}
-              </div>
-              <div className="mt-4 text-center">
-                <Button variant="outline" asChild>
-                  <Link href="/dashboard/history">View All Interviews</Link>
-                </Button>
-              </div>
+            <CardContent className="h-full">
+              {recentInterviews.length > 0 ? (
+                <>
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                    {recentInterviews.map((interview) => (
+                      <NewInterviewCard
+                        key={interview.id}
+                        interview={interview}
+                        userId={user?.id}
+                      />
+                    ))}
+                  </div>
+                  <div className="mt-4 text-center">
+                    <Button variant="outline" asChild>
+                      <Link href="/dashboard/history">View All Interviews</Link>
+                    </Button>
+                  </div>
+                </>
+              ) : (
+                <div className="h-full flex items-center justify-center w-full">
+                  <Card className="w-full">
+                    <CardHeader className="text-center">
+                      <CardTitle>No Recent Interviews</CardTitle>
+                      <CardDescription>
+                        You have not completed any interviews yet
+                      </CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      <Button
+                        asChild
+                        className="w-full min-h-11 rounded-full text-white"
+                      >
+                        <Link href="/dashboard/create-interview">
+                          <Plus className="size-5" />
+                          Create your first interview
+                        </Link>
+                      </Button>
+                    </CardContent>
+                  </Card>
+                </div>
+              )}
             </CardContent>
           </Card>
         </div>

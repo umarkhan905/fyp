@@ -1,6 +1,6 @@
 "use client";
 
-import { updateProfile } from "@/actions/account-actions";
+import { updateProfile, updateProfileImage } from "@/actions/account-actions";
 import FormError from "@/components/form/form-error";
 import { Avatar } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -33,10 +33,15 @@ import {
   ProfileSchema,
   ProfileSchemaType,
 } from "@/schemas/account/profile-schema";
+import {
+  deleteFileFromCloudinary,
+  uploadFileToCloudinary,
+} from "@/utils/cloudinary-methods";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
+import { UploadApiResponse } from "cloudinary";
 import { Camera, Loader2, Save, Trash, User } from "lucide-react";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
@@ -47,6 +52,85 @@ interface ProfileProps {
 export default function Profile({ user }: ProfileProps) {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const [loadingImage, setloadingImage] = useState<boolean>(false);
+  const [uploadingImageError, setuploadingImageError] = useState<string | null>(
+    null
+  );
+  const [image, setImage] = useState<string | undefined>(undefined);
+
+  const imageRef = useRef<HTMLInputElement | null>(null);
+
+  const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setloadingImage(true);
+    setuploadingImageError(null);
+    try {
+      const result = (await uploadFileToCloudinary(file)) as UploadApiResponse;
+      if (result && result?.secure_url) {
+        setImage(result.secure_url);
+
+        const res = await updateProfileImage(
+          user?.id as string,
+          result.secure_url,
+          "/dashboard/account"
+        );
+
+        if (!res.success) {
+          setuploadingImageError(res.message);
+          setImage(undefined);
+          return;
+        }
+
+        toast.success(res.message);
+        return;
+      }
+
+      setuploadingImageError("Something went wrong while uploading image.");
+    } catch (error) {
+      console.log("Error while uploading image: ", error);
+      setuploadingImageError(
+        (error as string) || "Something went wrong while uploading image."
+      );
+    } finally {
+      setloadingImage(false);
+    }
+  };
+
+  const handleImageDelete = async () => {
+    setloadingImage(true);
+    setuploadingImageError(null);
+    try {
+      const result = (await deleteFileFromCloudinary(image as string)) as {
+        result: string;
+      };
+
+      if (result.result !== "ok") {
+        setuploadingImageError(result.result);
+        return;
+      }
+
+      const res = await updateProfileImage(
+        user?.id as string,
+        "",
+        "/dashboard/account"
+      );
+      if (!res.success) {
+        setuploadingImageError(res.message);
+        return;
+      }
+
+      toast.success("Image deleted successfully");
+      setImage(undefined);
+    } catch (error) {
+      console.log("Error occurs while deleting file: ", error);
+      setuploadingImageError(error as string);
+    } finally {
+      setloadingImage(false);
+    }
+  };
+
   const form = useForm<ProfileSchemaType>({
     resolver: zodResolver(ProfileSchema),
     defaultValues: {
@@ -88,6 +172,14 @@ export default function Profile({ user }: ProfileProps) {
     }
   };
 
+  useEffect(() => {
+    if (user && user.image) {
+      setImage(user.image);
+    }
+  }, [user]);
+
+  console.log("user", user);
+
   return (
     <Card className="group">
       <CardHeader>
@@ -103,23 +195,49 @@ export default function Profile({ user }: ProfileProps) {
       <CardContent className="space-y-6">
         {/* Profile Image*/}
         <div className="size-fit mx-auto relative flex items-center justify-center z-0 group/avatar">
-          <Avatar className="size-20 items-center justify-center">
-            <AvatarImage src="https://github.com/shadcn.pngn" />
+          <Avatar className="size-20 items-center justify-center border-2 border-primary/20">
+            <AvatarImage src={image} />
             <AvatarFallback className="size-full bg-primary/20 text-primary flex items-center justify-center">
               {user?.firstName?.charAt(0) || "MB"}
             </AvatarFallback>
           </Avatar>
 
           {/* Avatar overly */}
-          <div className="absolute top-0 left-0 size-0 rounded-full bg-black/80 z-10 flex items-center justify-center group-hover/avatar:size-full">
-            <Trash className="size-5 text-white/80 cursor-pointer" />
-          </div>
+          {!loadingImage && image && !uploadingImageError && (
+            <div className="absolute top-0 left-0 size-0 rounded-full bg-black/80 z-10 flex items-center justify-center group-hover/avatar:size-full">
+              <Trash
+                className="size-5 text-white/80 cursor-pointer"
+                onClick={handleImageDelete}
+              />
+            </div>
+          )}
 
+          {loadingImage && (
+            <div className="absolute top-0 left-0 size-0 rounded-full bg-black/80 z-10 flex items-center justify-center group-hover/avatar:size-full">
+              <Loader2 className="size-5 text-white/80 animate-spin" />
+            </div>
+          )}
           {/* Camera Icon */}
-          <div className="absolute -bottom-0 -right-0  rounded-full bg-black p-1 z-20">
+          <div
+            className="absolute -bottom-0 -right-0  rounded-full bg-black p-1 z-50"
+            onClick={() => imageRef.current?.click()}
+          >
             <Camera className="size-4 text-muted-foreground cursor-pointer" />
           </div>
+          <input
+            hidden
+            ref={imageRef}
+            type="file"
+            accept="image/*"
+            onChange={handleImageChange}
+          />
         </div>
+
+        {uploadingImageError && (
+          <p className="text-sm text-destructive text-center">
+            {uploadingImageError}
+          </p>
+        )}
 
         {/* Profile Form */}
         <Form {...form}>

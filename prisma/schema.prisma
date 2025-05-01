@@ -97,6 +97,7 @@ model User {
   verificationTokenExpiresAt  DateTime?
   resetPasswordToken          String?
   resetPasswordTokenExpiresAt DateTime?
+  image                       String?
 
   createdInterviews      Interview[]
   participatedInterviews InterviewParticipant[]

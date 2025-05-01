@@ -1,5 +1,9 @@
 import React from "react";
-import { getInterviewById } from "@/actions/interview-actions";
+import {
+  createInterviewParticipation,
+  getInterviewById,
+  getUniqueParticipant,
+} from "@/actions/interview-actions";
 import { Interview } from "../_components/interview";
 import { notFound, redirect } from "next/navigation";
 import { getUserSession } from "@/lib/session";
@@ -19,7 +23,10 @@ export default async function InterviewPage({
     return redirect("/sign-in");
   }
 
-  const interview = await getInterviewById(id);
+  const [interview, participant] = await Promise.all([
+    getInterviewById(id),
+    getUniqueParticipant(id, user.id as string),
+  ]);
 
   // Check if the interview exists, if not, return a 404 page
   if (!interview) notFound();
@@ -41,8 +48,28 @@ export default async function InterviewPage({
       });
     }
 
-    return <div>The interview has expired</div>;
+    return redirect(`/interview/${interview.id}/expired`);
   }
 
-  return <Interview interview={interview as IInterview} user={user} />;
+  if (!participant) {
+    // create interview participant (Status - Pending)
+    await createInterviewParticipation(interview.id);
+  }
+
+  if (participant && participant.status === "COMPLETED") {
+    if (interview.category === "JOB") {
+      return redirect(`/interview/${interview.id}/alreday-attempted`);
+    } else {
+      // create interview participant (Status - Pending)
+      await createInterviewParticipation(interview.id);
+    }
+  }
+
+  return (
+    <Interview
+      participant={participant}
+      interview={interview as IInterview}
+      user={user}
+    />
+  );
 }
