@@ -1,3 +1,5 @@
+"use client";
+
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -9,11 +11,12 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { BASE_ADDRESS } from "@/constants";
 import { IInterview } from "@/types";
 import { formatDate } from "@/utils/format-date";
-import { Building, Calendar } from "lucide-react";
+import { Building, Calendar, Check, Copy } from "lucide-react";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 
 interface Props {
   interview: IInterview;
@@ -21,6 +24,7 @@ interface Props {
 }
 
 export default function NewInterviewCard({ interview, userId }: Props) {
+  const [isLinkCopied, setIsLinkCopied] = useState<boolean>(false);
   const isPariticapteInInterview = interview?.participants?.some(
     (p) => p.intervieweeId === interview.createdById
   );
@@ -30,6 +34,15 @@ export default function NewInterviewCard({ interview, userId }: Props) {
   );
 
   const isCreator = interview.createdById === userId;
+
+  const handleCopyInterviewLink = (interviewLink: string) => {
+    setIsLinkCopied(true);
+    navigator.clipboard.writeText(interviewLink);
+
+    setTimeout(() => {
+      setIsLinkCopied(false);
+    }, 2000);
+  };
 
   return (
     <Card className="group p-0 gap-2">
@@ -133,12 +146,33 @@ export default function NewInterviewCard({ interview, userId }: Props) {
               variant={
                 interview.status === "EXPIRED" ? "destructive" : "default"
               }
-              className="flex-1 min-h-11 rounded-full text-white"
+              className={`flex-1 min-h-11 rounded-full text-white ${
+                isLinkCopied && "bg-emerald-500 hover:bg-emerald-600"
+              }`}
               disabled={interview.status === "EXPIRED"}
+              onClick={
+                isLinkCopied
+                  ? undefined
+                  : () =>
+                      handleCopyInterviewLink(
+                        `${BASE_ADDRESS}/interview/${interview.id}`
+                      )
+              }
             >
-              {interview.status === "EXPIRED"
-                ? "Expired"
-                : "Copy Interview Link"}
+              {interview.status === "EXPIRED" ? (
+                "Expired"
+              ) : (
+                <>
+                  {isLinkCopied ? (
+                    <Check className="size-4" />
+                  ) : (
+                    <Copy className="size-4" />
+                  )}
+                  <span className="hidden sm:inline">
+                    {isLinkCopied ? "Link Copied" : "Copy Link"}
+                  </span>
+                </>
+              )}
             </Button>
           )}
         </div>
