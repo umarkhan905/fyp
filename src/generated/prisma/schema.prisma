@@ -172,7 +172,7 @@ model Question {
   question           String
   codeEditorRequired Boolean @default(false)
   questionType       String // e.g., "MCQ", "Coding", "Behavioral"
-  options            String? // JSON string for MCQ options
+  options            Json? // Options for MCQ
   answer             String? // Correct answer for MCQ or expected output for coding
   explanation        String? // Explanation for the answer
 

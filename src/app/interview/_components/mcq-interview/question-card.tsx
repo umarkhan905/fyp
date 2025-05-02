@@ -28,26 +28,6 @@ export default function QuestionCard({
   const [showExplanation, setShowExplanation] = useState<boolean>(false);
   const [showNextButton, setShowNextButton] = useState<boolean>(true);
 
-  const smartSplitOptions = (optionString: string): string[] => {
-    const result = [];
-    let current = "";
-    let parenCount = 0;
-
-    for (const char of optionString) {
-      if (char === "(") parenCount++;
-      if (char === ")") parenCount--;
-
-      if (char === "," && parenCount === 0) {
-        result.push(current.trim());
-        current = "";
-      } else {
-        current += char;
-      }
-    }
-    if (current) result.push(current.trim());
-    return result;
-  };
-
   const onAnswer = (option: string) => {
     if (showExplanation) return;
 
@@ -78,7 +58,7 @@ export default function QuestionCard({
     setShowExplanation(false);
   };
 
-  const options = smartSplitOptions(currentQuestion?.options as string);
+  const options = currentQuestion?.options;
   const selectedAnswer = userAnswers[currentQuestion?.id as string];
 
   useEffect(() => {
@@ -110,10 +90,10 @@ export default function QuestionCard({
           {options?.map((option, index) => (
             <div
               key={index}
-              className={`p-4 rounded-md cursor-pointer transition-colors ${getOptionClasses(option)}`}
-              onClick={() => onAnswer(option)}
+              className={`p-4 rounded-md cursor-pointer transition-colors ${getOptionClasses(option.option)}`}
+              onClick={() => onAnswer(option.option)}
             >
-              {option}
+              {option.option}
             </div>
           ))}
         </div>

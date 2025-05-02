@@ -23,7 +23,7 @@ export default async function InterviewPage({
     return redirect("/sign-in");
   }
 
-  const [interview, participant] = await Promise.all([
+  let [interview, participant] = await Promise.all([
     getInterviewById(id),
     getUniqueParticipant(id, user.id as string),
   ]);
@@ -53,7 +53,7 @@ export default async function InterviewPage({
 
   if (!participant) {
     // create interview participant (Status - Pending)
-    await createInterviewParticipation(interview.id);
+    participant = await createInterviewParticipation(interview.id);
   }
 
   if (participant && participant.status === "COMPLETED") {
@@ -61,7 +61,7 @@ export default async function InterviewPage({
       return redirect(`/interview/${interview.id}/alreday-attempted`);
     } else {
       // create interview participant (Status - Pending)
-      await createInterviewParticipation(interview.id);
+      participant = await createInterviewParticipation(interview.id);
     }
   }
 

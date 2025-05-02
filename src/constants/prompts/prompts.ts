@@ -14,6 +14,7 @@ Ensure the questions match the tone and structure of a real-life {{type}} interv
 Format your response in JSON format with array list of questions.
 Just the questions, no other text. Questions has to read by AI voice agent.
 Also let me know either code editor or IDE is used in the interview.
+Read all the keywords provided by user and find all the unique keywords and separate them by |.
 format: {
     interviewQuestions=[
         {
@@ -25,6 +26,7 @@ format: {
             ...
         }
     ],
+    keywords: "keyword1 | keyword2 | keyword3",
 }
 The goal is to create a structured, relevant, and time-optimized interview plan for a {{role}} role.`;
 
@@ -49,12 +51,18 @@ Adjust the number and depth of questions to match the interview duration.
 Ensure the questions match the tone and structure of a real-life {{type}} interview.
 Format your response in JSON format with an array of questions.
 Just the questions, no other text. Questions have to be read by an AI voice agent.
+Read all the keywords provided by user and find all the unique keywords and separate them by |.
 Format:
 {
   interviewQuestions: [
     {
       question: "Question text",
-      options: "Option A", "Option B", "Option C", "Option D",
+      options: [
+        {
+          option: "Option A",
+          isCorrect: boolean      
+        }, ...
+      ], // array of 4 options
       answer: "Option A" // or "Option B" or "Option C" or "Option D",
       explanation: "Explanation text"
       questionType: "type of question" // "technical","behavioral","problem solving" etc
@@ -63,6 +71,7 @@ Format:
       ...
     }
   ],
+  keywords: "keyword1 | keyword2 | keyword3"
 }
 The goal is to create a structured, relevant, and time-optimized MCQ-based interview plan for a {{role}} role.`;
 
@@ -80,6 +89,7 @@ Ensure the questions match the tone and structure of a real-life {{type}} interv
 Format your response in JSON format with array list of questions.
 Just the questions, no other text. Questions has to read by AI voice agent.
 Also let me know either code editor or IDE is used in the interview.
+Also create description consisting of 3-4 sentences and some related keywords in string separated by |.
 format: {
     interviewQuestions=[
         {
@@ -91,6 +101,8 @@ format: {
             ...
         }
     ],
+    description: "description",
+    keywords: "keyword1 | keyword2 | keyword3"
 }
 The goal is to create a structured, relevant, and time-optimized interview plan for a {{role}} role.`;
 

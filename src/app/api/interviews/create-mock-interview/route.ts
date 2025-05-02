@@ -47,8 +47,8 @@ export async function POST(req: NextRequest) {
         experience: parseInt(body.experience),
         experienceIn: body.experienceIn as ExperienceIn,
         role: body.role,
-        description: "",
-        keywords: "",
+        description: result.data?.description as string,
+        keywords: result.data?.keywords as string,
         topic: body.topic,
         createdById: user.id as string,
         createdByRole: "INTERVIEWEE",
@@ -56,10 +56,10 @@ export async function POST(req: NextRequest) {
         status: "CREATED",
         category: "MOCK",
         group: "AI_BASED",
-        noOfQuestions: result?.data?.length,
+        noOfQuestions: result?.data?.interviewQuestions?.length,
         questions: {
           createMany: {
-            data: result.data as IQuestion[],
+            data: result.data?.interviewQuestions as IQuestion[],
           },
         },
       },

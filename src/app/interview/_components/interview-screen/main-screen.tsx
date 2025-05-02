@@ -11,7 +11,7 @@ import Container from "@/components/ui/container";
 import { useInterviewContext } from "@/context/interview-context";
 import BrandName from "@/components/branding/brand-name";
 import { vapi } from "@/lib/vapi";
-import { SavedMessage } from "@/types";
+import { ITimer, SavedMessage } from "@/types";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { AvatarFallback } from "@radix-ui/react-avatar";
 
@@ -19,15 +19,19 @@ interface MainScreenProps {
   isSpeaking: boolean;
   messages: SavedMessage[];
   lastMessage: string;
+  time: ITimer;
 
   handleEndInterview: () => void;
+  setTime: React.Dispatch<React.SetStateAction<ITimer>>;
 }
 
 export default function MainScreen({
   isSpeaking,
-  handleEndInterview,
   lastMessage,
   messages,
+  time,
+  setTime,
+  handleEndInterview,
 }: MainScreenProps) {
   const { interview, user, setShowTranscript, showTranscript } =
     useInterviewContext();
@@ -49,7 +53,7 @@ export default function MainScreen({
             </div>
 
             {/* Timer */}
-            <Timer />
+            <Timer time={time} setTime={setTime} />
 
             {/* Interview Type */}
             <div className="bg-muted text-foreground text-sm px-2 py-1 rounded-full font-medium capitalize">

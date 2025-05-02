@@ -133,7 +133,7 @@ export default async function Dashboard() {
           </CardHeader>
           <CardContent>
             <p className="text-4xl font-semibold text-center">
-              {avgAndCount?._avg?.totalRating || 0}
+              {avgAndCount?._avg?.totalRating?.toFixed(2) || 0}
             </p>
           </CardContent>
         </Card>

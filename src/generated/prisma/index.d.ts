@@ -5611,7 +5611,6 @@ export namespace Prisma {
     question: string | null
     codeEditorRequired: boolean | null
     questionType: string | null
-    options: string | null
     answer: string | null
     explanation: string | null
     createdAt: Date | null
@@ -5624,7 +5623,6 @@ export namespace Prisma {
     question: string | null
     codeEditorRequired: boolean | null
     questionType: string | null
-    options: string | null
     answer: string | null
     explanation: string | null
     createdAt: Date | null
@@ -5652,7 +5650,6 @@ export namespace Prisma {
     question?: true
     codeEditorRequired?: true
     questionType?: true
-    options?: true
     answer?: true
     explanation?: true
     createdAt?: true
@@ -5665,7 +5662,6 @@ export namespace Prisma {
     question?: true
     codeEditorRequired?: true
     questionType?: true
-    options?: true
     answer?: true
     explanation?: true
     createdAt?: true
@@ -5764,7 +5760,7 @@ export namespace Prisma {
     question: string
     codeEditorRequired: boolean
     questionType: string
-    options: string | null
+    options: JsonValue | null
     answer: string | null
     explanation: string | null
     createdAt: Date
@@ -5865,7 +5861,7 @@ export namespace Prisma {
       question: string
       codeEditorRequired: boolean
       questionType: string
-      options: string | null
+      options: Prisma.JsonValue | null
       answer: string | null
       explanation: string | null
       createdAt: Date
@@ -6299,7 +6295,7 @@ export namespace Prisma {
     readonly question: FieldRef<"Question", 'String'>
     readonly codeEditorRequired: FieldRef<"Question", 'Boolean'>
     readonly questionType: FieldRef<"Question", 'String'>
-    readonly options: FieldRef<"Question", 'String'>
+    readonly options: FieldRef<"Question", 'Json'>
     readonly answer: FieldRef<"Question", 'String'>
     readonly explanation: FieldRef<"Question", 'String'>
     readonly createdAt: FieldRef<"Question", 'DateTime'>
@@ -9213,6 +9209,14 @@ export namespace Prisma {
   export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
 
+  export const NullableJsonNullValueInput: {
+    DbNull: typeof DbNull,
+    JsonNull: typeof JsonNull
+  };
+
+  export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
+
+
   export const QueryMode: {
     default: 'default',
     insensitive: 'insensitive'
@@ -9227,6 +9231,15 @@ export namespace Prisma {
   };
 
   export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
+  export const JsonNullValueFilter: {
+    DbNull: typeof DbNull,
+    JsonNull: typeof JsonNull,
+    AnyNull: typeof AnyNull
+  };
+
+  export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
 
 
   /**
@@ -9420,6 +9433,20 @@ export namespace Prisma {
    * Reference to a field of type 'Status[]'
    */
   export type ListEnumStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Status[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Json'
+   */
+  export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
+    
+
+
+  /**
+   * Reference to a field of type 'QueryMode'
+   */
+  export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
     
 
 
@@ -9844,7 +9871,7 @@ export namespace Prisma {
     question?: StringFilter<"Question"> | string
     codeEditorRequired?: BoolFilter<"Question"> | boolean
     questionType?: StringFilter<"Question"> | string
-    options?: StringNullableFilter<"Question"> | string | null
+    options?: JsonNullableFilter<"Question">
     answer?: StringNullableFilter<"Question"> | string | null
     explanation?: StringNullableFilter<"Question"> | string | null
     createdAt?: DateTimeFilter<"Question"> | Date | string
@@ -9875,7 +9902,7 @@ export namespace Prisma {
     question?: StringFilter<"Question"> | string
     codeEditorRequired?: BoolFilter<"Question"> | boolean
     questionType?: StringFilter<"Question"> | string
-    options?: StringNullableFilter<"Question"> | string | null
+    options?: JsonNullableFilter<"Question">
     answer?: StringNullableFilter<"Question"> | string | null
     explanation?: StringNullableFilter<"Question"> | string | null
     createdAt?: DateTimeFilter<"Question"> | Date | string
@@ -9908,7 +9935,7 @@ export namespace Prisma {
     question?: StringWithAggregatesFilter<"Question"> | string
     codeEditorRequired?: BoolWithAggregatesFilter<"Question"> | boolean
     questionType?: StringWithAggregatesFilter<"Question"> | string
-    options?: StringNullableWithAggregatesFilter<"Question"> | string | null
+    options?: JsonNullableWithAggregatesFilter<"Question">
     answer?: StringNullableWithAggregatesFilter<"Question"> | string | null
     explanation?: StringNullableWithAggregatesFilter<"Question"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Question"> | Date | string
@@ -10563,7 +10590,7 @@ export namespace Prisma {
     question: string
     codeEditorRequired?: boolean
     questionType: string
-    options?: string | null
+    options?: NullableJsonNullValueInput | InputJsonValue
     answer?: string | null
     explanation?: string | null
     createdAt?: Date | string
@@ -10577,7 +10604,7 @@ export namespace Prisma {
     question: string
     codeEditorRequired?: boolean
     questionType: string
-    options?: string | null
+    options?: NullableJsonNullValueInput | InputJsonValue
     answer?: string | null
     explanation?: string | null
     createdAt?: Date | string
@@ -10589,7 +10616,7 @@ export namespace Prisma {
     question?: StringFieldUpdateOperationsInput | string
     codeEditorRequired?: BoolFieldUpdateOperationsInput | boolean
     questionType?: StringFieldUpdateOperationsInput | string
-    options?: NullableStringFieldUpdateOperationsInput | string | null
+    options?: NullableJsonNullValueInput | InputJsonValue
     answer?: NullableStringFieldUpdateOperationsInput | string | null
     explanation?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -10603,7 +10630,7 @@ export namespace Prisma {
     question?: StringFieldUpdateOperationsInput | string
     codeEditorRequired?: BoolFieldUpdateOperationsInput | boolean
     questionType?: StringFieldUpdateOperationsInput | string
-    options?: NullableStringFieldUpdateOperationsInput | string | null
+    options?: NullableJsonNullValueInput | InputJsonValue
     answer?: NullableStringFieldUpdateOperationsInput | string | null
     explanation?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -10616,7 +10643,7 @@ export namespace Prisma {
     question: string
     codeEditorRequired?: boolean
     questionType: string
-    options?: string | null
+    options?: NullableJsonNullValueInput | InputJsonValue
     answer?: string | null
     explanation?: string | null
     createdAt?: Date | string
@@ -10628,7 +10655,7 @@ export namespace Prisma {
     question?: StringFieldUpdateOperationsInput | string
     codeEditorRequired?: BoolFieldUpdateOperationsInput | boolean
     questionType?: StringFieldUpdateOperationsInput | string
-    options?: NullableStringFieldUpdateOperationsInput | string | null
+    options?: NullableJsonNullValueInput | InputJsonValue
     answer?: NullableStringFieldUpdateOperationsInput | string | null
     explanation?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -10641,7 +10668,7 @@ export namespace Prisma {
     question?: StringFieldUpdateOperationsInput | string
     codeEditorRequired?: BoolFieldUpdateOperationsInput | boolean
     questionType?: StringFieldUpdateOperationsInput | string
-    options?: NullableStringFieldUpdateOperationsInput | string | null
+    options?: NullableJsonNullValueInput | InputJsonValue
     answer?: NullableStringFieldUpdateOperationsInput | string | null
     explanation?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -11430,6 +11457,29 @@ export namespace Prisma {
     _min?: NestedEnumStatusFilter<$PrismaModel>
     _max?: NestedEnumStatusFilter<$PrismaModel>
   }
+  export type JsonNullableFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonNullableFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
 
   export type QuestionCountOrderByAggregateInput = {
     id?: SortOrder
@@ -11450,7 +11500,6 @@ export namespace Prisma {
     question?: SortOrder
     codeEditorRequired?: SortOrder
     questionType?: SortOrder
-    options?: SortOrder
     answer?: SortOrder
     explanation?: SortOrder
     createdAt?: SortOrder
@@ -11463,11 +11512,36 @@ export namespace Prisma {
     question?: SortOrder
     codeEditorRequired?: SortOrder
     questionType?: SortOrder
-    options?: SortOrder
     answer?: SortOrder
     explanation?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+  }
+  export type JsonNullableWithAggregatesFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonNullableWithAggregatesFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedJsonNullableFilter<$PrismaModel>
+    _max?: NestedJsonNullableFilter<$PrismaModel>
   }
 
   export type FloatFilter<$PrismaModel = never> = {
@@ -12495,6 +12569,29 @@ export namespace Prisma {
     _min?: NestedEnumStatusFilter<$PrismaModel>
     _max?: NestedEnumStatusFilter<$PrismaModel>
   }
+  export type NestedJsonNullableFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<NestedJsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>,
+        Required<NestedJsonNullableFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>
+
+  export type NestedJsonNullableFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
 
   export type NestedFloatWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | FloatFieldRefInput<$PrismaModel>
@@ -12830,7 +12927,7 @@ export namespace Prisma {
     question: string
     codeEditorRequired?: boolean
     questionType: string
-    options?: string | null
+    options?: NullableJsonNullValueInput | InputJsonValue
     answer?: string | null
     explanation?: string | null
     createdAt?: Date | string
@@ -12842,7 +12939,7 @@ export namespace Prisma {
     question: string
     codeEditorRequired?: boolean
     questionType: string
-    options?: string | null
+    options?: NullableJsonNullValueInput | InputJsonValue
     answer?: string | null
     explanation?: string | null
     createdAt?: Date | string
@@ -13031,7 +13128,7 @@ export namespace Prisma {
     question?: StringFilter<"Question"> | string
     codeEditorRequired?: BoolFilter<"Question"> | boolean
     questionType?: StringFilter<"Question"> | string
-    options?: StringNullableFilter<"Question"> | string | null
+    options?: JsonNullableFilter<"Question">
     answer?: StringNullableFilter<"Question"> | string | null
     explanation?: StringNullableFilter<"Question"> | string | null
     createdAt?: DateTimeFilter<"Question"> | Date | string
@@ -14182,7 +14279,7 @@ export namespace Prisma {
     question: string
     codeEditorRequired?: boolean
     questionType: string
-    options?: string | null
+    options?: NullableJsonNullValueInput | InputJsonValue
     answer?: string | null
     explanation?: string | null
     createdAt?: Date | string
@@ -14218,7 +14315,7 @@ export namespace Prisma {
     question?: StringFieldUpdateOperationsInput | string
     codeEditorRequired?: BoolFieldUpdateOperationsInput | boolean
     questionType?: StringFieldUpdateOperationsInput | string
-    options?: NullableStringFieldUpdateOperationsInput | string | null
+    options?: NullableJsonNullValueInput | InputJsonValue
     answer?: NullableStringFieldUpdateOperationsInput | string | null
     explanation?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -14230,7 +14327,7 @@ export namespace Prisma {
     question?: StringFieldUpdateOperationsInput | string
     codeEditorRequired?: BoolFieldUpdateOperationsInput | boolean
     questionType?: StringFieldUpdateOperationsInput | string
-    options?: NullableStringFieldUpdateOperationsInput | string | null
+    options?: NullableJsonNullValueInput | InputJsonValue
     answer?: NullableStringFieldUpdateOperationsInput | string | null
     explanation?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -14242,7 +14339,7 @@ export namespace Prisma {
     question?: StringFieldUpdateOperationsInput | string
     codeEditorRequired?: BoolFieldUpdateOperationsInput | boolean
     questionType?: StringFieldUpdateOperationsInput | string
-    options?: NullableStringFieldUpdateOperationsInput | string | null
+    options?: NullableJsonNullValueInput | InputJsonValue
     answer?: NullableStringFieldUpdateOperationsInput | string | null
     explanation?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string

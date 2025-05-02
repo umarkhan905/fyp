@@ -51,7 +51,7 @@ export async function POST(request: Request) {
 
     const participant = await prisma.interviewParticipant.update({
       where: { id: participantId },
-      data: { completedAt: new Date(), status: "COMPLETED" },
+      data: { completedAt: new Date(), status: "COMPLETED", timeTaken },
     });
 
     if (!participant) {

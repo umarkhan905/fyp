@@ -111,13 +111,16 @@ const generateMockInterviewQuestions = async (
       .text()
       .replace("```json", "")
       .replace("```", "");
-    const questions: { interviewQuestions: IQuestion[] } =
-      JSON.parse(formattedResponse);
+    const questions: {
+      interviewQuestions: IQuestion[];
+      description: string;
+      keywords: string;
+    } = JSON.parse(formattedResponse);
 
     return {
       success: true,
       message: "Questions generated successfully",
-      data: questions.interviewQuestions,
+      data: questions,
     };
   } catch (error) {
     console.log("Error generating mock interview questions:", error);
@@ -196,8 +199,6 @@ const generateMcqFeedback = async (
       .text()
       .replace("```json", "")
       .replace("```", "");
-
-    console.log("feedback", result.response.text());
 
     return {
       success: true,

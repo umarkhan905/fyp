@@ -23,10 +23,15 @@ type ErrorAPiResponse = {
   message: string;
 };
 
+type IOption = {
+  option: string;
+  isCorrect: boolean;
+};
+
 type IQuestion = {
   id: string;
   question: string;
-  options?: string;
+  options: IOption[];
   answer?: string;
   explanation?: string;
   questionType: string;
@@ -99,6 +104,9 @@ enum CallStatus {
   CONNECTING = "CONNECTING",
   ACTIVE = "ACTIVE",
   FINISHED = "FINISHED",
+  GENERATING_FEEDBACK = "GENERATING_FEEDBACK",
+  REDIRECTING = "REDIRECTING",
+  ERROR = "ERROR",
 }
 
 type SavedMessage = {
