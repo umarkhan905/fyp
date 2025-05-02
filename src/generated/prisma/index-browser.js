@@ -188,17 +188,11 @@ exports.Prisma.QuestionScalarFieldEnum = {
   question: 'question',
   codeEditorRequired: 'codeEditorRequired',
   questionType: 'questionType',
+  options: 'options',
   answer: 'answer',
   explanation: 'explanation',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
-};
-
-exports.Prisma.OptionScalarFieldEnum = {
-  id: 'id',
-  questionId: 'questionId',
-  option: 'option',
-  isCorrect: 'isCorrect'
 };
 
 exports.Prisma.FeedbackScalarFieldEnum = {
@@ -230,6 +224,11 @@ exports.Prisma.SortOrder = {
   desc: 'desc'
 };
 
+exports.Prisma.NullableJsonNullValueInput = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull
+};
+
 exports.Prisma.QueryMode = {
   default: 'default',
   insensitive: 'insensitive'
@@ -238,6 +237,12 @@ exports.Prisma.QueryMode = {
 exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
+};
+
+exports.Prisma.JsonNullValueFilter = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull,
+  AnyNull: Prisma.AnyNull
 };
 exports.Role = exports.$Enums.Role = {
   ADMIN: 'ADMIN',
@@ -302,7 +307,6 @@ exports.Prisma.ModelName = {
   Interview: 'Interview',
   InterviewParticipant: 'InterviewParticipant',
   Question: 'Question',
-  Option: 'Option',
   Feedback: 'Feedback',
   RatingItem: 'RatingItem'
 };

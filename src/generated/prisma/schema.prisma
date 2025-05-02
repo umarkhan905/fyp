@@ -170,9 +170,9 @@ model Question {
   interview   Interview @relation(fields: [interviewId], references: [id], onDelete: Cascade)
 
   question           String
-  codeEditorRequired Boolean  @default(false)
+  codeEditorRequired Boolean @default(false)
   questionType       String // e.g., "MCQ", "Coding", "Behavioral"
-  options            Option[] // Options for MCQ
+  options            Json? // Options for MCQ
   answer             String? // Correct answer for MCQ or expected output for coding
   explanation        String? // Explanation for the answer
 
@@ -180,16 +180,6 @@ model Question {
   updatedAt DateTime @updatedAt
 
   @@map("questions")
-}
-
-model Option {
-  id         String   @id @default(cuid())
-  questionId String
-  question   Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
-  option     String
-  isCorrect  Boolean
-
-  @@map("options")
 }
 
 model Feedback {
