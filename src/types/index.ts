@@ -23,10 +23,15 @@ type ErrorAPiResponse = {
   message: string;
 };
 
+type IOption = {
+  option: string;
+  isCorrect: boolean;
+};
+
 type IQuestion = {
   id: string;
   question: string;
-  options?: string;
+  options: IOption[];
   answer?: string;
   explanation?: string;
   questionType: string;
