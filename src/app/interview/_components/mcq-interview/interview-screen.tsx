@@ -81,7 +81,7 @@ export function InterviewScreen() {
     const correctAnswers = getCorrectAnswersCount(questions, userAnswers);
     const wrongAnswers = totalQuestions - correctAnswers;
     const accuracy = (correctAnswers / totalQuestions) * 100;
-    const timeTaken = `${time.minutes}:${time.seconds}`;
+    const timeTaken = `${time.hours}:${time.minutes}:${time.seconds}`;
     const interviewQuestion = questions.map((q) => ({
       question: q.question,
       correctAnswer: q.answer,

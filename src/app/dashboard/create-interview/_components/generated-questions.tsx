@@ -29,10 +29,10 @@ export default function GeneratedQuestions({
             <div>
               <h3 className="font-semibold">Options</h3>
               <div className="grid grid-cols-2 gap-1">
-                {question?.options?.split(",")?.map((option, optionIndex) => (
+                {question?.options?.map((option, optionIndex) => (
                   <p key={optionIndex}>
                     <span className="font-semibold">{optionIndex + 1})</span>{" "}
-                    {option}
+                    {option.option}
                   </p>
                 ))}
               </div>

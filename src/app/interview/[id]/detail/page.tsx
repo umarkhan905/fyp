@@ -36,6 +36,16 @@ export default async function InterviewDetails({
 
   if (!interview) notFound();
 
+  let keywords: string[] = [];
+
+  if (interview.keywords.includes(",")) {
+    keywords = interview.keywords.split(",").filter((kw) => kw.trim() !== "");
+  } else {
+    keywords = interview.keywords.split("|").filter((kw) => kw.trim() !== "");
+  }
+
+  console.log("keywords", keywords);
+
   return (
     <section className="py-4 md:py-6 max-w-[90%] mx-auto w-full">
       <Container
@@ -122,7 +132,7 @@ export default async function InterviewDetails({
             Related Keywords:
           </h2>
           <div className="flex flex-wrap gap-2">
-            {interview.keywords.split(",").map((kw) => (
+            {keywords?.map((kw) => (
               <Badge
                 variant="outline"
                 className={`bg-primary/20 text-primary p-1 rounded-full px-4`}

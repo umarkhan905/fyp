@@ -38,7 +38,9 @@ export default function NewInterviewCard({ interview, userId }: Props) {
             MB
           </AvatarFallback>
         </Avatar>
-        <CardTitle>{interview.role} Interview</CardTitle>
+        <CardTitle className="line-clamp-1">
+          {interview.role} Interview
+        </CardTitle>
         <CardDescription className="flex items-center gap-2 flex-wrap">
           <div className="flex items-center gap-1">
             <Building className="size-4" />
@@ -68,9 +70,8 @@ export default function NewInterviewCard({ interview, userId }: Props) {
         </div>
       </CardHeader>
       <CardContent className="p-0 px-4">
-        <p className="text-muted-foreground">
-          {interview.description ||
-            `This is a mock interview powered by MockByte for the ${interview.role} position. You will be asked ${interview.noOfQuestions} questions. Good luck!`}
+        <p className="text-muted-foreground line-clamp-4">
+          {interview.description}
         </p>
       </CardContent>
       <CardFooter className="p-4">
