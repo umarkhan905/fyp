@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { getUserSession } from "@/lib/session";
+import { IQuestion } from "@/types";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
@@ -55,9 +56,14 @@ export async function POST(req: NextRequest) {
         validateTill,
         category: "JOB",
         questions: {
-          createMany: {
-            data: questions,
-          },
+          create: questions.map((q: IQuestion) => ({
+            question: q.question,
+            questionType: q.questionType,
+            codeEditorRequired: q.codeEditorRequired,
+            answer: q.answer,
+            explanation: q.explanation,
+            options: q.options,
+          })),
         },
       },
     });
