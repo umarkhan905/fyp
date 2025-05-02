@@ -24,6 +24,11 @@ export default function NewInterviewCard({ interview, userId }: Props) {
   const isPariticapteInInterview = interview?.participants?.some(
     (p) => p.intervieweeId === interview.createdById
   );
+
+  const isParticipantPending = interview?.participants?.some(
+    (p) => p.intervieweeId === userId && p.status === "PENDING"
+  );
+
   const isCreator = interview.createdById === userId;
 
   return (
@@ -100,12 +105,27 @@ export default function NewInterviewCard({ interview, userId }: Props) {
               ) : (
                 <Link href={`/interview/${interview.id}`}>
                   {isPariticapteInInterview
-                    ? "Retake Interview"
+                    ? isParticipantPending
+                      ? "Resume Interview"
+                      : "Retake Interview"
                     : "Start Interview"}
                 </Link>
               )}
             </Button>
           )}
+
+          {interview.category === "JOB" &&
+            interview.status !== "EXPIRED" &&
+            isParticipantPending && (
+              <Button
+                className="flex-1 min-h-11 rounded-full text-white"
+                asChild
+              >
+                <Link href={`/interview/${interview.id}`}>
+                  Resume Interview
+                </Link>
+              </Button>
+            )}
 
           {/* Copy Interview Link */}
           {isCreator && interview.category === "JOB" && (
