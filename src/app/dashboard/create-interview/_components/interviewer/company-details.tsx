@@ -22,7 +22,7 @@ import {
 } from "@/utils/cloudinary-methods";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2, Plus, Trash } from "lucide-react";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { UploadApiResponse } from "cloudinary";
 import { toast } from "sonner";
@@ -53,9 +53,10 @@ export default function CompanyDetails({
           file
         )) as UploadApiResponse;
 
-        toast.success("File uploaded successfully.");
-        setImage(result.secure_url);
-        localStorage.setItem("companyLogo", result.secure_url);
+        if (result && result?.secure_url) {
+          toast.success("File uploaded successfully.");
+          setImage(result.secure_url);
+        }
       } catch (error) {
         console.log("Error occurs while uploading file: ", error);
         setUploadingError(error as string);
@@ -90,7 +91,6 @@ export default function CompanyDetails({
       }
 
       toast.success("File deleted successfully.");
-      localStorage.removeItem("companyLogo");
       setImage(undefined);
     } catch (error) {
       console.log("Error occurs while deleting file: ", error);
@@ -99,11 +99,6 @@ export default function CompanyDetails({
       setIsUploadingFile(false);
     }
   };
-
-  useEffect(() => {
-    const companyLogo = localStorage.getItem("companyLogo");
-    if (companyLogo) setImage(companyLogo);
-  }, []);
 
   return (
     <Card className="w-full">

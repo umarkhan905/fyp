@@ -10,18 +10,80 @@ import {
 import { geminiModel } from "@/lib/gemini";
 
 import {
-  GenerateQuestionsSchemaType,
-  GenerateQuestionsSchema,
-} from "@/schemas/interviews/generate-questions";
+  MCQBasedInterviewSchema,
+  MCQBasedInterviewSchemaType,
+} from "@/schemas/interviews/mcq-based-interview";
 import {
   MockInterviewSchema,
   MockInterviewSchemaType,
 } from "@/schemas/interviews/mock-interview";
+import {
+  VoiceBasedInterviewSchema,
+  VoiceBasedInterviewSchemaType,
+} from "@/schemas/interviews/voice-based-interview";
 import { IQuestion } from "@/types";
 
-const generateQuestions = async (formData: GenerateQuestionsSchemaType) => {
+const generateMCQBasedInterviewQuestions = async (
+  formData: MCQBasedInterviewSchemaType
+) => {
   try {
-    const { data, error } = GenerateQuestionsSchema.safeParse(formData);
+    const { data, error } = MCQBasedInterviewSchema.safeParse(formData);
+    if (error) {
+      return {
+        success: false,
+        message: error.format()._errors.join(", "),
+      };
+    }
+
+    const {
+      type,
+      role,
+      description,
+      difficulty,
+      experience,
+      experienceIn,
+      keywords,
+      numberOfQuestions,
+    } = data;
+
+    const prompt = CREATE_MCQ_INTERVIEW_PROMPT.replace(
+      "{{description}}",
+      description
+    )
+      .replace("{{type}}", type)
+      .replace("{{numberOfQuestions}}", numberOfQuestions)
+      .replace("{{experience}}", experience + experienceIn)
+      .replace("{{difficulty}}", difficulty)
+      .replace("{{keywords}}", keywords)
+      .replaceAll("{{role}}", role);
+
+    const result = await geminiModel.generateContent(prompt);
+    const formattedResponse = result.response
+      .text()
+      .replace("```json", "")
+      .replace("```", "");
+    const questions: { interviewQuestions: IQuestion[] } =
+      JSON.parse(formattedResponse);
+
+    return {
+      success: true,
+      message: "Questions generated successfully",
+      data: questions.interviewQuestions,
+    };
+  } catch (error) {
+    console.log("Error generating questions:", error);
+    return {
+      success: false,
+      message: "Error generating questions. Please try again.",
+    };
+  }
+};
+
+const generateVoiceBasedQuestions = async (
+  formData: VoiceBasedInterviewSchemaType
+) => {
+  try {
+    const { data, error } = VoiceBasedInterviewSchema.safeParse(formData);
     if (error) {
       return {
         success: false,
@@ -37,24 +99,15 @@ const generateQuestions = async (formData: GenerateQuestionsSchemaType) => {
       experience,
       experienceIn,
       keywords,
-      assessmentType,
     } = data;
 
-    const prompt =
-      assessmentType === "MCQ_BASED"
-        ? CREATE_MCQ_INTERVIEW_PROMPT.replace("{{description}}", description)
-            .replace("{{type}}", type)
-            .replace("{{duration}}", duration)
-            .replace("{{experience}}", experience + experienceIn)
-            .replace("{{difficulty}}", difficulty)
-            .replace("{{keywords}}", keywords)
-        : CREATE_INTERVIEW_PROMPT.replaceAll("{{role}}", role)
-            .replace("{{description}}", description)
-            .replace("{{type}}", type)
-            .replace("{{duration}}", duration)
-            .replace("{{experience}}", experience + experienceIn)
-            .replace("{{difficulty}}", difficulty)
-            .replace("{{keywords}}", keywords);
+    const prompt = CREATE_INTERVIEW_PROMPT.replaceAll("{{role}}", role)
+      .replace("{{description}}", description)
+      .replace("{{type}}", type)
+      .replace("{{duration}}", duration)
+      .replace("{{experience}}", experience + experienceIn)
+      .replace("{{difficulty}}", difficulty)
+      .replace("{{keywords}}", keywords);
 
     const result = await geminiModel.generateContent(prompt);
     const formattedResponse = result.response
@@ -215,8 +268,9 @@ const generateMcqFeedback = async (
 };
 
 export {
-  generateQuestions,
+  generateVoiceBasedQuestions,
   generateFeedback,
   generateMockInterviewQuestions,
   generateMcqFeedback,
+  generateMCQBasedInterviewQuestions,
 };

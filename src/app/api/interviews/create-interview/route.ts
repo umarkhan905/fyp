@@ -43,7 +43,7 @@ export async function POST(req: NextRequest) {
         type,
         role,
         description,
-        duration: parseInt(duration),
+        duration: (duration && parseInt(duration)) || 0,
         difficulty,
         experience: parseInt(experience),
         experienceIn,

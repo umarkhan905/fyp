@@ -1,10 +1,5 @@
 "use client";
 
-import {
-  FormCard,
-  FormCardContent,
-  FormCardFooter,
-} from "@/components/form/form-card";
 import { Progress } from "@/components/ui/progress";
 import {
   ApiResponse,
@@ -14,18 +9,17 @@ import {
   IQuestion,
 } from "@/types";
 import axios, { AxiosError } from "axios";
-import { AlertTriangle, ArrowLeft, Loader2 } from "lucide-react";
+import { AlertTriangle, ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import React, { useState } from "react";
 import { toast } from "sonner";
-import GenerateQuestionsForm from "../generate-questions-form";
 import GeneratingQuestionsLoading from "../generating-questions-loading";
-import GeneratedQuestions from "../generated-questions";
-import { Button } from "@/components/ui/button";
 import CreatedInterview from "../created-interview";
 import { Card, CardContent } from "@/components/ui/card";
 import MessageCard from "@/components/message/message-card";
 import CompanyDetails from "./company-details";
+import GenerateQuestions from "./interview/generate-questions";
+import AIGeneratedQuestions from "./interview/ai-generated-questions";
 
 export default function AiBasedInterview() {
   const [step, setStep] = useState<number>(1);
@@ -41,6 +35,7 @@ export default function AiBasedInterview() {
     experienceIn: "",
     keywords: "",
     assessmentType: "",
+    numberOfQuestions: "",
   });
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
@@ -132,49 +127,22 @@ export default function AiBasedInterview() {
       </section>
       {/* Create New Interview Form  */}
       {step === 1 ? (
-        <FormCard
-          cardLabel=" Generate a Job Interview"
-          cardDescription=" Customize your job interview questions that suit your requirements."
-          className="max-w-lg"
-        >
-          <FormCardContent>
-            <GenerateQuestionsForm
-              onStepChange={handleStepChange}
-              onIsGeneratedChange={handleIsGeneratedChange}
-              onQuestionsChange={handleQuestionsChange}
-              onFormDataChange={handleFormDataChange}
-            />
-          </FormCardContent>
-        </FormCard>
+        <GenerateQuestions
+          onStepChange={handleStepChange}
+          onIsGeneratedChange={handleIsGeneratedChange}
+          onQuestionsChange={handleQuestionsChange}
+          onFormDataChange={handleFormDataChange}
+        />
       ) : step === 2 ? (
         isGenerated ? (
           <GeneratingQuestionsLoading />
         ) : (
-          <FormCard
-            cardLabel="Generated Questions"
-            cardDescription="Review and confirm the generated questions."
-            className="max-w-lg"
-          >
-            <FormCardContent>
-              <GeneratedQuestions
-                assessmentType={formData.assessmentType}
-                questions={questions}
-              />
-            </FormCardContent>
-            <FormCardFooter>
-              <Button
-                className="w-full rounded-full min-h-11 text-background"
-                onClick={() => setStep(3)}
-                disabled={loading}
-              >
-                {loading ? (
-                  <Loader2 className="size-6 animate-spin" />
-                ) : (
-                  "Add Company Details"
-                )}
-              </Button>
-            </FormCardFooter>
-          </FormCard>
+          <AIGeneratedQuestions
+            assessmentType={formData.assessmentType}
+            questions={questions}
+            loading={loading}
+            onStepChange={handleStepChange}
+          />
         )
       ) : step === 3 ? (
         <CompanyDetails onFinish={onFinished} loading={loading} />

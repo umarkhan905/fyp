@@ -100,6 +100,9 @@ const getJobInterviews = async (
     },
     take: limit,
     skip,
+    include: {
+      participants: true,
+    },
   });
 };
 
