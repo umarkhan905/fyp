@@ -1,6 +1,6 @@
 import * as z from "zod";
 
-const GenerateQuestionsSchema = z.object({
+const VoiceBasedInterviewSchema = z.object({
   type: z.string().nonempty({ message: "Interview Type is required" }),
   role: z.string().nonempty({ message: "Job Role is required" }),
   description: z.string().nonempty({ message: "Job Description is required" }),
@@ -13,11 +13,8 @@ const GenerateQuestionsSchema = z.object({
   keywords: z
     .string()
     .nonempty({ message: "Please enter at least one keyword" }),
-  assessmentType: z
-    .string()
-    .nonempty({ message: "Assessment Type is required" }),
 });
 
-type GenerateQuestionsSchemaType = z.infer<typeof GenerateQuestionsSchema>;
+type VoiceBasedInterviewSchemaType = z.infer<typeof VoiceBasedInterviewSchema>;
 
-export { GenerateQuestionsSchema, type GenerateQuestionsSchemaType };
+export { VoiceBasedInterviewSchema, type VoiceBasedInterviewSchemaType };

@@ -1,6 +1,11 @@
 "use client";
-
-import { generateQuestions } from "@/actions/ai-actions";
+import React from "react";
+import {
+  VoiceBasedInterviewSchema,
+  VoiceBasedInterviewSchemaType,
+} from "@/schemas/interviews/voice-based-interview";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -19,55 +24,49 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import {
-  GenerateQuestionsSchema,
-  GenerateQuestionsSchemaType,
-} from "@/schemas/interviews/generate-questions";
 import { IGenerateQuestionsFormData, IQuestion } from "@/types";
-import { zodResolver } from "@hookform/resolvers/zod";
-import React from "react";
-import { useForm } from "react-hook-form";
+import { generateVoiceBasedQuestions } from "@/actions/ai-actions";
 import { toast } from "sonner";
 
-interface GenerateQuestionsFormProps {
+interface Props {
   onStepChange: (step: number) => void;
   onIsGeneratedChange: (isGenerated: boolean) => void;
   onQuestionsChange: (questions: IQuestion[]) => void;
   onFormDataChange: (data: IGenerateQuestionsFormData) => void;
 }
 
-export default function GenerateQuestionsForm({
-  onStepChange,
+export default function VoiceBasedForm({
+  onFormDataChange,
   onIsGeneratedChange,
   onQuestionsChange,
-  onFormDataChange,
-}: GenerateQuestionsFormProps) {
-  const form = useForm<GenerateQuestionsSchemaType>({
-    resolver: zodResolver(GenerateQuestionsSchema),
+  onStepChange,
+}: Props) {
+  const form = useForm<VoiceBasedInterviewSchemaType>({
+    resolver: zodResolver(VoiceBasedInterviewSchema),
     defaultValues: {
       type: "",
       role: "",
       description: "",
-      duration: "",
       difficulty: "",
       experience: "",
       experienceIn: "",
       keywords: "",
-      assessmentType: "",
+      duration: "",
     },
   });
 
-  async function onSubmit(values: GenerateQuestionsSchemaType) {
+  const onSubmit = async (values: VoiceBasedInterviewSchemaType) => {
     onIsGeneratedChange(true);
     onStepChange(2);
-    onFormDataChange(values);
-    const res = await generateQuestions(values);
+    onFormDataChange({ ...values, assessmentType: "VOICE_BASED" });
+    const res = await generateVoiceBasedQuestions(values);
     if (res.success) {
-      toast(res.message);
+      toast.success(res.message);
       onQuestionsChange(res.data!);
       onIsGeneratedChange(false);
     }
-  }
+  };
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
@@ -224,33 +223,6 @@ export default function GenerateQuestionsForm({
 
         <FormField
           control={form.control}
-          name="assessmentType"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>What type of assessment would you like?</FormLabel>
-              <FormControl>
-                <Select value={field.value} onValueChange={field.onChange}>
-                  <SelectTrigger className="w-full rounded-full min-h-11">
-                    <SelectValue placeholder="Select Assessment Type" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="VOICE_BASED">
-                      Voice Based Interview
-                    </SelectItem>
-                    <SelectItem value="MCQ_BASED">
-                      MCQ Based Interview
-                    </SelectItem>
-                  </SelectContent>
-                </Select>
-              </FormControl>
-
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
           name="keywords"
           render={({ field }) => (
             <FormItem>
@@ -287,7 +259,7 @@ export default function GenerateQuestionsForm({
           )}
         />
 
-        <Button className="w-full rounded-full min-h-11 text-background">
+        <Button className="w-full rounded-full min-h-11 text-white">
           Generate Questions
         </Button>
       </form>

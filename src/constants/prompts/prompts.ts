@@ -34,13 +34,13 @@ export const CREATE_MCQ_INTERVIEW_PROMPT = `You are an expert technical intervie
 Based on the following inputs, generate a well-structured list of high-quality multiple-choice questions (MCQs) for an interview:
 Job Role: {{role}}
 Job Description: {{description}}
-Interview Duration: {{duration}}
+No of Questions: {{numberOfQuestions}}
 Interview Experience: {{experience}}
 Interview Difficulty: {{difficulty}}
 Job Related Keywords: {{keywords}}
 Your task:
 Analyze the job role, description, experience, difficulty, and job-related keywords of the interview.
-Generate a list of MCQs based on the interview duration.
+Generate a list of MCQs based on the number of questions.
 Each MCQ should include:
 - A question
 - Four options in string separated by comma

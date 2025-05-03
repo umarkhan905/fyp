@@ -42,7 +42,8 @@ type IGenerateQuestionsFormData = {
   type: string;
   role: string;
   description: string;
-  duration: string;
+  duration?: string;
+  numberOfQuestions?: string;
   difficulty: string;
   experience: string;
   experienceIn: string;
